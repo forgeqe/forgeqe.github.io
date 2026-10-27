@@ -93,28 +93,6 @@
     }))
   }
 
-  // The film in 3D: it turns toward the pointer as it moves over the hero, and settles back when it leaves. Touch and
-  // reduced motion keep the resting tilt; with sound on the film is flat and stays so.
-  const screen = document.querySelector(".player__screen")
-  const hero = document.querySelector(".hero")
-  if (screen && hero && !reduce && matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    let frame = 0
-    hero.addEventListener("pointermove", (e) => {
-      if (frame || film?.controls) return
-      frame = requestAnimationFrame(() => {
-        frame = 0
-        const r = screen.getBoundingClientRect()
-        const x = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2)))
-        const y = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2)))
-        screen.style.setProperty("--ry", `${(-10 + x * 9).toFixed(2)}deg`)
-        screen.style.setProperty("--rx", `${(5 - y * 7).toFixed(2)}deg`)
-        screen.style.setProperty("--gx", `${(50 + x * 40).toFixed(1)}%`)
-        screen.style.setProperty("--gy", `${(40 + y * 40).toFixed(1)}%`)
-      })
-    })
-    hero.addEventListener("pointerleave", () => ["--ry", "--rx", "--gx", "--gy"].forEach((p) => screen.style.removeProperty(p)))
-  }
-
   // The model rows loop the same way.
   if (!reduce) document.querySelectorAll(".models__row").forEach((row) => [...row.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute("aria-hidden", "true"); row.append(c) }))
 

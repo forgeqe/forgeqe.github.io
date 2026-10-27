@@ -197,8 +197,8 @@ h1.display { font-size: clamp(36px, 4.2vw, 58px); }
 @keyframes glow { to { transform: translate(3%, -2%) scale(1.06) rotate(4deg); } }
 /* No window: the film is the hero's picture, with rounded corners, a thin edge of light and the glow behind it. */
 .player { perspective: 1600px; }
-/* The film in 3D: tilted in perspective on a slab of glass, following the pointer over the hero, with a light that
-   slides across it and the sound button floating in front. With sound on it turns to face you, flat. */
+/* The film in 3D: held still at a tilt in perspective on a slab of glass, with a soft light across it and the sound
+   button floating in front. With sound on it turns to face you, flat. */
 .player__screen {
   position: relative; border-radius: 18px; transform-style: preserve-3d;
   transform: rotateY(var(--ry, -10deg)) rotateX(var(--rx, 5deg)); transition: transform .7s var(--ease);
