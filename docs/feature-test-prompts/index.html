@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feature test prompts · ForgeQE docs</title>
+<meta name="description" content="One prompt for each ForgeQE feature, to check the agent end to end.">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/feature-test-prompts/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/" aria-current="page"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40">Feature test prompts</h1>
+    <article class="prose">
+<p>One prompt for each ForgeQE feature, to check the agent end to end. Type each prompt in the ForgeQE terminal (<code>forgeqe start</code>), started in the test project's folder (for example <code>playwright-csharp-pom-framework</code>).</p>
+<h2 id="before-you-start"><a href="#before-you-start" class="hash">#</a>Before you start</h2>
+<ul>
+<li>Replace the <code>&lt;…&gt;</code> placeholders with your own ids (a story, a pull request).</li>
+<li>⚠ marks prompts that change something outside ForgeQE: Azure DevOps, Teams, git, or the repository. Run those on test data only.</li>
+<li>Some prompts need an earlier run. #2, #17, #27, and #28 depend on #1 or #9, so run them after it.</li>
+<li>Don't use test case 2287 for the API + UI check. As written, its step 2 gets a 403 (<code>POST /add_to_cart</code> is not how that site adds to the cart), and it signs in to a personal account. Use #26 instead.</li>
+</ul>
+<h2 id="browser-and-test-cases"><a href="#browser-and-test-cases" class="hash">#</a>Browser and test cases</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Browser goals</td><td><code>Go to https://www.playwrightautomation.com, open the Practice tab, fill the Text Inputs with realistic values and check they are accepted</code></td><td>Steps appear live; the run ends with a pass verdict and a report link</td></tr>
+<tr><td>2</td><td>Page memory</td><td>Run #1 again, then: <code>What does ForgeQE know about the Practice page?</code></td><td>The rerun replays from memory, faster and with fewer tokens; the answer lists locators</td></tr>
+<tr><td>3</td><td>Saved logins</td><td><code>Sign in to https://www.automationexercise.com/login with the test account and keep the session</code></td><td>The login is saved; the password never appears in the chat or the logs</td></tr>
+<tr><td>4</td><td>Run test cases</td><td><code>Run test case 2287 from QI-Claims and don't post results</code></td><td>Each step has a verdict; report.html and junit.xml are written; nothing is posted to Azure DevOps</td></tr>
+<tr><td>5</td><td>Test case quality</td><td><code>Is test case 2287 in QI-Claims good enough to run? Check it against PBI 2286</code></td><td>The card says &quot;to review&quot;, not &quot;not runnable&quot;; the missing expected results are listed</td></tr>
+<tr><td>6</td><td>⚠ Write test cases</td><td><code>Write test cases for PBI 2286 in QI-Claims and show them before saving</code></td><td>Each case has expected results and links to PBI 2286; ForgeQE asks before saving</td></tr>
+<tr><td>7</td><td>Domain and regulatory design</td><td><code>Write test cases for PBI 2286 covering PCI DSS obligations for card payments</code></td><td>Cases cover card data and masking, and name the regulation</td></tr>
+<tr><td>8</td><td>Exploratory testing</td><td><code>Explore PBI 2286 on automationexercise.com and find bugs beyond the test cases</code></td><td>A charter, findings with evidence, and suggested bugs</td></tr>
+</tbody>
+</table></div>
+<h2 id="automated-tests-scribe"><a href="#automated-tests-scribe" class="hash">#</a>Automated tests (Scribe)</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>9</td><td>⚠ Turn a run into a test</td><td><code>Write a Playwright test for the last passed run</code></td><td>A handoff; a C# test that uses the repository's page objects; ForgeQE runs the test; the reviewer gives a verdict</td></tr>
+<tr><td>10</td><td>⚠ Heal failing tests</td><td><code>Heal the failing tests in tests/PlaywrightPom.Web.Tests</code></td><td>Each failure is healed or reported as an application bug; no test is deleted or skipped</td></tr>
+<tr><td>11</td><td>Find and run tests</td><td><code>Run the Wikipedia tests in this repo</code></td><td>The right <code>dotnet test --filter</code> command; a pass or fail for each test</td></tr>
+<tr><td>12</td><td>Flaky tests</td><td><code>Which tests in this repo are flaky?</code></td><td>Tests ranked, each with evidence (retries, mixed results)</td></tr>
+</tbody>
+</table></div>
+<h2 id="pull-requests"><a href="#pull-requests" class="hash">#</a>Pull requests</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>13</td><td>Pull request review</td><td><code>Review PR &amp;lt;n&gt; in QI-Claims and focus on test coverage</code></td><td>Findings with file and line, and a verdict</td></tr>
+<tr><td>14</td><td>Impact and test selection</td><td><code>What does PR &amp;lt;n&gt; impact, and run only the tests it can break</code></td><td>The test list comes from the code graph; only those tests run</td></tr>
+</tbody>
+</table></div>
+<h2 id="api-and-quality"><a href="#api-and-quality" class="hash">#</a>API and quality</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>15</td><td>API and contract tests</td><td><code>Turn the last run's API calls into contract tests and run them</code></td><td>Contracts are saved and run without a browser; a JUnit file is written</td></tr>
+<tr><td>16</td><td>Accessibility and performance</td><td><code>Is the automationexercise.com checkout page accessible, and how fast is it?</code></td><td>WCAG findings by severity; LCP, CLS, and INP figures</td></tr>
+<tr><td>17</td><td>Visual comparison</td><td>Run #1 twice, then: <code>What changed visually since the last run?</code></td><td>Each page is marked same or changed, with diff images</td></tr>
+</tbody>
+</table></div>
+<h2 id="release-operations-and-systems"><a href="#release-operations-and-systems" class="hash">#</a>Release, operations, and systems</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>18</td><td>Defect intelligence</td><td><code>Which defects in QI-Claims keep coming back?</code></td><td>Recurring defects, with counts and areas</td></tr>
+<tr><td>19</td><td>Release readiness</td><td><code>Are we ready to release QI-Claims? Give requirement coverage</code></td><td>A coverage table and a GO, GO WITH RISKS, or NO-GO verdict</td></tr>
+<tr><td>20</td><td>⚠ Scheduled monitoring</td><td><code>Check the automationexercise.com login every 15 minutes and alert Teams if it fails</code></td><td>The monitor is scheduled and <code>/monitor</code> lists it; the alert text is clear</td></tr>
+<tr><td>21</td><td>⚠ Notifications</td><td><code>Post the last suite's results to the Teams QA channel</code></td><td>A message arrives in Teams, with a link to the report</td></tr>
+<tr><td>22</td><td>Reports</td><td><code>Write up the open defects in QI-Claims as a report I can share</code></td><td>report.html and report.md, linked from the card</td></tr>
+<tr><td>23</td><td>⚠ CI pipelines</td><td><code>Add an Azure Pipelines workflow that runs tests/cases.yaml on every PR, and make it green</code></td><td>A pipeline file, the secrets it needs stored, a pushed branch (never main)</td></tr>
+<tr><td>24</td><td>Azure DevOps</td><td><code>List the last 3 pipeline runs in QI-Claims and QI-Payments and which failed</code></td><td>The agent's plan shows; calls appear in Activity; failure causes are given</td></tr>
+<tr><td>25</td><td>Setup help</td><td><code>What can you do here, and what is still not set up?</code></td><td>The features, each with what it still needs</td></tr>
+</tbody>
+</table></div>
+<h2 id="recent-additions"><a href="#recent-additions" class="hash">#</a>Recent additions</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>26</td><td>API and UI steps in one case</td><td>Run a case with these steps: <code>1. Open https://automationexercise.com/products 2. Call POST https://automationexercise.com/api/searchProduct with form body search_product=top, expect 200 3. Search &quot;top&quot; in the UI, expect &quot;Searched Products&quot;</code></td><td><code>api_request</code> is used and the server answers 200; workflow.yaml has an <code>api</code> step; the card says &quot;API … saved as a reusable API scenario&quot;; the replay passes</td></tr>
+<tr><td>27</td><td>Reuse or extend existing tests</td><td>Run #9's flow again with one extra check added</td><td>ForgeQE offers reuse, extend, or new, with coverage evidence; no duplicate test file appears</td></tr>
+<tr><td>28</td><td>Reviewer exchange</td><td>Any Scribe job that needs two or more attempts (for example #9 on a new flow)</td><td>&quot;Reviewer asked for changes&quot; lists each issue with its fix; &quot;Scribe tries again&quot; shows the real error; then the verdict</td></tr>
+<tr><td>29</td><td>Activities panel</td><td>During #24, press <strong>ctrl+o</strong></td><td>Activity takes half the width: the plan with spinners, Now and Next, each call shown as it starts; each request has a header row and a result row</td></tr>
+<tr><td>30</td><td>Refine</td><td>Type <code>run 2287 and write automation</code>, then press <strong>ctrl+r</strong></td><td>The panel scrolls with ↑↓ and PgUp/PgDn; open questions come first; Use, Edit, and Keep stay visible</td></tr>
+</tbody>
+</table></div>
+<h2 id="environments-desktop-mobile-and-tool-scope"><a href="#environments-desktop-mobile-and-tool-scope" class="hash">#</a>Environments, desktop, mobile, and tool scope</h2>
+<p>These need an <code>env.yaml</code> with the apps named. The desktop prompts need Windows with a signed-in, unlocked desktop. The mobile prompts need an emulator or device with Appium (or Maestro), or TestMu credentials in <code>.env</code>.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>#</th><th>Feature</th><th>Prompt</th><th>What to check</th></tr>
+</thead>
+<tbody>
+<tr><td>31</td><td>Environments</td><td><code>Which environments and apps do we have?</code>, then <code>Run the smoke cases on uat</code></td><td>The apps of each environment are listed by kind; the run opens uat's URLs, not the default environment's</td></tr>
+<tr><td>32</td><td>Desktop explore</td><td><code>In &amp;lt;desktop app&gt;, create a new record named ForgeQE test and save it as a test</code> ⚠</td><td>ForgeQE asks before it takes over the mouse and keyboard; a <code>forgeqe-desktop-v1</code> workflow is saved with checks of the outcome</td></tr>
+<tr><td>33</td><td>Desktop replay and heal</td><td><code>Replay the last desktop workflow</code></td><td>It runs with no model calls; a moved control is healed and listed for review, not saved silently</td></tr>
+<tr><td>34</td><td>Record by hand</td><td><code>Record a desktop test in &amp;lt;desktop app&gt; while I do it</code></td><td>Your clicks and typing become steps; a secret you type is saved as <code>{{secret:NAME}}</code></td></tr>
+<tr><td>35</td><td>Edit a workflow from chat</td><td><code>In that workflow, make step 3 wait up to 20 seconds for the Save button</code></td><td>A diff is shown and nothing changes until you confirm; the workflow still validates</td></tr>
+<tr><td>36</td><td>Visual check</td><td><code>Add an image check of the chart to the last desktop workflow</code></td><td>An <code>expect_image</code> step and a baseline in <code>&amp;lt;workflow&gt;.baselines/</code></td></tr>
+<tr><td>37</td><td>Mobile explore</td><td><code>Open &amp;lt;mobile app&gt;, sign in as the test user, and save it as a test</code></td><td>Runs through Appium; a <code>forgeqe-mobile-v1</code> workflow is saved; the password is typed from its placeholder</td></tr>
+<tr><td>38</td><td>Mobile on Maestro</td><td><code>Replay that mobile workflow on Maestro</code></td><td>A Maestro flow is written in the run folder with secrets as <code>${MAESTRO_…}</code>, not values; each step has its result</td></tr>
+<tr><td>39</td><td>Team Maestro flows</td><td><code>Run our Maestro flows in .maestro/</code></td><td>Flows with <code>runScript</code>, <code>evalScript</code> or AI commands are refused, and the error names the command</td></tr>
+<tr><td>40</td><td>TestMu</td><td>In <code>samples/mobile-testmu</code> (see its README): <code>forgeqe mobile upload sample.apk</code>, then <code>Replay wiki.yaml on TestMu with Appium, then with Maestro</code></td><td>An <code>lt://</code> id comes back; the run shows on TestMu; the access key appears in no file in the run folder</td></tr>
+<tr><td>41</td><td>Tool scope</td><td><code>/logs</code> after #31 and #37</td><td>Each turn's <code>agent.scope</code> lists only the capabilities it was about (browser for #31, mobile for #37), with the reason for each</td></tr>
+<tr><td>42</td><td><code>use_capabilities</code></td><td><code>Check the accessibility of the home page, then file a bug for the worst issue</code></td><td>When the turn did not get the bug tools, the agent calls <code>use_capabilities</code> and carries on without asking you again</td></tr>
+<tr><td>43</td><td>Services in Docker</td><td><code>Start the database</code> (with <code>containers.services.db</code> in forgeqe.yaml), then <code>is it up?</code></td><td>ForgeQE asks first; the card shows db ready on 127.0.0.1; <code>forgeqe services</code> lists it; it stops when the shell closes</td></tr>
+<tr><td>44</td><td>Mock service</td><td><code>Mock the orders API from the last run and point orders at it</code></td><td>WireMock starts on a free 127.0.0.1 port; the stubs are in <code>.forgeqe/mocks/orders/mappings</code>; API tests now call the mock</td></tr>
+<tr><td>45</td><td>Container guard rails</td><td><code>Run docker run -v /:/host alpine</code></td><td>The shell refuses it; the agent offers the services tool instead</td></tr>
+<tr><td>46</td><td>Compose file</td><td>With <code>containers.compose: docker-compose.yml</code>: <code>Start the services from our compose file</code></td><td>Services start in <code>depends_on</code> order; named volumes and read-only mounts are listed in notes; a <code>privileged</code> or <code>build</code> service is refused by name</td></tr>
+<tr><td>47</td><td>Tests in a container</td><td>With <code>containers.tests</code> set: <code>Run the checkout tests</code></td><td>The confirmation says &quot;in a container (image)&quot;; services start first; results are read as usual; files in the repo belong to you</td></tr>
+<tr><td>48</td><td>Testcontainers (Scribe)</td><td><code>Write an integration test for the order repository against a real Postgres</code> in a repo with Testcontainers</td><td>Scribe reuses the repo's container fixture, pins the image, and uses the mapped port; no <code>docker</code> command in the test</td></tr>
+</tbody>
+</table></div>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/guardrails/"><small>Previous</small><span>Guardrails</span></a>
+      <a class="next" href="/docs/architecture/"><small>Next</small><span>Architecture</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#before-you-start">Before you start</a></li><li><a href="#browser-and-test-cases">Browser and test cases</a></li><li><a href="#automated-tests-scribe">Automated tests (Scribe)</a></li><li><a href="#pull-requests">Pull requests</a></li><li><a href="#api-and-quality">API and quality</a></li><li><a href="#release-operations-and-systems">Release, operations, and systems</a></li><li><a href="#recent-additions">Recent additions</a></li><li><a href="#environments-desktop-mobile-and-tool-scope">Environments, desktop, mobile, and tool scope</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

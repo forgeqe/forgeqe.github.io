@@ -1,0 +1,29 @@
+/* The website's header and fonts, for the pages ForgeQE ships in its own theme (the security page and the
+   architecture map): build.sh adds site-header.html to each and links this file. */
+
+@font-face { font-family: "Ubuntu"; font-weight: 400; font-display: swap; src: url("/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac") format("woff2"); }
+@font-face { font-family: "Ubuntu"; font-weight: 500; font-display: swap; src: url("/fonts/ubuntu-latin-500-normal.woff2?v=428ec293d3") format("woff2"); }
+@font-face { font-family: "Ubuntu"; font-weight: 700; font-display: swap; src: url("/fonts/ubuntu-latin-700-normal.woff2?v=3658a0717e") format("woff2"); }
+@font-face { font-family: "Ubuntu"; font-style: italic; font-weight: 500; font-display: swap; src: url("/fonts/ubuntu-latin-500-italic.woff2?v=c270e660d7") format("woff2"); }
+@font-face { font-family: "Ubuntu Mono"; font-weight: 400; font-display: swap; src: url("/fonts/ubuntu-mono-latin-400-normal.woff2?v=b07e4ebe8e") format("woff2"); }
+
+.site-skip { position: absolute; left: 12px; top: -80px; z-index: 100; padding: 10px 16px; border-radius: 999px; background: #e9edf3; color: #080a10; font-weight: 500; text-decoration: none; }
+.site-skip:focus { top: 12px; }
+.site-nav { position: relative; z-index: 20; height: 76px; padding: 0; margin: 0; border-bottom: 1px solid #1a2030; background: rgb(8 10 16 / .72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.site-nav::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; opacity: .6; background: linear-gradient(90deg, transparent, #4f8df5 25%, #79aaff 75%, transparent); }
+.site-nav__bar { height: 100%; padding: 0 max(16px, 2vw); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+.site-nav__logo { justify-self: start; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; }
+.site-nav__logo > img { height: 40px; width: auto; }
+.site-nav__by { display: flex; align-items: center; gap: 6px; color: #8f97a9; font-size: 12px; line-height: 1; }
+.site-nav__by img { height: 17px; width: auto; }
+.site-nav__links { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.site-nav__links a { position: relative; display: inline-flex; align-items: center; gap: 8px; color: #8f97a9; text-decoration: none; transition: color .2s; }
+.site-nav__links a:hover, .site-nav__links a[aria-current="page"] { color: #e9edf3; }
+.site-nav__links a[aria-current="page"]::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #79aaff; box-shadow: 0 0 8px #4f8df5; }
+.site-pix { width: 22px; height: 22px; filter: drop-shadow(0 3px 3px rgb(0 0 0 / .5)); }
+@media (max-width: 640px) {
+  .site-nav__bar { grid-template-columns: auto 1fr; gap: 12px; }
+  .site-nav__links { justify-content: flex-end; gap: 14px; font-size: 13px; }
+  .site-nav__links li:first-child { display: none; }
+  .site-pix { display: none; }
+}

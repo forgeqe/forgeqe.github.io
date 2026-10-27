@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile apps · ForgeQE docs</title>
+<meta name="description" content="Status:">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/mobile/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/" aria-current="page"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40">Mobile apps</h1>
+    <article class="prose">
+<p>Status: the engine and its tests run on any OS, against a fake Appium server and a stand-in for Maestro. The CI job
+<code>.github/workflows/forgeqe-mobile-android.yml</code> runs it on an Android emulator: Appium explores and replays the
+emulator's Settings app, and Maestro replays the same workflow. iOS runs the same code with the XCUITest driver, but
+no CI job tests it yet (it needs a macOS runner with a simulator).</p>
+<p>ForgeQE drives mobile apps two ways, and one workflow format runs on both:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th></th><th>Appium</th><th>Maestro</th></tr>
+</thead>
+<tbody>
+<tr><td>Runs</td><td>step by step, through an Appium server (yours or a device cloud's)</td><td>the whole workflow as one Maestro flow</td></tr>
+<tr><td>Explore a goal with the model</td><td>yes</td><td>no</td></tr>
+<tr><td>Heal a control that moved</td><td>yes, one model call, reported for review</td><td>no</td></tr>
+<tr><td>Visual checks (<code>expect_image</code>)</td><td>yes</td><td>no</td></tr>
+<tr><td>Your team's own flows</td><td>n/a</td><td><code>forgeqe mobile maestro</code>, checked against an allowlist</td></tr>
+<tr><td>Needs</td><td><code>appium</code> with UiAutomator2 (Android) or XCUITest (iOS), a device or emulator</td><td><code>maestro</code> and a device or emulator</td></tr>
+</tbody>
+</table></div>
+<h2 id="use"><a href="#use" class="hash">#</a>Use</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe mobile doctor                                   # does the Appium server answer, is maestro installed?
+forgeqe mobile apps                                     # the mobile apps of the active environment
+forgeqe mobile explore &quot;Sign in as the courier and accept the first delivery&quot; --app courier
+forgeqe mobile replay .forgeqe/reports/mobile-explore-…/workflow.yaml
+forgeqe mobile replay workflow.yaml --driver maestro
+forgeqe mobile replay mobile-tests/ --data couriers.csv --junit results.xml
+forgeqe mobile maestro .maestro/                        # the team's flows
+forgeqe mobile flow workflow.yaml                       # print a workflow as a Maestro flow
+forgeqe mobile validate workflow.yaml
+</code></pre></div>
+<p>Or ask ForgeQE's agent in the shell or <code>forgeqe run</code>: &quot;sign in to the courier app and save it as a test&quot;, &quot;replay the
+courier login on Maestro&quot;, &quot;run our Maestro flows&quot;. Its tools are <code>mobile_explore</code>, <code>mobile_replay</code> and
+<code>mobile_maestro</code>. It asks before each one starts, and <code>desktop_edit_workflow</code> fixes a mobile workflow after a failed
+replay, the same way as a desktop one.</p>
+<h2 id="apps-and-settings"><a href="#apps-and-settings" class="hash">#</a>Apps and settings</h2>
+<p>Mobile apps come from the active environment in env.yaml, or from <code>mobile.apps</code> in forgeqe.yaml:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code># env.yaml
+environments:
+  qa:
+    apps:
+      courier:
+        kind: mobile
+        platform: android               # or ios
+        app_id: com.contoso.courier     # Android package or iOS bundle id
+        activity: .MainActivity         # Android only, optional
+        app: /builds/courier-qa.apk     # optional: install this build (.apk/.aab/.ipa/.app/.zip, https URL, bs://…)
+        description: Driver app that confirms delivery
+    secrets: [COURIER_PASSWORD_QA]
+</code></pre></div>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code># forgeqe.yaml
+mobile:
+  driver: appium                        # appium | maestro: the default for replays
+  appium:
+    url: http://127.0.0.1:4723
+    capabilities:                       # added to every session
+      appium:udid: emulator-5554
+    # username_env: BROWSERSTACK_USERNAME
+    # access_key_env: BROWSERSTACK_ACCESS_KEY
+  maestro:
+    command: [maestro]
+    # device: emulator-5554
+  secrets: [COURIER_PASSWORD]
+  heal: true
+  screenshots: true
+</code></pre></div>
+<p>Each run writes a folder under the reports folder (<code>mobile-explore-…</code>, <code>mobile-replay-…</code>, <code>mobile-maestro-…</code>) with
+<code>run.json</code>, <code>report.html</code>, step screenshots, and for Maestro runs the flow, <code>maestro.log</code> and Maestro's JUnit report.</p>
+<h2 id="workflow-yaml-forgeqe-mobile-v1"><a href="#workflow-yaml-forgeqe-mobile-v1" class="hash">#</a>Workflow YAML (<code>forgeqe-mobile-v1</code>)</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>format: forgeqe-mobile-v1
+name: Courier signs in
+app: courier
+timeout: 20
+dismiss:
+  - {name: Allow, control_type: android.widget.Button}   # permission dialogs, when they are in the way
+steps:
+  - op: launch
+  - op: type
+    target: {automation_id: username}
+    text: &quot;{{courier}}&quot;
+  - op: type
+    target: {automation_id: password}
+    text: &quot;{{secret:COURIER_PASSWORD}}&quot;
+  - op: tap
+    target: {name: Sign in}
+  - op: wait_for
+    target: {automation_id: progress}
+    gone: true
+  - op: scroll_to
+    target: {name: Deliveries}
+  - op: expect
+    target: {automation_id: status}
+    text: Welcome
+</code></pre></div>
+<ul>
+<li><strong>Ops:</strong> <code>launch</code>, <code>tap</code>, <code>double_tap</code>, <code>long_press</code>, <code>type</code>, <code>expect</code>, <code>expect_image</code>, <code>swipe</code> (<code>direction</code> up,
+down, left or right, optionally on a <code>target</code>), <code>scroll_to</code> (scrolls until the target is on screen), <code>back</code>,
+<code>hide_keyboard</code>, <code>keys</code> (<code>enter</code>, <code>back</code>, <code>tab</code>, <code>delete</code>, <code>search</code>), <code>wait</code>, <code>wait_for</code>, <code>close</code>. Timeouts,
+retries and <code>dismiss</code> work as in desktop workflows. Explore saves a tap on a system dialog (another package's
+control, such as Android's notification prompt) under <code>dismiss</code>, not as a step, so the workflow still runs where the
+dialog never shows; on Maestro, each <code>dismiss</code> target is tapped after a launch if it is there.</li>
+<li><strong>Targets</strong> use the desktop keys, mapped per platform: <code>automation_id</code> is the Android resource-id (with or without the
+<code>package:id/</code> prefix) or the iOS accessibility identifier; <code>name</code> is the Android text or content-desc, or the iOS
+label; <code>control_type</code> is the Android class (<code>android.widget.Button</code>) or the iOS type (<code>XCUIElementTypeButton</code>);
+<code>index</code> picks one of several matches.</li>
+</ul>
+<h2 id="explore"><a href="#explore" class="hash">#</a>Explore</h2>
+<p>The model sees the goal, its steps so far, the numbered controls on screen with the text each shows, and a screenshot
+when the profile takes images. It answers with one action on a control by its number (tap, long press, type), a swipe
+or scroll, back, or done. So it can only act on a control that is on screen. When it says done, it picks checks of the
+outcome from the controls' current text, kept only when that text is really there, as on the desktop. The app's text
+is passed as data.</p>
+<h2 id="maestro"><a href="#maestro" class="hash">#</a>Maestro</h2>
+<p><strong>ForgeQE workflows on Maestro.</strong> <code>--driver maestro</code> writes the workflow as a Maestro flow (<code>flow.yaml</code> in the run
+folder) and runs <code>maestro test</code>. Maestro's debug output gives each workflow step its result. Variables are filled in
+first. Values are matched literally, so Maestro's regular expressions never see them as patterns. A secret becomes
+<code>${MAESTRO_NAME}</code>, which Maestro reads from the environment ForgeQE gives it, so a secret's value never lands in the flow
+file or on a command line. A value holding <code>${…}</code> is refused, because Maestro would run it as JavaScript.</p>
+<p><strong>Your team's flows.</strong> <code>forgeqe mobile maestro &amp;lt;files or folders&gt;</code> checks each flow, and every flow it runs, before
+Maestro gets it:</p>
+<ul>
+<li>Only UI commands pass: <code>launchApp</code>, <code>tapOn</code>, <code>inputText</code>, <code>assertVisible</code>, <code>scrollUntilVisible</code>, <code>swipe</code>,
+<code>extendedWaitUntil</code>, <code>runFlow</code>, <code>repeat</code>, <code>retry</code> and the like.</li>
+<li>These are refused:
+<ul>
+<li><code>runScript</code>, <code>evalScript</code> and <code>assertTrue</code>, which run JavaScript.</li>
+<li>Maestro's AI commands, which send screenshots to a service.</li>
+<li><code>takeScreenshot</code>, recordings and <code>addMedia</code>, which read or write files.</li>
+</ul>
+</li>
+<li><code>${…}</code> may only name a variable (<code>${USERNAME}</code>), never an expression.</li>
+<li><code>when: {true: …}</code> is refused, because it is JavaScript.</li>
+<li><code>openLink</code> takes http(s) or the app's own deep links, never <code>javascript:</code>, <code>file:</code> or <code>intent:</code>.</li>
+<li><code>runFlow</code> files must be <code>.yaml</code> inside the working folder; links out of it are refused too. Nesting stops at 5 levels.</li>
+</ul>
+<p>A refused flow does not run, and the error names the command.</p>
+<h2 id="testmu-ai-formerly-lambdatest"><a href="#testmu-ai-formerly-lambdatest" class="hash">#</a>TestMu AI (formerly LambdaTest)</h2>
+<p>Both drivers run on TestMu's devices. Upload the app once, then use the <code>lt://</code> id it returns as the app's <code>app</code>:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe mobile upload courier.apk          # → lt://APP…  (--virtual for TestMu's emulators)
+</code></pre></div>
+<p>From the shell, ask in words (&quot;upload builds/courier.apk to TestMu for courier&quot;): <code>mobile_upload</code> asks first, uploads
+the build (it must be inside the working folder), and saves the <code>lt://</code> id as that app's <code>app:</code> in forgeqe.yaml.</p>
+<p>The user and key come from <code>LT_USERNAME</code> and <code>LT_ACCESS_KEY</code> (or the variables the config names), for example in a
+<code>.env</code> file in the project folder. <code>samples/mobile-testmu/</code> is a ready project with TestMu's Wikipedia sample app.</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>mobile:
+  apps:
+    courier: { platform: android, app_id: com.contoso.courier, app: &quot;lt://APP1016…&quot; }
+  appium:                                   # Appium on TestMu's mobile hub
+    url: https://mobile-hub.lambdatest.com/wd/hub
+    username_env: LT_USERNAME
+    access_key_env: LT_ACCESS_KEY
+    capabilities:
+      &quot;LT:Options&quot;: { w3c: true, isRealMobile: true, deviceName: &quot;Pixel 6&quot;, platformVersion: &quot;14&quot;, build: nightly }   # app: added from the app's own
+  maestro:
+    testmu:                                 # Maestro on TestMu, through HyperExecute
+      cli: /opt/hyperexecute                # TestMu's hyperexecute CLI
+      devices: [&quot;Pixel 6-14&quot;]               # name-version, or a pattern such as &quot;.*-.*&quot;
+      real_device: true                     # false: TestMu's emulators
+      # username_env: LT_USERNAME           # the defaults
+      # access_key_env: LT_ACCESS_KEY
+</code></pre></div>
+<ul>
+<li><strong>Appium</strong> needs nothing else: the Appium driver talks to the hub with the user and key from the two variables.</li>
+<li><strong>Maestro</strong> runs through HyperExecute. ForgeQE writes a HyperExecute project in the run folder and starts the CLI.
+The project holds the flows in their folder layout (so <code>runFlow</code> still works), the app (an <code>lt://</code> id is passed as
+the device's <code>appId</code>; a build file is uploaded with the project), a fixed setup script (Android platform tools 35.0.2
+and Maestro 2.6.1 from its release, both checked against their SHA-256) and a fixed run script, and
+<code>hyperexecute.yaml</code>. Team flows are checked against the allowlist first, as always. Flow file names may only use
+letters, digits and <code>_ . - /</code> (and one leading dot, for <code>.maestro/</code>), because HyperExecute's shell reads them. After
+the job, ForgeQE downloads its artifacts (Maestro's command results and JUnit reports), so each step gets its own
+result in the report.</li>
+<li><strong>Secrets on Maestro on TestMu:</strong> a workflow that types a secret is refused there for now (HyperExecute would need
+the value in its own vault). Replay it on TestMu with <code>--driver appium</code>.</li>
+<li>The access key is passed to the CLI as an argument. It is removed from the CLI's output and from every file in the
+run folder. Neither the user name nor the key is passed to the flows' environment.</li>
+<li><code>.github/workflows/forgeqe-mobile-testmu.yml</code> runs all three on TestMu (Appium, Maestro with a workflow, a team flow)
+with TestMu's Wikipedia sample app, once the repository has the secrets <code>LT_USERNAME</code> and <code>LT_ACCESS_KEY</code>.</li>
+</ul>
+<h2 id="security"><a href="#security" class="hash">#</a>Security</h2>
+<ul>
+<li><strong>No commands from the workflow or the model.</strong> <code>app:</code> names a configured app (a platform and an id). Appium is
+spoken to over HTTP, and <code>maestro</code> is started with an argument list, never a shell.</li>
+<li><strong>Locators</strong> go into XPath as quoted literals, so a target cannot change the query.</li>
+<li><strong>Secrets:</strong> <code>{{secret:NAME}}</code> reads only <code>mobile.secrets</code> and the environment's secrets, and ForgeQE's own keys are
+refused there. Explore types a secret from its placeholder, so the model never sees the value.</li>
+<li><strong>The engine's environment</strong> holds system settings, the profile's key, the listed secrets, the cloud's user and key,
+and <code>JAVA_HOME</code> / <code>ANDROID_HOME</code>, nothing else.</li>
+<li><strong>Cloud credentials</strong> come from the variables <code>mobile.appium.username_env</code> and <code>access_key_env</code> name; a user or key in
+the URL is refused. TLS is verified as usual.</li>
+<li><strong>App builds</strong> are absolute paths to an app file, https URLs, or a device cloud's own upload ids (<code>bs://</code>, <code>lt://</code>,
+<code>storage:filename=</code>); <code>file://</code> and other schemes are refused.</li>
+</ul>
+<h2 id="code"><a href="#code" class="hash">#</a>Code</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>File</th><th>Contents</th></tr>
+</thead>
+<tbody>
+<tr><td><code>src/mobile/command.ts</code></td><td><code>forgeqe mobile</code>: apps, doctor, explore, replay (folders, <code>--data</code>, <code>--junit</code>, <code>--driver</code>), maestro, flow, validate</td></tr>
+<tr><td><code>src/mobile/run.ts</code></td><td>Requests to the mobile engine, its environment, Maestro flow paths, the doctor</td></tr>
+<tr><td><code>src/mcp/mobiletools.ts</code></td><td>ForgeQE's agent's <code>mobile_explore</code>, <code>mobile_replay</code>, <code>mobile_maestro</code></td></tr>
+<tr><td><code>py/forgeqe_mobile/appium_driver.py</code></td><td>The Appium driver: W3C WebDriver over HTTP, the replay <code>Driver</code></td></tr>
+<tr><td><code>py/forgeqe_mobile/maestro.py</code></td><td>Workflows as Maestro flows, the allowlist for team flows, running <code>maestro test</code></td></tr>
+<tr><td><code>py/forgeqe_mobile/hyperexecute.py</code></td><td>Maestro on TestMu: the HyperExecute project and running its CLI</td></tr>
+<tr><td><code>py/forgeqe_mobile/explore.py</code></td><td>The model's action loop on Appium</td></tr>
+<tr><td><code>py/forgeqe_mobile/service.py</code></td><td><code>serve</code>: replay, explore and maestro runs, <code>run.json</code></td></tr>
+<tr><td><code>py/forgeqe_mobile/apps.py</code></td><td>The mobile app allowlist and its capabilities</td></tr>
+</tbody>
+</table></div>
+<p>The rest is shared with the desktop engine: <code>forgeqe_desktop.workflow</code> validates both formats, and <code>replay.py</code>,
+<code>heal.py</code>, <code>checks.py</code> and <code>visual.py</code> run on either driver. <code>memory.py</code> (app memory, under <code>&amp;lt;memory dir&gt;/mobile/</code>) lets an explore replay what earlier explores of the app did before it calls the model, and a replay reuse a target an earlier heal found.</p>
+<p>Tests: <code>&amp;lt;engine-python&gt; -m pytest tests/desktop/test_mobile.py -q</code> (a fake Appium server and a stand-in Maestro; any
+OS), and <code>bun test tests/mobile.test.ts</code>.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/desktop-ci/"><small>Previous</small><span>Desktop in CI</span></a>
+      <a class="next" href="/docs/containers/"><small>Next</small><span>Containers</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#use">Use</a></li><li><a href="#apps-and-settings">Apps and settings</a></li><li><a href="#workflow-yaml-forgeqe-mobile-v1">Workflow YAML (forgeqe-mobile-v1)</a></li><li><a href="#explore">Explore</a></li><li><a href="#maestro">Maestro</a></li><li><a href="#testmu-ai-formerly-lambdatest">TestMu AI (formerly LambdaTest)</a></li><li><a href="#security">Security</a></li><li><a href="#code">Code</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

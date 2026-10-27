@@ -1,0 +1,309 @@
+<!doctype html>
+<!--
+  The website's architecture page: the "How ForgeQE works" hub from the walkthrough deck (your tools, ForgeQE's agent
+  and your model across the top, project memory at the core, integrations, the specialists and the engines below),
+  redrawn in the site's dark look with its 3D pixel icons, then the detail: one request end to end, the three
+  processes, the fourteen specialists and what ForgeQE remembers. build.sh adds the site's header after <body>.
+<a class="site-skip" href="#content">Skip to content</a>
+<header class="site-nav">
+  <div class="site-nav__bar">
+    <a class="site-nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="site-nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="site-nav__links">
+      <li><a href="/"><img class="site-pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="22" height="22">Product</a></li>
+      <li><a href="/docs/"><img class="site-pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="22" height="22">Docs</a></li>
+      <li><a href="/security/"><img class="site-pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="22" height="22">Security</a></li>
+      <li><a href="/architecture-map/" aria-current="page"><img class="site-pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="22" height="22">Architecture</a></li>
+    </ul></nav>
+    <span></span>
+  </div>
+</header>
+<span id="content" tabindex="-1"></span>
+  ForgeQE's own component map (ForgeQE/forgeqe-architecture.html) is at /architecture-map/components/.
+  Facts: ForgeQE/docs/ARCHITECTURE.md and ForgeQE/src/agents.ts.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ForgeQE · Architecture</title>
+<meta name="description" content="How ForgeQE works: your tools, ForgeQE's agent and your model, project memory at the core, fourteen specialist agents, and engines that drive real browsers, Windows apps, phones and databases. All on your machine.">
+<meta name="theme-color" content="#080a10">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="stylesheet" href="/architecture-map/arch.css?v=feb6c76cc6">
+<script src="/architecture-map/arch.js?v=3ca2dafa8d" defer></script>
+<link rel="stylesheet" href="/site-header.css?v=3bb8ddf7e7">
+</head>
+<body>
+<a class="site-skip" href="#content">Skip to content</a>
+<header class="site-nav">
+  <div class="site-nav__bar">
+    <a class="site-nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="site-nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="site-nav__links">
+      <li><a href="/"><img class="site-pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="22" height="22">Product</a></li>
+      <li><a href="/docs/"><img class="site-pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="22" height="22">Docs</a></li>
+      <li><a href="/security/"><img class="site-pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="22" height="22">Security</a></li>
+      <li><a href="/architecture-map/" aria-current="page"><img class="site-pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="22" height="22">Architecture</a></li>
+    </ul></nav>
+    <span></span>
+  </div>
+</header>
+<span id="content" tabindex="-1"></span>
+<main class="arch">
+
+<section class="ahero">
+  <div class="ahero__t">
+    <p class="kick">Architecture</p>
+    <h1>How ForgeQE works, <em>end to end</em></h1>
+  </div>
+  <ul class="stats">
+    <li><b>3</b><span>processes</span></li>
+    <li><b>16</b><span>agents</span></li>
+    <li><b>4</b><span>engines</span></li>
+    <li><b>0</b><span>servers of its own</span></li>
+  </ul>
+</section>
+
+<div class="fit">
+<section class="hub" aria-label="How ForgeQE works: the whole system on one page">
+
+  <div class="node node--you">
+    <div class="node__head"><img class="pix" src="/img/icons/terminal.svg?v=2e1aada81a" alt=""><p class="node__k">Entry points · CLI · MCP</p><h2>You and your tools</h2></div>
+    <ul class="chips">
+      <li><img src="/img/icons/terminal.svg?v=2e1aada81a" alt="">Shell</li>
+      <li><img src="/img/icons/replay.svg?v=fffc5564ca" alt=""><code>forgeqe run</code></li>
+      <li><img src="/img/logos/azurepipelines.svg?v=02478dbf62" alt="">Pipelines</li>
+      <li><img src="/img/logos/claudecode.svg?v=9e12dd953f" alt="">Coding agents</li>
+    </ul>
+  </div>
+
+  <div class="wire wire--h wire--1" aria-hidden="true">
+    <span class="wire__to">You ⇄ ForgeQE’s agent</span>
+    <p class="wire__l"><b>Ask</b>plain words</p><i class="flow"></i><i class="flow flow--back"></i><p class="wire__l"><b>Answer</b>live steps</p>
+  </div>
+
+  <div class="node node--agent">
+    <div class="node__head"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt=""><p class="node__k">Orchestrator</p><h2>ForgeQE’s agent</h2></div>
+    <ul class="chips chips--2">
+      <li><img src="/img/icons/stories.svg?v=e91e4906ea" alt="">Refines the ask</li>
+      <li><img src="/img/icons/rule.svg?v=8193c099f8" alt="">Scopes its tools</li>
+      <li><img src="/img/icons/model.svg?v=d570e97035" alt="">Model router</li>
+      <li><img src="/img/icons/shield.svg?v=6c452e87c9" alt="">Local tools</li>
+      <li><img src="/img/icons/feature.svg?v=bf79bbca86" alt="">Asks if unsure</li>
+      <li><img src="/img/icons/scribe.svg?v=5948d1c713" alt="">Hands to Scribe</li>
+    </ul>
+  </div>
+
+  <div class="wire wire--h wire--2" aria-hidden="true">
+    <span class="wire__to">ForgeQE’s agent ⇄ your model</span>
+    <p class="wire__l"><b>Prompt</b>model API</p><i class="flow"></i><i class="flow flow--back"></i><p class="wire__l"><b>Reply</b>streamed</p>
+  </div>
+
+  <div class="node node--model">
+    <div class="node__head"><img class="pix" src="/img/icons/model.svg?v=d570e97035" alt=""><p class="node__k">Your endpoint, your keys</p><h2>Your AI model</h2></div>
+    <ul class="chips">
+      <li><img src="/img/logos/azure.svg?v=f4232673d1" alt="">Azure OpenAI</li>
+      <li><img src="/img/logos/openai.svg?v=f97f3b580b" alt="">OpenAI</li>
+      <li><img src="/img/logos/ollama.svg?v=b146dfbf86" alt="">Ollama</li>
+      <li><img src="/img/logos/vllm.svg?v=2caf6cdf4c" alt="">vLLM</li>
+      <li><img src="/img/logos/lmstudio.svg?v=5942f642a1" alt="">LM Studio</li>
+    </ul>
+  </div>
+
+  <div class="lane lane--tasks" aria-hidden="true"><i class="flow flow--v"></i><p class="wire__l"><b>Tasks</b>to a specialist</p></div>
+
+  <div class="wire wire--v wire--3" aria-hidden="true">
+    <span class="wire__to">ForgeQE’s agent ⇄ memory</span>
+    <p class="wire__l"><b>Save</b>what it learned</p><i class="flow flow--v"></i><i class="flow flow--v flow--back"></i><p class="wire__l"><b>Recall</b>known requests</p>
+  </div>
+
+  <div class="core">
+    <div class="node__head"><img class="pix pix--lg" src="/img/icons/context-engine.svg?v=b815540d6b" alt=""><p class="node__k">The core</p><h2>Project memory</h2></div>
+    <ul class="chips chips--3">
+      <li><img src="/img/icons/web.svg?v=e9d28fe5df" alt="">Pages</li>
+      <li><img src="/img/icons/replay.svg?v=fffc5564ca" alt="">Flows</li>
+      <li><img src="/img/icons/scribe.svg?v=5948d1c713" alt="">Notes</li>
+      <li><img src="/img/icons/api.svg?v=9a31a6f61b" alt="">API plans</li>
+      <li><img src="/img/icons/case.svg?v=7797d81ad8" alt="">Registry</li>
+      <li><img src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="">SQL</li>
+    </ul>
+    <p class="core__foot"><i></i><span>On disk in <code>.forgeqe/</code></span></p>
+  </div>
+
+  <div class="wire wire--v wire--4" aria-hidden="true">
+    <span class="wire__to">Memory ⇄ the agents</span>
+    <p class="wire__l"><b>Recall</b>locators · flows</p><i class="flow flow--v flow--back"></i><i class="flow flow--v"></i><p class="wire__l"><b>Save</b>pages · notes</p>
+  </div>
+
+  <div class="lane lane--results" aria-hidden="true"><i class="flow flow--v flow--back"></i><p class="wire__l"><b>Results</b>reviewed</p></div>
+
+  <div class="node node--agents">
+    <div class="node__head"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt=""><p class="node__k">14 specialists</p><h2>The agents</h2></div>
+    <div class="groups">
+      <div><p class="grp">Write</p><ul><li class="edits"><img src="/img/icons/scribe.svg?v=5948d1c713" alt="">Scribe</li><li class="edits"><img src="/img/icons/api.svg?v=9a31a6f61b" alt="">API tests</li><li class="edits"><img src="/img/icons/healer.svg?v=93578f4956" alt="">Healer</li></ul></div>
+      <div><p class="grp">Check</p><ul><li><img src="/img/icons/visual.svg?v=c110ec1ded" alt="">Reviewer</li><li><img src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="">PR review</li><li><img src="/img/icons/test-finder.svg?v=aeeaa8ddda" alt="">Test finder</li><li><img src="/img/icons/result.svg?v=f9261c11b9" alt="">Judge</li></ul></div>
+      <div><p class="grp">Plan</p><ul><li><img src="/img/icons/stories.svg?v=e91e4906ea" alt="">Refine</li><li><img src="/img/icons/specs.svg?v=aa92aeaae5" alt="">API planner</li><li><img src="/img/icons/explorer.svg?v=769e764bc6" alt="">Explorer</li><li><img src="/img/icons/feature.svg?v=bf79bbca86" alt="">Defect RCA</li></ul></div>
+    </div>
+    <p class="also"><span>Also</span><i>Scribe, reading</i><i>Test planner</i><i>Model rater</i></p>
+  </div>
+
+  <div class="wire wire--h wire--5" aria-hidden="true">
+    <span class="wire__to">The agents ⇄ your stack</span>
+    <p class="wire__l"><b>Call</b>MCP · REST</p><i class="flow"></i><i class="flow flow--back"></i><p class="wire__l"><b>Data</b>cases · tickets</p>
+  </div>
+
+  <div class="node node--integ">
+    <div class="node__head"><img class="pix" src="/img/icons/plug.svg?v=d6d81e45ef" alt=""><p class="node__k">Integrations · any MCP</p><h2>Your delivery stack</h2></div>
+    <ul class="logos">
+      <li><img src="/img/logos/azuredevops.svg?v=49122a3845" alt="">Azure DevOps</li>
+      <li><img src="/img/logos/jira.svg?v=e5010dd005" alt="">Jira</li>
+      <li><img src="/img/logos/xray.svg?v=e95d21cace" alt="">Xray</li>
+      <li><img src="/img/logos/testrail.svg?v=9dc84786c0" alt="">TestRail</li>
+      <li><img src="/img/logos/zephyr.png?v=c12c935ff0" alt="">Zephyr</li>
+      <li><img src="/img/logos/qtest.svg?v=48ac994fcb" alt="">qTest</li>
+      <li><img src="/img/logos/confluence.svg?v=0eb010ed18" alt="">Confluence</li>
+      <li><img src="/img/logos/github.svg?v=981735021d" alt="">GitHub</li>
+      <li><img src="/img/logos/azurepipelines.svg?v=02478dbf62" alt="">Azure Pipelines</li>
+      <li><img src="/img/logos/githubactions.svg?v=cd5a1ddf61" alt="">GitHub Actions</li>
+      <li><img src="/img/logos/teams.svg?v=7e9a2189eb" alt="">Teams</li>
+      <li><img src="/img/logos/email.svg?v=ab8bee1ad9" alt="">Email</li>
+    </ul>
+  </div>
+
+  <div class="wire wire--h wire--6" aria-hidden="true">
+    <span class="wire__to">The agents ⇄ the engines</span>
+    <p class="wire__l"><b>Run</b>JSON lines</p><i class="flow"></i><i class="flow flow--back"></i><p class="wire__l"><b>Progress</b>every step</p>
+  </div>
+
+  <div class="node node--engines">
+    <div class="node__head"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt=""><p class="node__k">Runtimes</p><h2>The engines</h2></div>
+    <ul class="eng">
+      <li><img class="pix pix--sm" src="/img/icons/web.svg?v=e9d28fe5df" alt=""><b>Browser</b><span><img src="/img/logos/chrome.svg?v=2bec868a76" alt="Chrome"><img src="/img/logos/docker.svg?v=6d762b03f0" alt="Docker"><img src="/img/logos/testmu.svg?v=32ac8a3bd3" alt="TestMu AI"><img src="/img/logos/browserstack.svg?v=7143d89f9c" alt="BrowserStack"></span></li>
+      <li><img class="pix pix--sm" src="/img/icons/desktop.svg?v=86d53f340f" alt=""><b>Windows apps</b><span><img src="/img/logos/windows.svg?v=11ac9b1e84" alt="Windows"><em>UFO²</em></span></li>
+      <li><img class="pix pix--sm" src="/img/icons/mobile.svg?v=749f3fea33" alt=""><b>Phones</b><span><img src="/img/logos/appium.svg?v=ac71fdde7e" alt="Appium"><img src="/img/logos/maestro.png?v=3c988f2cf6" alt="Maestro"><img src="/img/logos/android.svg?v=1e9d142276" alt="Android"><img src="/img/logos/apple.svg?v=310eecb786" alt="iOS"></span></li>
+      <li><img class="pix pix--sm" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt=""><b>Databases</b><span><em>12 kinds</em></span></li>
+      <li><img class="pix pix--sm" src="/img/icons/container.svg?v=8516bde645" alt=""><b>Containers</b><span><img src="/img/logos/docker.svg?v=6d762b03f0" alt="Docker"><img src="/img/logos/podman.svg?v=d5405e720d" alt="Podman"><img src="/img/logos/wiremock.png?v=6b5f8d4a28" alt="WireMock"></span></li>
+    </ul>
+  </div>
+
+  <div class="wire wire--v wire--7" aria-hidden="true">
+    <p class="wire__l"><b>Every run</b>ends in</p><i class="flow flow--v"></i><p class="wire__l"></p>
+  </div>
+
+  <div class="outcol">
+    <p class="outcol__k">Every run leaves</p>
+<ul class="outs">
+      <li><img class="pix" src="/img/icons/branch.svg?v=1f47d5cebe" alt=""><b>A test in your repo</b><span>your framework, on a branch</span></li>
+      <li><img class="pix" src="/img/icons/report.svg?v=22085b5fd5" alt=""><b>A report with evidence</b><span>screenshots, trace, verdicts</span></li>
+      <li><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt=""><b>Results in your test tool</b><span>Azure DevOps, Jira, Xray…</span></li>
+      <li><img class="pix" src="/img/icons/plug.svg?v=d6d81e45ef" alt=""><b>Alerts</b><span>Teams and email</span></li>
+      <li><img class="pix" src="/img/icons/replay.svg?v=fffc5564ca" alt=""><b>Memory for next time</b><span>replays with no model</span></li>
+    </ul>
+  
+    <ul class="legend" aria-hidden="true">
+      <li><i class="lg lg--blue"></i>Request and control</li>
+      <li><i class="lg lg--violet"></i>Memory: recall and save</li>
+      <li><span class="edot"></span>Changes files in your repo</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<section class="blk">
+  <p class="kick">One request</p>
+  <h2 class="h2">From a sentence to a <em>reviewed test</em></h2>
+  <ol class="journey">
+    <li><span class="jd"><img class="pix" src="/img/icons/terminal.svg?v=2e1aada81a" alt=""></span><b>You ask</b><span>“Check checkout charges once”</span></li>
+    <li><span class="jd"><img class="pix" src="/img/icons/rule.svg?v=8193c099f8" alt=""></span><b>Tools picked</b><span>the core and up to four more</span></li>
+    <li><span class="jd"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt=""></span><b>Memory recalled</b><span>known steps replay first</span></li>
+    <li class="key"><span class="jd"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt=""></span><b>Real browser</b><span>the engine drives Chrome</span></li>
+    <li><span class="jd"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt=""></span><b>Verdict</b><span>only what the page shows</span></li>
+    <li class="key"><span class="jd"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt=""></span><b>Test written</b><span>Scribe writes, ForgeQE runs it</span></li>
+    <li><span class="jd"><img class="pix" src="/img/icons/visual.svg?v=c110ec1ded" alt=""></span><b>Reviewed</b><span>then saved for next time</span></li>
+  </ol>
+</section>
+
+<section class="blk">
+  <p class="kick">Three processes</p>
+  <h2 class="h2">No server. <em>No database of its own.</em></h2>
+  <div class="procs">
+    <div class="proc">
+      <img class="pix pix--lg" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="">
+      <p class="node__k">Agent runtime</p><h3>The agents</h3>
+      <ul class="tags"><li>ForgeQE’s agent</li><li>Scribe</li><li>13 more specialists</li></ul>
+    </div>
+    <div class="plink" aria-hidden="true"><p class="wire__l"><b>MCP</b>127.0.0.1 · token</p><i class="flow flow--back"></i><i class="flow"></i></div>
+    <div class="proc proc--hub">
+      <img class="pix pix--lg" src="/img/icons/terminal.svg?v=2e1aada81a" alt="">
+      <p class="node__k">Bun</p><h3>The ForgeQE CLI</h3>
+      <ul class="tags"><li>The shell</li><li>Config and profiles</li><li>ForgeQE’s tools</li><li>Reports</li></ul>
+    </div>
+    <div class="plink" aria-hidden="true"><p class="wire__l"><b>JSON lines</b>stdin · stdout</p><i class="flow"></i><i class="flow flow--back"></i></div>
+    <div class="proc">
+      <img class="pix pix--lg" src="/img/icons/browser-agent.svg?v=9262f17952" alt="">
+      <p class="node__k">Python</p><h3>The engines</h3>
+      <ul class="tags"><li>Browser</li><li>Windows apps</li><li>Phones</li><li>Databases</li></ul>
+    </div>
+  </div>
+  <p class="sub">Each engine runs in its own environment under <code>~/.forgeqe</code>. The CLI starts one per run.</p>
+</section>
+
+<section class="blk">
+  <p class="kick">The specialists</p>
+  <h2 class="h2">One orchestrator, <em>fourteen specialists</em></h2>
+  <p class="sub">Plus the browser agent inside the engine, which drives every browser run.</p>
+  <div class="team">
+    <div class="team__col">
+      <p class="grp">Write</p>
+      <ul>
+        <li class="edits"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt=""><b>Scribe</b><span>a test from a verified run</span></li>
+        <li><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt=""><b>Scribe, reading</b><span>the repo, before the run arrives</span></li>
+        <li class="edits"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt=""><b>API test writer</b><span>API and contract tests</span></li>
+        <li class="edits"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt=""><b>Healer</b><span>tests the app outgrew</span></li>
+        <li><img class="pix" src="/img/icons/trace.svg?v=903b732cce" alt=""><b>Test planner</b><span>where a recorded test fits</span></li>
+      </ul>
+    </div>
+    <div class="team__col">
+      <p class="grp">Check</p>
+      <ul>
+        <li><img class="pix" src="/img/icons/visual.svg?v=c110ec1ded" alt=""><b>Reviewer</b><span>every test Scribe writes</span></li>
+        <li><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt=""><b>PR reviewer</b><span>pull requests</span></li>
+        <li><img class="pix" src="/img/icons/test-finder.svg?v=aeeaa8ddda" alt=""><b>Test finder</b><span>the repo tests a request means</span></li>
+        <li><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt=""><b>Judge</b><span>domain evaluations</span></li>
+      </ul>
+    </div>
+    <div class="team__col">
+      <p class="grp">Plan and analyse</p>
+      <ul>
+        <li><img class="pix" src="/img/icons/stories.svg?v=e91e4906ea" alt=""><b>Refine</b><span>a request into a task</span></li>
+        <li><img class="pix" src="/img/icons/specs.svg?v=aa92aeaae5" alt=""><b>API planner</b><span>end-to-end API scenarios</span></li>
+        <li><img class="pix" src="/img/icons/explorer.svg?v=769e764bc6" alt=""><b>Explore planner</b><span>exploratory charters</span></li>
+        <li><img class="pix" src="/img/icons/feature.svg?v=bf79bbca86" alt=""><b>Defect RCA</b><span>a defect’s root cause</span></li>
+        <li><img class="pix" src="/img/icons/model.svg?v=d570e97035" alt=""><b>Model rater</b><span>rates models for the router</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="team__foot"><span class="edot"></span><span>Three of them change files, only in your repository. ForgeQE pushes a branch only through its own tool, never to <code>main</code>.</span></p>
+</section>
+
+<section class="blk">
+  <p class="kick">Project memory</p>
+  <h2 class="h2">Known work <em>never reaches the model</em></h2>
+  <ul class="mem">
+    <li><img class="pix pix--lg" src="/img/icons/web.svg?v=e9d28fe5df" alt=""><b>Page memory</b><span>every element, with ranked locators and a confidence of 1–99</span></li>
+    <li><img class="pix pix--lg" src="/img/icons/replay.svg?v=fffc5564ca" alt=""><b>Flows</b><span>the steps of the last passing run, replayed with no model</span></li>
+    <li><img class="pix pix--lg" src="/img/icons/scribe.svg?v=5948d1c713" alt=""><b>Scribe’s notes</b><span>what it learned about your repository</span></li>
+    <li><img class="pix pix--lg" src="/img/icons/api.svg?v=9a31a6f61b" alt=""><b>API plans</b><span>the same cases reuse their plan</span></li>
+    <li><img class="pix pix--lg" src="/img/icons/case.svg?v=7797d81ad8" alt=""><b>Run registry</b><span>answers a known request without the agent</span></li>
+    <li><img class="pix pix--lg" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt=""><b>Approved SQL</b><span>queries you approved, offered again</span></li>
+  </ul>
+</section>
+
+<section class="blk more">
+  <a class="more__card" href="/architecture-map/components/"><img class="pix pix--lg" src="/img/icons/architecture.svg?v=d15508781f" alt=""><span><b>Every component and wire</b>ForgeQE’s own map: hover a part to trace what it sends and receives.</span></a>
+  <a class="more__card" href="/security/"><img class="pix pix--lg" src="/img/icons/shield.svg?v=6c452e87c9" alt=""><span><b>Where your data goes</b>The security page: every flow, and what stays on your machine.</span></a>
+  <a class="more__card" href="/docs/architecture/"><img class="pix pix--lg" src="/img/icons/wikis.svg?v=c44b998773" alt=""><span><b>The full architecture</b>Every module, in the docs.</span></a>
+</section>
+
+</main>
+</body>
+</html>

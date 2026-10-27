@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desktop in CI · ForgeQE docs</title>
+<meta name="description" content="Desktop replay clicks and types into real windows.">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/desktop-ci/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/" aria-current="page"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40">Desktop in CI</h1>
+    <article class="prose">
+<p>Desktop replay clicks and types into real windows. It needs what a person at the machine would have: a signed-in
+Windows session, unlocked, with a screen. GitHub's hosted <code>windows-2022</code> runners have that, and ForgeQE's own CI runs
+Notepad there. Your own apps usually need a machine of your own, with the app installed, its test database, and a
+network route to its servers. This page sets one up as a GitHub Actions self-hosted runner. The same rules apply to
+Azure DevOps agents and Jenkins nodes.</p>
+<h2 id="what-breaks-a-desktop-run-and-how-forgeqe-tells-you"><a href="#what-breaks-a-desktop-run-and-how-forgeqe-tells-you" class="hash">#</a>What breaks a desktop run, and how ForgeQE tells you</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Situation</th><th>Effect</th><th>Fix</th></tr>
+</thead>
+<tbody>
+<tr><td>The runner is a Windows service</td><td>Session 0 has no desktop; every control lookup times out</td><td>Run the runner in the user's session (below)</td></tr>
+<tr><td>The screen is locked</td><td>Windows sends no input to apps</td><td>No inactivity lock, no screen-saver lock</td></tr>
+<tr><td>A Remote Desktop session was disconnected</td><td>The session is locked</td><td>Leave Remote Desktop with <code>tscon</code> (below), or don't use it on the test machine</td></tr>
+<tr><td>The machine slept or the screen turned off</td><td>Input and screenshots stop</td><td>Power plan: never sleep, never turn off the screen</td></tr>
+<tr><td>After a restart nobody signs in</td><td>No session at all</td><td>Sysinternals Autologon</td></tr>
+</tbody>
+</table></div>
+<p>Before each replay or explore, the engine checks the session (<code>py/forgeqe_desktop/session.py</code>). On a session it cannot
+drive, the run fails at once with the reason, instead of timing out step by step. <code>forgeqe desktop doctor</code> runs the
+same check from a shell or a job:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>engine   ready (C:\Users\qa\.forgeqe\desktop\.venv\Scripts\python.exe)
+explore  not set up (forgeqe desktop setup --ufo)
+session  1, screen 1920x1080
+desktop  logged in and unlocked
+</code></pre></div>
+<p>It exits with 1 when the desktop cannot be driven, so a job stops before the suite runs.</p>
+<h2 id="set-up-the-test-machine"><a href="#set-up-the-test-machine" class="hash">#</a>Set up the test machine</h2>
+<p>Use a test machine or VM, and a test account: the runner's jobs control its mouse and keyboard.</p>
+<ol>
+<li>
+<p><strong>Sign in</strong> as the account the tests will run as.</p>
+</li>
+<li>
+<p><strong>Install the runner</strong> (GitHub: Settings → Actions → Runners → New self-hosted runner). Give it the label
+<code>forgeqe-desktop</code>. When <code>config.cmd</code> asks whether to run as a service, answer <strong>no</strong>.</p>
+</li>
+<li>
+<p><strong>Run <code>ci/desktop-runner/prepare-runner.ps1</code></strong> in an elevated PowerShell (<code>-WhatIf</code> first to see the changes):</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>powershell</span><button class="copy-code" type="button">Copy</button></div><pre><code>.\prepare-runner.ps1 -RunnerDir C:\actions-runner -WhatIf
+.\prepare-runner.ps1 -RunnerDir C:\actions-runner
+</code></pre></div>
+<p>It stops sleep, screen-off and the screen-saver lock. It turns the inactivity lock off and registers a logon task
+that starts <code>run.cmd</code> in this account's session. It warns you if the runner is also installed as a service. It
+never handles a password.</p>
+</li>
+<li>
+<p><strong>Sign in automatically after a restart</strong> with
+<a href="https://learn.microsoft.com/sysinternals/downloads/autologon" class="ext" rel="noopener">Sysinternals Autologon</a>, run as the test account.
+It stores the password encrypted by Windows. Never put the password in a script, a registry value you write
+yourself, or the repository.</p>
+</li>
+<li>
+<p><strong>Fix the screen size.</strong> A visual check (<code>expect_image</code>) compares pixels, so the resolution and scale (100%, 125%)
+must match the machine where its baselines were saved. Set them once and leave them.</p>
+</li>
+<li>
+<p><strong>Restart</strong> and check that the runner shows as idle on GitHub. Then run <code>forgeqe desktop doctor</code> from a job.</p>
+</li>
+</ol>
+<h3 id="leaving-remote-desktop-without-locking-the-session"><a href="#leaving-remote-desktop-without-locking-the-session" class="hash">#</a>Leaving Remote Desktop without locking the session</h3>
+<p>Closing a Remote Desktop window disconnects the session, and Windows locks it. To leave it running instead, hand the
+session back to the machine's console. In an elevated prompt inside the Remote Desktop session:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bat</span><button class="copy-code" type="button">Copy</button></div><pre><code>for /f &quot;skip=1 tokens=3&quot; %s in ('query user %USERNAME%') do tscon %s /dest:console
+</code></pre></div>
+<p>On a VM, the hypervisor's console (Hyper-V, VMware, VirtualBox) needs no such step.</p>
+<h2 id="the-nightly-job"><a href="#the-nightly-job" class="hash">#</a>The nightly job</h2>
+<p><code>ci/desktop-runner/desktop-nightly.example.yml</code> is a ready workflow. Copy it into <code>.github/workflows/</code> in the
+repository that holds your desktop workflows. It:</p>
+<ul>
+<li>runs at night on <code>[self-hosted, windows, forgeqe-desktop]</code>, one run at a time;</li>
+<li>installs a pinned ForgeQE and runs <code>forgeqe desktop setup</code> and <code>forgeqe desktop doctor</code>;</li>
+<li>replays every workflow in a folder: <code>forgeqe desktop replay desktop-tests/ --junit results/desktop.xml</code>;</li>
+<li>keeps the reports, screenshots and image diffs as an artifact.</li>
+</ul>
+<p><code>--junit</code> writes one test case per workflow (and per CSV row with <code>--data</code>), which CI servers show as test results.
+<code>runs.json</code> in the output folder has the same, with the path of each report.</p>
+<p>Secrets the workflows type (<code>{{secret:NAME}}</code>) come from the CI's secret store as environment variables, and must be
+listed in <code>desktop.secrets</code> or the environment's <code>secrets</code> in <code>env.yaml</code>. Pick the environment with <code>FORGEQE_ENV</code> or
+<code>--env</code>.</p>
+<p>Healing calls the model. In a nightly run, either give the job the model's key so moved controls are healed and
+reported in <code>heals.json</code> (never written into the workflow without <code>--accept-heals</code>), or pass <code>--no-heal</code> so a moved
+control fails the run.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/desktop/"><small>Previous</small><span>Desktop apps</span></a>
+      <a class="next" href="/docs/mobile/"><small>Next</small><span>Mobile apps</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#what-breaks-a-desktop-run-and-how-forgeqe-tells-you">What breaks a desktop run, and how ForgeQE tells you</a></li><li><a href="#set-up-the-test-machine">Set up the test machine</a></li><li><a href="#the-nightly-job">The nightly job</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

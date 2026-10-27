@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ForgeQE architecture</title>
+<meta name="description" content="How ForgeQE turns a plain-language request into a browser run in Chrome and a passing test in your repo: OpenTUI shell, ForgeQE's agent and tools, the ForgeQE engine, page memory, and Scribe, the coding agent.">
+<style>
+:root{
+  --bg:#F5F7FB; --ink:#0E1A2E; --muted:#5F6B7E; --hair:#DDE3EE; --card:#FFFFFF;
+  --sans:'Geist','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Bricolage Grotesque','Geist','Inter',system-ui,sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1480px;margin:0 auto;padding:0 clamp(16px,3vw,40px)}
+header{padding:clamp(36px,6vw,72px) 0 clamp(20px,3vw,32px)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.2vw,52px);line-height:1.04;letter-spacing:-0.025em;margin:0 0 16px;max-width:20ch}
+header p{margin:0;max-width:70ch;color:var(--muted);font-size:clamp(15px,1.4vw,17px)}
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px}
+.scroller svg{display:block;width:100%;height:auto}
+.hint{display:none;color:var(--muted);font-size:13px;margin:8px 0 0}
+.first{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:520px;padding-bottom:12px}
+.first header{padding:clamp(16px,2.4vh,32px) 0 clamp(8px,1.4vh,16px)}
+.first h1{margin-bottom:8px}
+.stage{flex:1;min-height:0;margin-top:6px;display:flex;gap:20px;align-items:flex-start}
+.stage .scroller{height:100%;aspect-ratio:1680/990;flex:0 1 auto;min-width:0;max-width:100%}
+.stage .scroller svg{width:100%;height:100%}
+@media (max-width:760px){.first{display:block;height:auto}.stage{display:block}.stage .scroller{height:auto;aspect-ratio:auto}.stage .scroller svg{min-width:1300px;height:auto}.hint{display:block}}
+.trace-wrap{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .34s cubic-bezier(.2,.8,.2,1),opacity .22s ease}
+.trace-wrap.open{grid-template-rows:1fr;opacity:1}
+.trace-clip{overflow:hidden;min-height:0}
+.trace{margin-top:20px;background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:20px 24px;min-height:148px;display:grid;grid-template-columns:minmax(220px,1.1fr) 1fr 1fr;gap:24px 40px;align-items:start}
+.trace.swap > *{animation:traceswap .2s ease-out both}
+@keyframes traceswap{from{opacity:.25;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.trace-wrap{transition:none}.trace.swap > *{animation:none}}
+.trace .idle{grid-column:1/-1;color:var(--muted);margin:0;align-self:center}
+.trace h2{font-family:var(--display);font-size:20px;letter-spacing:-0.01em;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.trace h2 i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.trace .role{margin:0;color:var(--muted);font-size:14px;max-width:52ch}
+.trace .file{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;display:block}
+.trace h3{font-size:13px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.trace ul{list-style:none;margin:0;padding:0;font-size:14px}
+.trace li{padding:5px 0;border-top:1px solid var(--hair);display:flex;gap:10px;justify-content:space-between}
+.trace li:first-child{border-top:0;padding-top:0}
+.trace li span:last-child{color:var(--muted);text-align:right}
+.trace .none{color:var(--muted);font-size:14px}
+@media (max-width:900px){.trace{grid-template-columns:1fr}}
+.story{margin:clamp(40px,6vw,72px) 0 clamp(32px,5vw,48px);display:grid;grid-template-columns:minmax(200px,1fr) 2fr;gap:24px 56px}
+.story h2{font-family:var(--display);font-size:clamp(22px,2.4vw,30px);letter-spacing:-0.02em;line-height:1.15;margin:0 0 10px}
+.story .lead{color:var(--muted);margin:0;max-width:36ch}
+ol{list-style:none;margin:0;padding:0;counter-reset:s}
+ol li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--hair)}
+ol li:first-child{border-top:0;padding-top:0}
+.n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+@media (max-width:820px){.story{grid-template-columns:1fr}}
+.sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:0 0 clamp(48px,7vw,96px)}
+@media (max-width:820px){.sections{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:22px 24px}
+.card h3{font-family:var(--display);font-size:18px;margin:0 0 8px;letter-spacing:-0.01em}
+.card p{margin:0 0 12px;color:var(--muted);font-size:14px}
+.card ul{margin:0;padding:0;list-style:none}
+.card li{padding:8px 0;border-top:1px solid var(--hair);font-size:14px}
+.card li:first-child{border-top:0;padding-top:0}
+.card li strong{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+.card h4{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.card ul.tight li{padding:6px 0}
+.card ul.tight li:first-child{padding-top:0}
+.card ul.tight li strong{display:inline;margin-right:6px}
+.card .mono{font-family:var(--mono);font-size:12px;color:var(--muted)}
+code{font-family:var(--mono);font-size:0.92em}
+.tabs{margin:clamp(32px,5vw,56px) 0 0}
+.tablist{position:relative;display:flex;gap:4px;border-bottom:1px solid var(--hair)}
+.tab{appearance:none;background:none;border:0;padding:10px 18px 12px;display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-0.01em;color:var(--muted);cursor:pointer;transition:color .2s ease}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink)}
+.tab:focus-visible{outline:2px solid #1E3A8A;outline-offset:2px;border-radius:6px}
+.tab-ink{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--ink);border-radius:2px;transform-origin:left;transition:transform .32s cubic-bezier(.2,.8,.2,1),width .32s cubic-bezier(.2,.8,.2,1)}
+.tab .ic{flex:none;color:#1E3A8A}
+.ih{display:flex;align-items:center;gap:10px}
+.tile{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:8px;color:#1E3A8A;background:#E8EDF8;box-shadow:inset 0 0 0 1px #C6D2EC}
+.story .tile{width:36px;height:36px;border-radius:10px}
+.story .tile .ic{width:20px;height:20px}
+.tabpanel{outline:none}
+.tabpanel[hidden]{display:none}
+.tabpanel.enter{animation:tabin .28s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tabin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.tab-ink{transition:none}.tabpanel.enter{animation:none}}
+.tabpanel > .story:first-child{margin-top:28px}
+.tabpanel > .sections:first-child{margin-top:28px}
+.feat{display:grid;grid-template-columns:264px minmax(0,1fr);gap:32px;margin:28px 0 clamp(48px,7vw,96px);align-items:start}
+.subnav{display:flex;flex-direction:column;gap:4px;position:sticky;top:16px}
+.sub{appearance:none;border:1px solid transparent;background:none;border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center;text-align:left;font:inherit;color:var(--muted);cursor:pointer;transition:background-color .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease}
+.sub .tile{grid-row:span 2}
+.sub b{font-weight:600;font-size:14.5px;line-height:1.3;color:inherit}
+.sub small{font-size:12.5px;line-height:1.35;color:var(--muted)}
+.sub:hover{color:var(--ink);background:rgba(255,255,255,.55)}
+.sub[aria-selected="true"]{color:var(--ink);background:var(--card);border-color:var(--hair);box-shadow:0 1px 2px rgba(14,26,46,.05)}
+.sub:focus-visible{outline:2px solid #1E3A8A;outline-offset:2px}
+.panes{display:grid}
+.pane{grid-area:1/1;align-self:start;margin:0;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .22s ease,transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s linear .22s}
+.pane.on{opacity:1;visibility:visible;transform:none;transition:opacity .26s ease .08s,transform .32s cubic-bezier(.2,.8,.2,1) .08s,visibility 0s}
+.pane.story{grid-template-columns:1fr;gap:18px}
+.pane.story .lead{max-width:80ch}
+.pane ol{columns:2;column-gap:40px}
+.pane ol li,.pane ol li:first-child{break-inside:avoid;border-top:1px solid var(--hair);padding:12px 0}
+.pane.solo .card{grid-column:1/-1}
+.pane.solo .card ul{columns:2;column-gap:40px}
+.pane.solo .card li,.pane.solo .card li:first-child{break-inside:avoid;border-top:1px solid var(--hair);padding:8px 0}
+@media (max-width:980px){.pane ol,.pane.solo .card ul{columns:1}}
+@media (max-width:820px){.feat{grid-template-columns:1fr;gap:20px}.subnav{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}.sub{flex:none}.sub small{display:none}.sub .tile{grid-row:auto}}
+@media (prefers-reduced-motion:reduce){.pane,.pane.on{transition:none;transform:none}}
+</style>
+<link rel="stylesheet" href="/site-header.css?v=3bb8ddf7e7">
+<link rel="stylesheet" href="/architecture-map/site.css?v=4b43279aea">
+</head>
+<body>
+<a class="site-skip" href="#content">Skip to content</a>
+<header class="site-nav">
+  <div class="site-nav__bar">
+    <a class="site-nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="site-nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="site-nav__links">
+      <li><a href="/"><img class="site-pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="22" height="22">Product</a></li>
+      <li><a href="/docs/"><img class="site-pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="22" height="22">Docs</a></li>
+      <li><a href="/security/"><img class="site-pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="22" height="22">Security</a></li>
+      <li><a href="/architecture-map/" aria-current="page"><img class="site-pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="22" height="22">Architecture</a></li>
+    </ul></nav>
+    <span></span>
+  </div>
+</header>
+<span id="content" tabindex="-1"></span>
+<div class="wrap">
+<div class="first">
+<header>
+  <h1>ForgeQE architecture</h1>
+  <p>How a plain-language request becomes a run in a real Chrome browser, and a passing run becomes a reviewed test in your repo. Three processes on your machine: the Bun CLI, the agent runtime (which runs ForgeQE's agent and Scribe, the coding agent), and the Python engine. No server, no database.</p>
+</header>
+<div class="stage">
+<div class="scroller">
+<svg id="diagram" viewBox="0 0 1680 990" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ForgeQE architecture: shell, ForgeQE's agent and tools, the ForgeQE engine and Chrome, local state, and Scribe, the coding agent.">
+<style>
+.ntitle{font:600 13px 'Geist','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:-0.005em}
+.nmono{font:500 10.5px 'Geist Mono',ui-monospace,'SF Mono',Menlo,monospace}
+.bandtitle{font:600 12.5px 'Geist','Inter',system-ui,sans-serif}
+.bnum{font:700 10.5px 'Geist','Inter',system-ui,sans-serif;fill:#fff}
+.lgt{font:500 12px 'Geist','Inter',system-ui,sans-serif;fill:#5F6B7E}
+.igh{font:600 10px 'Geist','Inter',system-ui,sans-serif;letter-spacing:0.06em;fill:#5F6B7E}
+.node{cursor:pointer;outline:none;transition:opacity .22s ease}
+.node:focus-visible .box{stroke:#0E1A2E;stroke-opacity:1;stroke-width:2}
+.node:hover .box{stroke-opacity:1}
+.node .box{transition:stroke-opacity .2s ease}
+.edge,.badge{transition:opacity .22s ease}
+.edge .line{transition:stroke .2s ease,stroke-width .2s ease}
+.edge .head{transition:fill .2s ease}
+.edge .hit{pointer-events:stroke}
+.tracing .edge:not(.hot),.tracing .badge:not(.hot){opacity:.12}
+.tracing .node:not(.hot){opacity:.38}
+.edge.hot:not(.loop) .line{stroke:var(--hot)}
+.edge.hot:not(.loop) .head{fill:var(--hot)}
+.edge.hot .line{stroke-width:2.4}
+.loop .line{stroke-dasharray:1;animation:draw .5s ease-out both;animation-delay:calc(var(--i)*.42s + .3s)}
+.loop .head,.badge{animation:pop .3s ease-out both;animation-delay:calc(var(--i)*.42s + .62s)}
+.loop .halo{animation:pop .01s both;animation-delay:calc(var(--i)*.42s + .3s)}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.loop .line,.loop .head,.loop .halo,.badge{animation:none}}
+</style>
+<defs><filter id="sh" x="-10%" y="-20%" width="120%" height="150%"><feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#0E1A2E" flood-opacity="0.07"/></filter></defs>
+<rect width="1680" height="990" fill="#F5F7FB"/>
+
+<!-- Bands -->
+<g class="band"><rect x="28" y="88" width="1100" height="120" rx="16" fill="#0B6E4F" fill-opacity="0.055" stroke="#0B6E4F" stroke-opacity="0.22"/></g>
+<g class="band"><rect x="28" y="260" width="1100" height="120" rx="16" fill="#C86A0A" fill-opacity="0.055" stroke="#C86A0A" stroke-opacity="0.22"/></g>
+<g class="band"><rect x="28" y="432" width="1100" height="120" rx="16" fill="#2563EB" fill-opacity="0.055" stroke="#2563EB" stroke-opacity="0.22"/></g>
+<g class="band"><rect x="28" y="604" width="1100" height="120" rx="16" fill="#D02670" fill-opacity="0.055" stroke="#D02670" stroke-opacity="0.22"/></g>
+<g class="band"><rect x="28" y="776" width="1100" height="120" rx="16" fill="#0B8A8A" fill-opacity="0.055" stroke="#0B8A8A" stroke-opacity="0.22"/></g>
+<g class="band"><rect x="1180" y="88" width="192" height="808" rx="16" fill="#5B4BC9" fill-opacity="0.055" stroke="#5B4BC9" stroke-opacity="0.22"/><circle cx="1200" cy="115" r="4" fill="#5B4BC9"/><text x="1212" y="120" class="bandtitle" fill="#5B4BC9">External</text></g>
+<g class="band" id="integrations-band" aria-label="Integrations: Azure DevOps, Jira, Xray, TestRail, Zephyr Scale, qTest, Confluence, Microsoft Teams, email, GitHub, Azure Pipelines, Azure OpenAI, OpenAI, Ollama"><rect x="1400" y="88" width="252" height="808" rx="16" fill="#5F6B7E" fill-opacity="0.055" stroke="#5F6B7E" stroke-opacity="0.22"/><circle cx="1420" cy="115" r="4" fill="#5F6B7E"/><text x="1432" y="120" class="bandtitle" fill="#5F6B7E">Integrations</text><text x="1424" y="868" class="lgt">Each one is off until it is set</text><text x="1424" y="884" class="lgt">in forgeqe.yaml.</text></g>
+
+<!-- Support and external edges: unchanged from the original diagram -->
+<g class="edge sup" data-from="shell" data-to="transcript"><title>OpenTUI shell to Transcript: renders tool lines and cards</title><path class="halo" d="M222,160 L273,160" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M222,160 L273,160" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M280,160 L273,163.6 L273,156.4 Z" fill="#9AA6BB"/><path class="hit" d="M222,160 L273,160" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="composer" data-to="transcript"><title>Composer to Transcript: your text and /commands</title><path class="halo" d="M490,160 L439,160" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M490,160 L439,160" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M432,160 L439,163.6 L439,156.4 Z" fill="#9AA6BB"/><path class="hit" d="M490,160 L439,160" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="plain" data-to="agent"><title>Plain &amp; CI mode to ForgeQE&#x27;s agent: same agent, no full screen</title><path class="halo" d="M776,192 L776,240 Q776,248 768,248 L208,248 Q200,248 200,256 L200,293" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M776,192 L776,240 Q776,248 768,248 L208,248 Q200,248 200,256 L200,293" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M200,300 L196.4,293 L203.6,293 Z" fill="#9AA6BB"/><path class="hit" d="M776,192 L776,240 Q776,248 768,248 L208,248 Q200,248 200,256 L200,293" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="mcp" data-to="tools"><title>Tool server to Browser tools: exposes</title><path class="halo" d="M432,332 L483,332" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M432,332 L483,332" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M490,332 L483,335.6 L483,328.4 Z" fill="#9AA6BB"/><path class="hit" d="M432,332 L483,332" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="tools" data-to="cases"><title>Browser tools to Test-case tools: each case is a browser run</title><path class="halo" d="M642,332 L693,332" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M642,332 L693,332" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M700,332 L693,335.6 L693,328.4 Z" fill="#9AA6BB"/><path class="hit" d="M642,332 L693,332" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="cases" data-to="connectors"><title>Test-case tools to Connectors: fetch cases, post results</title><path class="halo" d="M852,332 L903,332" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M852,332 L903,332" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M910,332 L903,335.6 L903,328.4 Z" fill="#9AA6BB"/><path class="hit" d="M852,332 L903,332" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="setup" data-to="bridge"><title>Engine setup to Engine bridge: Python and Chrome paths</title><path class="halo" d="M222,504 L273,504" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M222,504 L273,504" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M280,504 L273,507.6 L273,500.4 Z" fill="#9AA6BB"/><path class="hit" d="M222,504 L273,504" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="engine" data-to="judge"><title>ForgeQE engine to Judge &amp; verdicts: checks the finish</title><path class="halo" d="M630,472 L630,456 Q630,448 638,448 L978,448 Q986,448 986,456 L986,465" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M630,472 L630,456 Q630,448 638,448 L978,448 Q986,448 986,456 L986,465" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M986,472 L982.4,465 L989.6,465 Z" fill="#9AA6BB"/><path class="hit" d="M630,472 L630,456 Q630,448 638,448 L978,448 Q986,448 986,456 L986,465" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="memory" data-to="engine"><title>Page memory to ForgeQE engine: replays recorded flows</title><path class="halo" d="M400,644 L400,604 Q400,596 408,596 L512,596 Q520,596 520,588 L520,543" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M400,644 L400,604 Q400,596 408,596 L512,596 Q520,596 520,588 L520,543" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M520,536 L516.4,543 L523.6,543 Z" fill="#9AA6BB"/><path class="hit" d="M400,644 L400,604 Q400,596 408,596 L512,596 Q520,596 520,588 L520,543" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="logins" data-to="engine"><title>Saved logins to ForgeQE engine: secrets by env name</title><path class="halo" d="M740,644 L740,604 Q740,596 732,596 L608,596 Q600,596 600,588 L600,543" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M740,644 L740,604 Q740,596 732,596 L608,596 Q600,596 600,588 L600,543" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M600,536 L596.4,543 L603.6,543 Z" fill="#9AA6BB"/><path class="hit" d="M740,644 L740,604 Q740,596 732,596 L608,596 Q600,596 600,588 L600,543" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="config" data-to="agent"><title>Config to ForgeQE&#x27;s agent: active profile, code.model</title><path class="halo" d="M70,676 L54,676 Q46,676 46,668 L46,340 Q46,332 54,332 L63,332" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M70,676 L54,676 Q46,676 46,668 L46,340 Q46,332 54,332 L63,332" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M70,332 L63,335.6 L63,328.4 Z" fill="#9AA6BB"/><path class="hit" d="M70,676 L54,676 Q46,676 46,668 L46,340 Q46,332 54,332 L63,332" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="reviewer" data-to="reports"><title>Scribe reviewer to Run reports: code.json, report.html</title><path class="halo" d="M776,816 L776,778 Q776,770 768,770 L628,770 Q620,770 620,762 L620,715" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M776,816 L776,778 Q776,770 768,770 L628,770 Q620,770 620,762 L620,715" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M620,708 L616.4,715 L623.6,715 Z" fill="#9AA6BB"/><path class="hit" d="M776,816 L776,778 Q776,770 768,770 L628,770 Q620,770 620,762 L620,715" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="scribe" data-to="repo"><title>Scribe to Your repo: writes the test</title><path class="halo" d="M356,880 L356,896 Q356,904 364,904 L1082,904 Q1090,904 1090,896 L1090,684 Q1090,676 1082,676 L1069,676" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M356,880 L356,896 Q356,904 364,904 L1082,904 Q1090,904 1090,896 L1090,684 Q1090,676 1082,676 L1069,676" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M1062,676 L1069,679.6 L1069,672.4 Z" fill="#9AA6BB"/><path class="hit" d="M356,880 L356,896 Q356,904 364,904 L1082,904 Q1090,904 1090,896 L1090,684 Q1090,676 1082,676 L1069,676" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="heal" data-to="repo"><title>Scribe heals to Your repo: fixes out-of-date tests</title><path class="halo" d="M986,816 L986,715" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M986,816 L986,715" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M986,708 L982.4,715 L989.6,715 Z" fill="#9AA6BB"/><path class="hit" d="M986,816 L986,715" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="confirm" data-to="scribe"><title>ForgeQE&#x27;s check to Scribe: failure output, or no browser: fix it</title><path class="halo" d="M530,816 L530,806 Q530,798 522,798 L418,798 Q410,798 410,806 L410,809" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M530,816 L530,806 Q530,798 522,798 L418,798 Q410,798 410,806 L410,809" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M410,816 L406.4,809 L413.6,809 Z" fill="#9AA6BB"/><path class="hit" d="M530,816 L530,806 Q530,798 522,798 L418,798 Q410,798 410,806 L410,809" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge sup" data-from="reviewer" data-to="scribe"><title>Scribe reviewer to Scribe: review issues: fix them</title><path class="halo" d="M720,816 L720,796 Q720,788 712,788 L378,788 Q370,788 370,796 L370,809" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M720,816 L720,796 Q720,788 712,788 L378,788 Q370,788 370,796 L370,809" fill="none" stroke="#9AA6BB" stroke-width="1.5"/><path class="head" d="M370,816 L366.4,809 L373.6,809 Z" fill="#9AA6BB"/><path class="hit" d="M720,816 L720,796 Q720,788 712,788 L378,788 Q370,788 370,796 L370,809" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="connectors" data-to="testsys"><title>Connectors to Test systems: REST or MCP</title><path class="halo" d="M1062,316 L1102,316 Q1110,316 1110,308 L1110,168 Q1110,160 1118,160 L1193,160" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M1062,316 L1102,316 Q1110,316 1110,308 L1110,168 Q1110,160 1118,160 L1193,160" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,160 L1193,163.6 L1193,156.4 Z" fill="#8A82D6"/><path class="hit" d="M1062,316 L1102,316 Q1110,316 1110,308 L1110,168 Q1110,160 1118,160 L1193,160" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="agent" data-to="llm"><title>ForgeQE&#x27;s agent to LLM providers: decides the next tool</title><path class="halo" d="M100,300 L100,230 Q100,222 108,222 L1142,222 Q1150,222 1150,230 L1150,314 Q1150,322 1158,322 L1193,322" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M100,300 L100,230 Q100,222 108,222 L1142,222 Q1150,222 1150,230 L1150,314 Q1150,322 1158,322 L1193,322" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,322 L1193,325.6 L1193,318.4 Z" fill="#8A82D6"/><path class="hit" d="M100,300 L100,230 Q100,222 108,222 L1142,222 Q1150,222 1150,230 L1150,314 Q1150,322 1158,322 L1193,322" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="engine" data-to="llm"><title>ForgeQE engine to LLM providers: one call per step</title><path class="halo" d="M520,472 L520,420 Q520,412 528,412 L1152,412 Q1160,412 1160,404 L1160,350 Q1160,342 1168,342 L1193,342" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M520,472 L520,420 Q520,412 528,412 L1152,412 Q1160,412 1160,404 L1160,350 Q1160,342 1168,342 L1193,342" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,342 L1193,345.6 L1193,338.4 Z" fill="#8A82D6"/><path class="hit" d="M520,472 L520,420 Q520,412 528,412 L1152,412 Q1160,412 1160,404 L1160,350 Q1160,342 1168,342 L1193,342" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="chrome" data-to="app"><title>Chrome to Your web app: opens real pages</title><path class="halo" d="M800,536 L800,554 Q800,562 808,562 L1142,562 Q1150,562 1150,554 L1150,512 Q1150,504 1158,504 L1193,504" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M800,536 L800,554 Q800,562 808,562 L1142,562 Q1150,562 1150,554 L1150,512 Q1150,504 1158,504 L1193,504" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,504 L1193,507.6 L1193,500.4 Z" fill="#8A82D6"/><path class="hit" d="M800,536 L800,554 Q800,562 808,562 L1142,562 Q1150,562 1150,554 L1150,512 Q1150,504 1158,504 L1193,504" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="scribe" data-to="llm"><title>Scribe to LLM providers: writes and fixes code</title><path class="halo" d="M300,880 L300,916 Q300,924 308,924 L1162,924 Q1170,924 1170,916 L1170,364 Q1170,356 1178,356 L1193,356" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M300,880 L300,916 Q300,924 308,924 L1162,924 Q1170,924 1170,916 L1170,364 Q1170,356 1178,356 L1193,356" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,356 L1193,359.6 L1193,352.4 Z" fill="#8A82D6"/><path class="hit" d="M300,880 L300,916 Q300,924 308,924 L1162,924 Q1170,924 1170,916 L1170,364 Q1170,356 1178,356 L1193,356" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge ext" data-from="reports" data-to="ci"><title>Run reports to CI &amp; alerts: JUnit, secrets, alerts</title><path class="halo" d="M530,708 L530,718 Q530,726 538,726 L1167,726 Q1175,726 1175,718 L1175,684 Q1175,676 1183,676 L1193,676" fill="none" stroke="#F5F7FB" stroke-width="5"/><path class="line" d="M530,708 L530,718 Q530,726 538,726 L1167,726 Q1175,726 1175,718 L1175,684 Q1175,676 1183,676 L1193,676" fill="none" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path class="head" d="M1200,676 L1193,679.6 L1193,672.4 Z" fill="#8A82D6"/><path class="hit" d="M530,708 L530,718 Q530,726 538,726 L1167,726 Q1175,726 1175,718 L1175,684 Q1175,676 1183,676 L1193,676" fill="none" stroke="transparent" stroke-width="12"/></g>
+
+<!-- Primary loop -->
+<g class="edge loop" data-from="user" data-to="shell" style="--i:0"><title>You to OpenTUI shell: types a goal, test case, or request</title><path class="halo" d="M146,56 L146,121" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M146,56 L146,121" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M146,128 L142.4,121 L149.6,121 Z" fill="#0E1A2E"/><path class="hit" d="M146,56 L146,121" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="shell" data-to="agent" style="--i:1"><title>OpenTUI shell to ForgeQE&#x27;s agent: sends the request</title><path class="halo" d="M146,192 L146,293" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M146,192 L146,293" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M146,300 L142.4,293 L149.6,293 Z" fill="#0E1A2E"/><path class="hit" d="M146,192 L146,293" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="agent" data-to="mcp" style="--i:2"><title>ForgeQE&#x27;s agent to Tool server: calls browser_run</title><path class="halo" d="M222,332 L273,332" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M222,332 L273,332" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M280,332 L273,335.6 L273,328.4 Z" fill="#0E1A2E"/><path class="hit" d="M222,332 L273,332" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="mcp" data-to="bridge" style="--i:3"><title>Tool server to Engine bridge: starts a run</title><path class="halo" d="M356,364 L356,465" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M356,364 L356,465" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M356,472 L352.4,465 L359.6,465 Z" fill="#0E1A2E"/><path class="hit" d="M356,364 L356,465" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="bridge" data-to="engine" style="--i:4"><title>Engine bridge to ForgeQE engine: request on stdin</title><path class="halo" d="M432,504 L483,504" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M432,504 L483,504" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M490,504 L483,507.6 L483,500.4 Z" fill="#0E1A2E"/><path class="hit" d="M432,504 L483,504" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="engine" data-to="chrome" style="--i:5"><title>ForgeQE engine to Chrome: drives the browser</title><path class="halo" d="M642,504 L693,504" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M642,504 L693,504" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M700,504 L693,507.6 L693,500.4 Z" fill="#0E1A2E"/><path class="hit" d="M642,504 L693,504" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="engine" data-to="reports" style="--i:6"><title>ForgeQE engine to Run reports: writes run.json, steps, memory</title><path class="halo" d="M566,536 L566,637" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M566,536 L566,637" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M566,644 L562.4,637 L569.6,637 Z" fill="#0E1A2E"/><path class="hit" d="M566,536 L566,637" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="reports" data-to="handoff" style="--i:7"><title>Run reports to Handoff: passing run becomes the handoff</title><path class="halo" d="M566,708 L566,734 Q566,742 558,742 L154,742 Q146,742 146,750 L146,809" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M566,708 L566,734 Q566,742 558,742 L154,742 Q146,742 146,750 L146,809" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M146,816 L142.4,809 L149.6,809 Z" fill="#0E1A2E"/><path class="hit" d="M566,708 L566,734 Q566,742 558,742 L154,742 Q146,742 146,750 L146,809" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="handoff" data-to="scribe" style="--i:8"><title>Handoff to Scribe: Scribe reads it</title><path class="halo" d="M222,848 L273,848" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M222,848 L273,848" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M280,848 L273,851.6 L273,844.4 Z" fill="#0E1A2E"/><path class="hit" d="M222,848 L273,848" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="scribe" data-to="confirm" style="--i:9"><title>Scribe to ForgeQE&#x27;s check: reports the test and command</title><path class="halo" d="M432,848 L483,848" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M432,848 L483,848" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M490,848 L483,851.6 L483,844.4 Z" fill="#0E1A2E"/><path class="hit" d="M432,848 L483,848" fill="none" stroke="transparent" stroke-width="12"/></g>
+<g class="edge loop" data-from="confirm" data-to="reviewer" style="--i:10"><title>ForgeQE&#x27;s check to Scribe reviewer: passed in a browser: review</title><path class="halo" d="M642,848 L693,848" fill="none" stroke="#F5F7FB" stroke-width="6"/><path class="line" d="M642,848 L693,848" pathLength="1" fill="none" stroke="#0E1A2E" stroke-width="2.4"/><path class="head" d="M700,848 L693,851.6 L693,844.4 Z" fill="#0E1A2E"/><path class="hit" d="M642,848 L693,848" fill="none" stroke="transparent" stroke-width="12"/></g>
+
+<!-- Band titles -->
+<g class="bandlabel"><circle cx="48" cy="115" r="4" fill="#0B6E4F"/><text x="60" y="120" class="bandtitle" fill="#0B6E4F" stroke="#F5F7FB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">Shell</text></g>
+<g class="bandlabel"><circle cx="48" cy="287" r="4" fill="#C86A0A"/><text x="60" y="292" class="bandtitle" fill="#C86A0A" stroke="#F5F7FB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">ForgeQE&#x27;s agent and tools</text></g>
+<g class="bandlabel"><circle cx="48" cy="459" r="4" fill="#2563EB"/><text x="60" y="464" class="bandtitle" fill="#2563EB" stroke="#F5F7FB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">ForgeQE engine</text></g>
+<g class="bandlabel"><circle cx="48" cy="631" r="4" fill="#D02670"/><text x="60" y="636" class="bandtitle" fill="#D02670" stroke="#F5F7FB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">Local state (your machine)</text></g>
+<g class="bandlabel"><circle cx="48" cy="803" r="4" fill="#0B8A8A"/><text x="60" y="808" class="bandtitle" fill="#0B8A8A" stroke="#F5F7FB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">Scribe, the coding agent</text></g>
+
+<!-- Nodes: shell -->
+<g class="node" data-id="shell" tabindex="0" role="button" aria-label="OpenTUI shell. Full-screen shell: type a goal, a test case, or a request; watch each step as it happens."><rect class="box" x="70" y="128" width="152" height="64" rx="10" fill="#fff" stroke="#0B6E4F" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="86" y="156" class="ntitle" fill="#0E1A2E">OpenTUI shell</text><text x="86" y="172" class="nmono" fill="#5F6B7E">forgeqe start</text></g>
+<g class="node" data-id="transcript" tabindex="0" role="button" aria-label="Transcript. Live tool lines, step results, run and test cards; select to copy."><rect class="box" x="280" y="128" width="152" height="64" rx="10" fill="#fff" stroke="#0B6E4F" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="296" y="156" class="ntitle" fill="#0E1A2E">Transcript</text><text x="296" y="172" class="nmono" fill="#5F6B7E">tool lines · cards</text></g>
+<g class="node" data-id="composer" tabindex="0" role="button" aria-label="Composer. Always-on input: plain requests, /stop, Tab to switch the model profile."><rect class="box" x="490" y="128" width="152" height="64" rx="10" fill="#fff" stroke="#0B6E4F" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="506" y="156" class="ntitle" fill="#0E1A2E">Composer</text><text x="506" y="172" class="nmono" fill="#5F6B7E">text · /commands</text></g>
+<g class="node" data-id="plain" tabindex="0" role="button" aria-label="Plain &amp; CI mode. The same agent without the full-screen shell, for scripts and pipelines."><rect class="box" x="700" y="128" width="152" height="64" rx="10" fill="#fff" stroke="#0B6E4F" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="716" y="156" class="ntitle" fill="#0E1A2E">Plain &amp; CI mode</text><text x="716" y="172" class="nmono" fill="#5F6B7E">forgeqe run --plain</text></g>
+
+<!-- Nodes: agent -->
+<g class="node" data-id="agent" tabindex="0" role="button" aria-label="ForgeQE&#x27;s agent. Runs on the agent runtime with the active profile&#x27;s model, reads every request, and decides which ForgeQE tools to call. write_test hands a passing run to Scribe."><rect class="box" x="70" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#C86A0A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="86" y="328" class="ntitle" fill="#0E1A2E">ForgeQE&#x27;s agent</text><text x="86" y="344" class="nmono" fill="#5F6B7E">agent runtime</text></g>
+<g class="node" data-id="mcp" tabindex="0" role="button" aria-label="Tool server. ForgeQE&#x27;s tools over MCP, bound to 127.0.0.1 behind a random bearer token, one per session."><rect class="box" x="280" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#C86A0A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="296" y="328" class="ntitle" fill="#0E1A2E">Tool server</text><text x="296" y="344" class="nmono" fill="#5F6B7E">MCP · 127.0.0.1</text></g>
+<g class="node" data-id="tools" tabindex="0" role="button" aria-label="Browser tools. browser_run, run_test, run_details, page_memory, write_test, heal_tests, monitor, logins."><rect class="box" x="490" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#C86A0A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="506" y="328" class="ntitle" fill="#0E1A2E">Browser tools</text><text x="506" y="344" class="nmono" fill="#5F6B7E">browser_run · more</text></g>
+<g class="node" data-id="cases" tabindex="0" role="button" aria-label="Test-case tools. find_test_cases and run_test_cases: fetch cases or suites and run each one in the browser."><rect class="box" x="700" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#C86A0A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="716" y="328" class="ntitle" fill="#0E1A2E">Test-case tools</text><text x="716" y="344" class="nmono" fill="#5F6B7E">run_test_cases</text></g>
+<g class="node" data-id="connectors" tabindex="0" role="button" aria-label="Connectors. Jira, Azure DevOps, Xray, TestRail, Zephyr, qTest, Confluence and files; extra MCP servers from config."><rect class="box" x="910" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#C86A0A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="926" y="328" class="ntitle" fill="#0E1A2E">Connectors</text><text x="926" y="344" class="nmono" fill="#5F6B7E">REST · MCP servers</text></g>
+
+<!-- Nodes: engine -->
+<g class="node" data-id="setup" tabindex="0" role="button" aria-label="Engine setup. Creates ~/.forgeqe/engine/.venv on first use, finds Chrome or installs Chromium. No manual steps."><rect class="box" x="70" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="86" y="500" class="ntitle" fill="#0E1A2E">Engine setup</text><text x="86" y="516" class="nmono" fill="#5F6B7E">managed venv · uv</text></g>
+<g class="node" data-id="bridge" tabindex="0" role="button" aria-label="Engine bridge. Starts the Python engine, sends the request on stdin, turns JSON-line events into steps and results."><rect class="box" x="280" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="296" y="500" class="ntitle" fill="#0E1A2E">Engine bridge</text><text x="296" y="516" class="nmono" fill="#5F6B7E">stdin · JSON lines</text></g>
+<g class="node" data-id="engine" tabindex="0" role="button" aria-label="ForgeQE engine. The browser agent: recovery prompts, loop breaker, step verdicts, page memory, workflow export."><rect class="box" x="490" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="506" y="500" class="ntitle" fill="#0E1A2E">ForgeQE engine</text><text x="506" y="516" class="nmono" fill="#5F6B7E">py/forgeqe_engine</text></g>
+<g class="node" data-id="chrome" tabindex="0" role="button" aria-label="Chrome. Installed Google Chrome (or Chromium) over the DevTools Protocol, with the ForgeQE overlay when visible."><rect class="box" x="700" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="716" y="500" class="ntitle" fill="#0E1A2E">Chrome</text><text x="716" y="516" class="nmono" fill="#5F6B7E">CDP · overlay</text></g>
+<g class="node" data-id="judge" tabindex="0" role="button" aria-label="Judge &amp; verdicts. Checks the finish against the goal and gives each test-case step a verdict."><rect class="box" x="910" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="926" y="500" class="ntitle" fill="#0E1A2E">Judge &amp; verdicts</text><text x="926" y="516" class="nmono" fill="#5F6B7E">CaseReport</text></g>
+
+<!-- Nodes: state -->
+<g class="node" data-id="config" tabindex="0" role="button" aria-label="Config. Model profiles, browser settings, test systems, code and heal options."><rect class="box" x="70" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#D02670" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><path d="M70,657 Q146,666 222,657" fill="none" stroke="#D02670" stroke-opacity="0.4" stroke-width="1"/><text x="86" y="678" class="ntitle" fill="#0E1A2E">Config</text><text x="86" y="694" class="nmono" fill="#5F6B7E">yaml · llms.json</text></g>
+<g class="node" data-id="memory" tabindex="0" role="button" aria-label="Page memory. Element facts, ranked locators, and recorded flows that later runs replay without the model."><rect class="box" x="280" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#D02670" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><path d="M280,657 Q356,666 432,657" fill="none" stroke="#D02670" stroke-opacity="0.4" stroke-width="1"/><text x="296" y="678" class="ntitle" fill="#0E1A2E">Page memory</text><text x="296" y="694" class="nmono" fill="#5F6B7E">.forgeqe/memory</text></g>
+<g class="node" data-id="reports" tabindex="0" role="button" aria-label="Run reports. run.json, steps with screenshots, workflow.yaml, trace.md, report.html, JUnit, code.json."><rect class="box" x="490" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#D02670" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><path d="M490,657 Q566,666 642,657" fill="none" stroke="#D02670" stroke-opacity="0.4" stroke-width="1"/><text x="506" y="678" class="ntitle" fill="#0E1A2E">Run reports</text><text x="506" y="694" class="nmono" fill="#5F6B7E">.forgeqe/reports</text></g>
+<g class="node" data-id="logins" tabindex="0" role="button" aria-label="Saved logins. Credentials by environment variable name, one-time codes, and saved sessions per site."><rect class="box" x="700" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#D02670" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><path d="M700,657 Q776,666 852,657" fill="none" stroke="#D02670" stroke-opacity="0.4" stroke-width="1"/><text x="716" y="678" class="ntitle" fill="#0E1A2E">Saved logins</text><text x="716" y="694" class="nmono" fill="#5F6B7E">sessions · TOTP</text></g>
+<g class="node" data-id="repo" tabindex="0" role="button" aria-label="Your repo. Where Scribe writes the test. ForgeQE&#x27;s files are protected, and files Scribe removes or reverts are put back."><rect class="box" x="910" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#D02670" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><path d="M910,657 Q986,666 1062,657" fill="none" stroke="#D02670" stroke-opacity="0.4" stroke-width="1"/><text x="926" y="678" class="ntitle" fill="#0E1A2E">Your repo</text><text x="926" y="694" class="nmono" fill="#5F6B7E">worktree guard</text></g>
+
+<!-- Nodes: tests -->
+<g class="node" data-id="handoff" tabindex="0" role="button" aria-label="Handoff. Everything the passing run learned: steps, locators, pages, the repo&#x27;s test stack."><rect class="box" x="70" y="816" width="152" height="64" rx="10" fill="#fff" stroke="#0B8A8A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="86" y="844" class="ntitle" fill="#0E1A2E">Handoff</text><text x="86" y="860" class="nmono" fill="#5F6B7E">handoff.md</text></g>
+<g class="node" data-id="scribe" tabindex="0" role="button" aria-label="Scribe. ForgeQE&#x27;s coding agent. Reads the repo and the handoff, ports the replay into the repo&#x27;s own language and framework, reusing its page objects, and asserts the browser agent&#x27;s checks; ForgeQE runs the test."><rect class="box" x="280" y="816" width="152" height="64" rx="10" fill="#fff" stroke="#0B8A8A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="296" y="844" class="ntitle" fill="#0E1A2E">Scribe</text><text x="296" y="860" class="nmono" fill="#5F6B7E">writes the test</text></g>
+<g class="node" data-id="confirm" tabindex="0" role="button" aria-label="ForgeQE&#x27;s check. ForgeQE runs the new test itself; a browser the test never opened counts as a failure."><rect class="box" x="490" y="816" width="152" height="64" rx="10" fill="#fff" stroke="#0B8A8A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="506" y="844" class="ntitle" fill="#0E1A2E">ForgeQE&#x27;s check</text><text x="506" y="860" class="nmono" fill="#5F6B7E">must open a browser</text></g>
+<g class="node" data-id="reviewer" tabindex="0" role="button" aria-label="Scribe reviewer. A second, read-only Scribe session checks the change against the goal and the test rules; issues go back as the next attempt."><rect class="box" x="700" y="816" width="152" height="64" rx="10" fill="#fff" stroke="#0B8A8A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="716" y="844" class="ntitle" fill="#0E1A2E">Scribe reviewer</text><text x="716" y="860" class="nmono" fill="#5F6B7E">read-only · approves</text></g>
+<g class="node" data-id="heal" tabindex="0" role="button" aria-label="Scribe heals. Runs the repo&#x27;s tests; for each failure Scribe re-runs the flow with browser_run, then fixes the test or reports an app bug."><rect class="box" x="910" y="816" width="152" height="64" rx="10" fill="#fff" stroke="#0B8A8A" stroke-opacity="0.55" stroke-width="1.2" filter="url(#sh)"/><text x="926" y="844" class="ntitle" fill="#0E1A2E">Scribe heals</text><text x="926" y="860" class="nmono" fill="#5F6B7E">forgeqe heal</text></g>
+
+<!-- Nodes: ext -->
+<g class="node" data-id="testsys" tabindex="0" role="button" aria-label="Test systems. Azure DevOps, Jira, Xray, TestRail, Zephyr Scale, qTest, and Confluence."><rect class="box" x="1200" y="128" width="152" height="64" rx="10" fill="#fff" stroke="#5B4BC9" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="5 4" filter="url(#sh)"/><text x="1216" y="156" class="ntitle" fill="#0E1A2E">Test systems</text><text x="1216" y="172" class="nmono" fill="#5F6B7E">ADO · Jira · more</text></g>
+<g class="node" data-id="llm" tabindex="0" role="button" aria-label="LLM providers. Azure OpenAI, OpenAI, Ollama, or any OpenAI-compatible endpoint, as named in llms.json."><rect class="box" x="1200" y="300" width="152" height="64" rx="10" fill="#fff" stroke="#5B4BC9" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="5 4" filter="url(#sh)"/><text x="1216" y="328" class="ntitle" fill="#0E1A2E">LLM providers</text><text x="1216" y="344" class="nmono" fill="#5F6B7E">your endpoint</text></g>
+<g class="node" data-id="app" tabindex="0" role="button" aria-label="Your web app. The site under test, opened in a real browser from this machine."><rect class="box" x="1200" y="472" width="152" height="64" rx="10" fill="#fff" stroke="#5B4BC9" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="5 4" filter="url(#sh)"/><text x="1216" y="500" class="ntitle" fill="#0E1A2E">Your web app</text><text x="1216" y="516" class="nmono" fill="#5F6B7E">any URL</text></g>
+<g class="node" data-id="ci" tabindex="0" role="button" aria-label="CI and alerts. GitHub and Azure Pipelines for secrets and branches. Teams and email for monitor alerts."><rect class="box" x="1200" y="644" width="152" height="64" rx="10" fill="#fff" stroke="#5B4BC9" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="5 4" filter="url(#sh)"/><text x="1216" y="672" class="ntitle" fill="#0E1A2E">CI &amp; alerts</text><text x="1216" y="688" class="nmono" fill="#5F6B7E">Teams · gh · az</text></g>
+
+<!-- Actor, with the trace hint beside it -->
+<g class="node actor" data-id="user" tabindex="0" role="button" aria-label="You. Type a goal, a test case, or a request in the shell or in forgeqe run."><rect x="81" y="12" width="130" height="44" rx="22" fill="#0E1A2E"/><text x="146" y="38.6" text-anchor="middle" class="ntitle" fill="#fff">You</text></g>
+<text x="224" y="39" class="lgt">Hover or focus a component to trace what it sends to and receives from.</text>
+
+<!-- Badges -->
+<g class="badge" data-from="user" data-to="shell" style="--i:0"><circle cx="146" cy="78" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="146" y="81.9" text-anchor="middle" class="bnum">1</text></g>
+<g class="badge" data-from="shell" data-to="agent" style="--i:1"><circle cx="146" cy="236" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="146" y="239.9" text-anchor="middle" class="bnum">2</text></g>
+<g class="badge" data-from="agent" data-to="mcp" style="--i:2"><circle cx="251" cy="332" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="251" y="335.9" text-anchor="middle" class="bnum">3</text></g>
+<g class="badge" data-from="mcp" data-to="bridge" style="--i:3"><circle cx="356" cy="406" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="356" y="409.9" text-anchor="middle" class="bnum">4</text></g>
+<g class="badge" data-from="bridge" data-to="engine" style="--i:4"><circle cx="461" cy="504" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="461" y="507.9" text-anchor="middle" class="bnum">5</text></g>
+<g class="badge" data-from="engine" data-to="chrome" style="--i:5"><circle cx="671" cy="504" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="671" y="507.9" text-anchor="middle" class="bnum">6</text></g>
+<g class="badge" data-from="engine" data-to="reports" style="--i:6"><circle cx="566" cy="588" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="566" y="591.9" text-anchor="middle" class="bnum">7</text></g>
+<g class="badge" data-from="reports" data-to="handoff" style="--i:7"><circle cx="356" cy="742" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="356" y="745.9" text-anchor="middle" class="bnum">8</text></g>
+<g class="badge" data-from="handoff" data-to="scribe" style="--i:8"><circle cx="251" cy="848" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="251" y="851.9" text-anchor="middle" class="bnum">9</text></g>
+<g class="badge" data-from="scribe" data-to="confirm" style="--i:9"><circle cx="461" cy="848" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="461" y="851.9" text-anchor="middle" class="bnum">10</text></g>
+<g class="badge" data-from="confirm" data-to="reviewer" style="--i:10"><circle cx="671" cy="848" r="9.5" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="671" y="851.9" text-anchor="middle" class="bnum">11</text></g>
+
+<!-- Legend -->
+<g class="legend" transform="translate(48,962)">
+  <path d="M0,0 L30,0" stroke="#0E1A2E" stroke-width="2.4" stroke-linecap="round"/><path d="M36,0 L29,-3.6 L29,3.6 Z" fill="#0E1A2E"/><circle cx="15" cy="0" r="8" fill="#0E1A2E" stroke="#F5F7FB" stroke-width="2"/><text x="15" y="3.6" text-anchor="middle" class="bnum">1</text><text x="48" y="4" class="lgt">Primary loop: request → browser run → test in your repo</text>
+  <g transform="translate(400,0)"><path d="M0,0 L30,0" stroke="#9AA6BB" stroke-width="1.5"/><path d="M36,0 L29,-3.6 L29,3.6 Z" fill="#9AA6BB"/><text x="48" y="4" class="lgt">Direct call or data</text></g>
+  <g transform="translate(560,0)"><path d="M0,0 L30,0" stroke="#8A82D6" stroke-width="1.5" stroke-dasharray="5 4"/><path d="M36,0 L29,-3.6 L29,3.6 Z" fill="#8A82D6"/><text x="48" y="4" class="lgt">External system</text></g>
+</g>
+</svg>
+</div>
+</div>
+<p class="hint">Scroll sideways to see the full diagram.</p>
+</div>
+
+<div class="trace-wrap" id="trace-wrap"><div class="trace-clip"><section class="trace" id="trace" aria-live="polite"></section></div></div>
+
+<section class="tabs" aria-label="Details">
+<div class="tablist" role="tablist" aria-label="Details">
+  <button class="tab" role="tab" id="tab-features" aria-controls="panel-features" aria-selected="true"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg><span>Features</span></button>
+  <button class="tab" role="tab" id="tab-memory" aria-controls="panel-memory" aria-selected="false" tabindex="-1"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg><span>Memory</span></button>
+  <button class="tab" role="tab" id="tab-config" aria-controls="panel-config" aria-selected="false" tabindex="-1"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span>Config and privacy</span></button>
+  <span class="tab-ink" aria-hidden="true"></span>
+</div>
+
+<div class="tabpanel" role="tabpanel" id="panel-features" aria-labelledby="tab-features" tabindex="0">
+<div class="feat">
+<div class="subnav" role="tablist" aria-label="Features" aria-orientation="vertical">
+  <button class="sub" role="tab" id="fn-loop" aria-controls="fp-loop" aria-selected="true"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 3-3 3 3"/><path d="M13 18H7a2 2 0 0 1-2-2V6"/><path d="m22 15-3 3-3-3"/><path d="M11 6h6a2 2 0 0 1 2 2v10"/></svg></span><b>The ForgeQE loop</b><small>Request to reviewed test</small></button>
+  <button class="sub" role="tab" id="fn-scribe" aria-controls="fp-scribe" aria-selected="false" tabindex="-1"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m5 16-3 3 3 3"/><path d="m9 22 3-3-3-3"/></svg></span><b>The Scribe loop</b><small>Passing run to test code</small></button>
+  <button class="sub" role="tab" id="fn-agents" aria-controls="fp-agents" aria-selected="false" tabindex="-1"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span><b>Subagents and tools</b><small>ForgeQE's agent and Scribe</small></button>
+  <button class="sub" role="tab" id="fn-rules" aria-controls="fp-rules" aria-selected="false" tabindex="-1"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></span><b>Scribe's jobs and limits</b><small>What it does and may not do</small></button>
+  <button class="sub" role="tab" id="fn-cases" aria-controls="fp-cases" aria-selected="false" tabindex="-1"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></svg></span><b>Test cases and suites</b><small>Sources, suites, monitoring</small></button>
+</div>
+<div class="panes">
+<section class="pane story on" id="fp-loop" role="tabpanel" aria-labelledby="fn-loop">
+  <div>
+    <h2 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 3-3 3 3"/><path d="M13 18H7a2 2 0 0 1-2-2V6"/><path d="m22 15-3 3-3-3"/><path d="M11 6h6a2 2 0 0 1 2 2v10"/></svg></span><span>The ForgeQE loop</span></h2>
+    <p class="lead">From one sentence to a browser run, and from a passing run to a test ForgeQE has run itself.</p>
+  </div>
+  <ol>
+    <li><span class="n">1</span><span>You type a goal, a test case key, or a request in the shell (<code>forgeqe start</code>) or pass it to <code>forgeqe run</code>.</span></li>
+    <li><span class="n">2</span><span>ForgeQE's agent (on the agent runtime, with your <code>llms.json</code> profile) reads it and plans which tools to call.</span></li>
+    <li><span class="n">3</span><span>It calls <code>browser_run</code> (or <code>run_test_cases</code>) on ForgeQE's local tool server.</span></li>
+    <li><span class="n">4</span><span>The tool starts a run through the engine bridge; the engine is installed on first use.</span></li>
+    <li><span class="n">5</span><span>The bridge sends the request to the ForgeQE engine on stdin and streams its events back.</span></li>
+    <li><span class="n">6</span><span>The engine drives Chrome step by step, replaying what page memory already knows and asking the model only for the rest.</span></li>
+    <li><span class="n">7</span><span>Each run writes <code>run.json</code>, step screenshots, <code>workflow.yaml</code>, and page memory under <code>.forgeqe/</code>.</span></li>
+    <li><span class="n">8</span><span>A passing run becomes <code>handoff.md</code>: steps, locators, pages, and your repo's test stack.</span></li>
+    <li><span class="n">9</span><span>Scribe, the coding agent, writes the test in your repo's own framework.</span></li>
+    <li><span class="n">10</span><span>ForgeQE runs the test itself; a browser the test never opened counts as a failure, and Scribe tries again.</span></li>
+    <li><span class="n">11</span><span>A read-only Scribe reviewer checks the test; the result lands in <code>code.json</code> and <code>report.html</code>.</span></li>
+  </ol>
+</section>
+
+<section class="pane story" id="fp-scribe" role="tabpanel" aria-labelledby="fn-scribe">
+  <div>
+    <h2 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m5 16-3 3 3 3"/><path d="m9 22 3-3-3-3"/></svg></span><span>Scribe, the coding agent</span></h2>
+    <p class="lead">Scribe turns a passing browser run into a test in your repo. It runs on the agent runtime with your model, and its own claim of success never counts: ForgeQE runs the test, and a reviewer has to approve it.</p>
+  </div>
+  <ol>
+    <li><span class="n">1</span><span>ForgeQE writes <code>handoff.md</code> from the run folder: the goal, each step with its locators and their confidence, the pages from page memory, the browser ForgeQE used, expected results from the test case, the browser agent's checks, the Playwright replay's result, and the names of the environment variables that hold secrets.</span></li>
+    <li><span class="n">2</span><span>Scribe starts in the repo with the active profile's model (or <code>code.model</code>). It reads the framework, page objects, fixtures, and helpers. What it learns is kept in <code>scribe-notes.json</code>.</span></li>
+    <li><span class="n">3</span><span>It ports the replay script's steps with their locators and asserts the handoff's checks. Only once a step fails does it open that page in its own browser.</span></li>
+    <li><span class="n">4</span><span>It writes the test in the repo's language and framework, extending existing page objects. Test data lives in the test, and secrets come from the environment.</span></li>
+    <li><span class="n">5</span><span>It does not run the test itself: it reports the test file and the command that runs only that test.</span></li>
+    <li><span class="n">6</span><span>ForgeQE runs that command. A failure, or an exit 0 with no browser, goes back to Scribe as the next attempt, up to <code>code.max_attempts</code>.</span></li>
+    <li><span class="n">7</span><span>A second, read-only Scribe session reviews the change. Its approval finishes the job, and the result is saved in <code>code.json</code>.</span></li>
+  </ol>
+</section>
+
+<section class="pane sections" id="fp-agents" role="tabpanel" aria-labelledby="fn-agents">
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span><span>ForgeQE's agent</span></h3>
+    <p>Reads every request and calls ForgeQE's tools. ForgeQE runs each test itself; a model's claim that it passed does not count.</p>
+    <h4>Subagents</h4>
+    <ul class="tight">
+      <li><strong>forgeqe</strong> Reads the request and calls the tools.</li>
+      <li><strong>Browser agent</strong> One model call per new step in Chrome, inside the engine.</li>
+    </ul>
+    <h4>Tools on the local tool server</h4>
+    <ul>
+      <li><strong>Browser</strong> <span class="mono">browser_run</span>, <span class="mono">run_test</span>, <span class="mono">run_details</span>, <span class="mono">page_memory</span>.</li>
+      <li><strong>Cases</strong> <span class="mono">find_test_cases</span>, <span class="mono">run_test_cases</span>, <span class="mono">read_confluence</span>, <span class="mono">query_api</span>.</li>
+      <li><strong>Repo</strong> <span class="mono">write_test</span>, <span class="mono">heal_tests</span>, <span class="mono">find_tests</span>, <span class="mono">run_tests</span>, <span class="mono">list_sprints</span>.</li>
+      <li><strong>Operate</strong> <span class="mono">monitor</span>, <span class="mono">logins</span>, <span class="mono">forgeqe_setup</span>, <span class="mono">push_branch</span>, <span class="mono">set_ci_secret</span>.</li>
+      <li><strong>Skills</strong> Loads its skills that fit the request, passes browser skills to <span class="mono">browser_run</span> and <span class="mono">run_test_cases</span>, and writes a skill into <span class="mono">.forgeqe/skills</span> when asked. Without them, the engine picks browser skills from the goal.</li>
+    </ul>
+  </article>
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m5 16-3 3 3 3"/><path d="m9 22 3-3-3-3"/></svg></span><span>Scribe, the coding agent</span></h3>
+    <p>Five sessions on the agent runtime, each given only the tools its job needs.</p>
+    <h4>Subagents</h4>
+    <ul class="tight">
+      <li><strong>forgeqe-read</strong> Learns the repo before the handoff. Reads and runs commands; no edits.</li>
+      <li><strong>forgeqe-test</strong> Writes the test, with all of Scribe's tools.</li>
+      <li><strong>forgeqe-review</strong> Approves the test or sends issues back. Reads only.</li>
+      <li><strong>forgeqe-find</strong> Picks existing tests from the code and git history. Reads only.</li>
+      <li><strong>forgeqe-heal</strong> Fixes a test the app has outgrown, or reports a bug.</li>
+    </ul>
+    <h4>Tools</h4>
+    <ul>
+      <li><strong>Files</strong> <span class="mono">read</span>, <span class="mono">write</span>, <span class="mono">edit</span>, <span class="mono">glob</span>, <span class="mono">grep</span>. ForgeQE's own files can be read but not changed.</li>
+      <li><strong>Shell</strong> Any command except <span class="mono">git push</span>, <span class="mono">git clean</span>, <span class="mono">reset --hard</span>, and <span class="mono">gh repo delete</span>. Review and find may only run <span class="mono">git</span> read commands and <span class="mono">ls</span>.</li>
+      <li><strong>Live browser</strong> <span class="mono">live_browser_*</span> through Playwright MCP, in a Chrome set up like the run's; switched on for <span class="mono">forgeqe-test</span> once a step fails.</li>
+      <li><strong>ForgeQE tools</strong> <span class="mono">browser_run</span>, <span class="mono">run_test</span>, <span class="mono">run_details</span>, <span class="mono">page_memory</span>, for <span class="mono">forgeqe-heal</span> only.</li>
+      <li><strong>Skills</strong> <span class="mono">skill</span> loads the Scribe skills that fit the repo (built in, <span class="mono">.forgeqe/skills</span>, <span class="mono">~/.forgeqe/skills</span>), in all five sessions; the reviewer checks the test against them too.</li>
+    </ul>
+  </article>
+</section>
+
+<section class="pane sections" id="fp-rules" role="tabpanel" aria-labelledby="fn-rules">
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></span><span>What Scribe does</span></h3>
+    <p>One coding agent for writing, healing, reviewing, and finding tests.</p>
+    <ul>
+      <li><strong>Writes</strong> <span class="mono">forgeqe code</span>, <span class="mono">write_test</span>, and suites with a repo hand each passing run to Scribe.</li>
+      <li><strong>Heals</strong> <span class="mono">forgeqe heal</span> runs the repo's tests; for each failure Scribe re-runs the flow with <span class="mono">browser_run</span>, then fixes the test or reports an app bug.</li>
+      <li><strong>Reviews</strong> A read-only Scribe session approves the change or lists issues with the file and the fix.</li>
+      <li><strong>Finds</strong> A read-only session picks tests by reading them and git history. Nothing runs until you agree.</li>
+      <li><strong>Model</strong> The active <span class="mono">llms.json</span> profile, or <span class="mono">code.model</span>.</li>
+    </ul>
+  </article>
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></span><span>What Scribe may and may not do</span></h3>
+    <p>It works unattended, so the rules are enforced, not requested.</p>
+    <ul>
+      <li><strong>May</strong> Edit any file in the repo, run commands, and add dependencies and config the test needs.</li>
+      <li><strong>Denied</strong> <span class="mono">git push</span> (branches go through <span class="mono">push_branch</span>), <span class="mono">git clean</span>, <span class="mono">reset --hard</span>, and <span class="mono">gh repo delete</span>.</li>
+      <li><strong>Protected</strong> <span class="mono">.forgeqe/</span>, <span class="mono">forgeqe.yaml</span>, and <span class="mono">llms.json</span> can be read but not changed.</li>
+      <li><strong>Skills</strong> Only the skills ForgeQE's registry gives Scribe can be loaded; the runtime's own, a repo's <span class="mono">.opencode/skills</span>, and <span class="mono">~/.claude/skills</span> (unless <span class="mono">skills.external</span>) stay out, and skill folders are read-only.</li>
+      <li><strong>Put back</strong> Files that existed before the job and were removed or reverted are restored.</li>
+    </ul>
+  </article>
+</section>
+
+<section class="pane sections solo" id="fp-cases" role="tabpanel" aria-labelledby="fn-cases">
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></svg></span><span>Test cases and suites</span></h3>
+    <p>Cases come from your test system or from files.</p>
+    <ul>
+      <li><strong>Sources</strong> Azure DevOps, Jira, Xray, TestRail, Zephyr Scale, qTest, Confluence, or a local file.</li>
+      <li><strong>Suites</strong> <span class="mono">forgeqe suite</span> runs many cases and writes one report with JUnit.</li>
+      <li><strong>Step verdicts</strong> The judge gives each case step a pass or fail with evidence and a screenshot.</li>
+      <li><strong>Monitor</strong> <span class="mono">forgeqe monitor</span> repeats runs and alerts Teams or email when a check starts failing, keeps failing, or recovers.</li>
+    </ul>
+  </article>
+</section>
+</div>
+</div>
+</div>
+
+<div class="tabpanel" role="tabpanel" id="panel-memory" aria-labelledby="tab-memory" tabindex="0" hidden>
+<section class="sections">
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg></span><span>Page memory</span></h3>
+    <p>Stored per site under <span class="mono">.forgeqe/memory</span>, never uploaded.</p>
+    <ul>
+      <li><strong>Element facts</strong> Each element the engine sees gets ranked locators with a confidence score and an identity across visits.</li>
+      <li><strong>Recorded flows</strong> Passing runs are replayed on the next run without calling the model; replay stops at the first step that no longer matches.</li>
+      <li><strong>Self-repair</strong> When the page changed, the model takes over from that step and the flow is recorded again.</li>
+      <li><strong>Commands</strong> <span class="mono">forgeqe memory</span>, <span class="mono">forgeqe memory flows</span>, or ask the agent to show or forget a site.</li>
+    </ul>
+  </article>
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16h.01"/><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M21.946 12.013H2.054"/><path d="M6 16h.01"/></svg></span><span>What else stays on this machine</span></h3>
+    <p>Everything ForgeQE learns is kept locally, next to your project or in your home folder.</p>
+    <ul>
+      <li><strong>Saved logins</strong> Usernames, passwords, and authenticator secrets are read from environment variables by name; the model only sees placeholders. Cookies for each site are kept in a session file readable only by you, with a <span class="mono">.gitignore</span> so it is never committed.</li>
+      <li><strong>Scribe notes</strong> What Scribe learned about your repo's framework, page objects, and helpers, kept in <span class="mono">scribe-notes.json</span> for the next job.</li>
+      <li><strong>Run history</strong> <span class="mono">run.json</span>, step screenshots, <span class="mono">workflow.yaml</span>, and reports under <span class="mono">.forgeqe/</span>. Suite reports chart the last 30 suites in the same folder.</li>
+    </ul>
+  </article>
+</section>
+</div>
+
+<div class="tabpanel" role="tabpanel" id="panel-config" aria-labelledby="tab-config" tabindex="0" hidden>
+<section class="sections">
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg></span><span>Config and privacy</span></h3>
+    <p>Model credentials in <span class="mono">llms.json</span>; behaviour in <span class="mono">forgeqe.yaml</span>.</p>
+    <ul>
+      <li><strong>llms.json</strong> Named profiles: provider, model, endpoint, and the name of the environment variable that holds the key. A price is per million tokens; leave currency out and reports use this machine's currency.</li>
+      <li><strong>code.model / code.runtime</strong> A different model for ForgeQE's agent and Scribe, or your own agent runtime binary.</li>
+      <li><strong>No telemetry</strong> The only traffic is to your model endpoint and the sites you test.</li>
+    </ul>
+  </article>
+  <article class="card">
+    <h3 class="ih"><span class="tile"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20v2"/><path d="M12 2v2"/><path d="M17 20v2"/><path d="M17 2v2"/><path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/><path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/><path d="M7 20v2"/><path d="M7 2v2"/><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span><span>The agent runtime</span></h3>
+    <p>What ForgeQE's agent and Scribe run on. Downloaded on first use; nothing to install.</p>
+    <ul>
+      <li><strong>Local</strong> Started by ForgeQE on 127.0.0.1 for each session and stopped with it.</li>
+      <li><strong>Pinned</strong> The version ForgeQE is tested with, kept in <span class="mono">~/.forgeqe/tools</span>.</li>
+      <li><strong>Config in memory</strong> Model, agents, permissions, and MCP servers are passed at start.</li>
+      <li><strong>Quiet</strong> Auto-update, session sharing, telemetry, and the model catalogue download are off.</li>
+    </ul>
+  </article>
+</section>
+</div>
+</section>
+</div>
+<script>
+(function(){
+  var MARKS = {
+    "marks-cases": [
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 128 128"><defs><linearGradient id="ado-SVG6uMEBcPj" x1="9" x2="9" y1="16.97" y2="1.03" gradientTransform="scale(7.11111)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4"/><stop offset=".16" stop-color="#1380da"/><stop offset=".53" stop-color="#3c91e5"/><stop offset=".82" stop-color="#559cec"/><stop offset="1" stop-color="#5ea0ef"/></linearGradient></defs><path fill="url(#ado-SVG6uMEBcPj)" d="M120.89 28.445v69.262l-28.445 23.324l-44.09-16.07v15.93L23.395 88.25l72.746 5.688V31.574ZM96.64 31.93L55.82 7.11v16.285L18.348 34.418L7.109 48.852v32.785l16.075 7.11V46.718Zm0 0"/></svg>`, "Azure DevOps"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><defs><linearGradient id="jira-SVGSBI7obaC" x1="98.031%" x2="58.888%" y1=".161%" y2="40.766%"><stop offset="18%" stop-color="#0052cc"/><stop offset="100%" stop-color="#2684ff"/></linearGradient><linearGradient id="jira-SVGHifZlbzE" x1="100.665%" x2="55.402%" y1=".455%" y2="44.727%"><stop offset="18%" stop-color="#0052cc"/><stop offset="100%" stop-color="#2684ff"/></linearGradient></defs><path fill="#2684ff" d="M244.658 0H121.707a55.5 55.5 0 0 0 55.502 55.502h22.649V77.37c.02 30.625 24.841 55.447 55.466 55.467V10.666C255.324 4.777 250.55 0 244.658 0"/><path fill="url(#jira-SVGSBI7obaC)" d="M183.822 61.262H60.872c.019 30.625 24.84 55.447 55.466 55.467h22.649v21.938c.039 30.625 24.877 55.43 55.502 55.43V71.93c0-5.891-4.776-10.667-10.667-10.667"/><path fill="url(#jira-SVGHifZlbzE)" d="M122.951 122.489H0c0 30.653 24.85 55.502 55.502 55.502h22.72v21.867c.02 30.597 24.798 55.408 55.396 55.466V133.156c0-5.891-4.776-10.667-10.667-10.667"/></svg>`, "Jira"],
+      [`<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 100 210" aria-hidden="true"><path fill="#31b34b" d="m98.092 104.307l-49.011 12.252l-24.54 91.807z" opacity=".5"/><path fill="#31b34b" d="M98.092 104.307L0 129.024V67.443h73.551l24.718 36.828z" opacity=".8"/><path fill="#31b34b" d="M0 67.443v61.44L73.551 0z"/></svg>`, "Xray"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 128 128"><path fill="#50d18d" d="m37.701 127.439l-15.398-14.782a1.813 1.813 0 0 1 0-2.666l15.41-14.773a2.005 2.005 0 0 1 2.78 0l15.412 14.783c.778.73.778 1.936 0 2.666L40.494 127.44a2.003 2.003 0 0 1-2.78 0zm24.907-23.89l-15.41-14.783a1.813 1.813 0 0 1 0-2.656l15.41-14.782a2.005 2.005 0 0 1 2.78 0L80.79 86.11c.778.73.778 1.936 0 2.666l-15.4 14.773a2.01 2.01 0 0 1-2.774 0zm24.908-23.892l-15.4-14.783a1.81 1.81 0 0 1 0-2.656L87.52 47.437a2.005 2.005 0 0 1 2.78 0l15.402 14.781a1.81 1.81 0 0 1 0 2.656L90.29 79.657a2.006 2.006 0 0 1-2.779 0h.01zm-49.346.447L22.758 65.333a1.817 1.817 0 0 1 0-2.66l15.412-14.79a2.004 2.004 0 0 1 2.779 0l15.41 14.784a1.81 1.81 0 0 1 0 2.656L40.95 80.116a2.007 2.007 0 0 1-2.78 0zm24.906-23.89L47.664 41.441a1.817 1.817 0 0 1 0-2.668l15.412-14.781a2.004 2.004 0 0 1 2.78 0l15.4 14.781a1.81 1.81 0 0 1 0 2.658l-15.4 14.781a2.006 2.006 0 0 1-2.774 0v-.01v.005zm-24.43-23.41l-15.42-14.828a1.814 1.814 0 0 1 0-2.667L38.647.56a2.004 2.004 0 0 1 2.78 0l15.41 14.782c.78.731.78 1.937 0 2.667l-15.42 14.75a2.004 2.004 0 0 1-2.78 0l.01.032z"/></svg>`, "TestRail"],
+      [`<img alt="" width="22" height="22" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAKlklEQVR4Ae3AA6AkWZbG8f937o3IzKdyS2Oubdu2bdu2bdu2bWmMnpZKr54yMyLu+Xa3anqmhztr1a9e84pvbHGFAPP/mwBzhYEQz5Y2/9+lzf0EVB5AEv/fSeIBqDxQEZw4w/9rF89CM89E5YFOnIEv/E7+X/vU94Vz9/FMVK56Yahc9cJQueqFoXLVC0PlqheGylUvDJWrXhiC/+tkLhNIgMACCRzmX0Dwf5wIkLHAreE//m0EJCAX/gUE/8cZACELfvTb0MmTCAgEavwLCP7PM5f9yLfA3/4pPPKlsIwBLP4FVP63kwADBgIE2DzLwR58z9eiv/pj/PbvBTZYgHkRUPlfTpgkEQEkGECQDf7g1+Envwcd7OG+h9d6M/6VqPwvZwAKxoiAi2fxH/4G+p1fRBfPYcACXuuNYbEB5l+Dyv926yW69SnwxL+Fv/0zeMaTEQKMucKLLfSm78K/AZX/bBLYIBBgrjAgwAZJgLnCgACBjA3imc7eBffcCXffju68Dd/xVLjzVmjmuQkBYEBv+95oe5sExL8Klf9kwlhcloAAEABgJHPZ3kW4dBFdukjunkMXz8LZc8TuWfL8fej8fdAmAAQkIADE8xDYBgwv/nLwWm+CgQDMvwqV/2QJCAhEYgC47y70+L9CT/kHfNdtcPedaFxhC0sIAAGJEcIEIgHJ2CIAA7aRxP0E2IkArnsQvO8nYq5IhDD/ClT+kwkDQR5eQr/3q/hPfwfd/jTAJEKAASEQgEGAAQwYCBIDkBYS2AJMSJgrDCBjC665AT7qc2B7GzAQCPOvROU/mowJRAIBexfhl34MfueXYBwBMAKEuEKAeQDzTMGzCYAA7AQEgDEAQoDBIh70CPyRnwnbJ8EAAsy/AZX/cCIAZ4Nf/0n42R9C6zWp5Arx72ESSWBIBCQiAEOp8Hpvid/uvVFUTAMH/w5U/hP4/D3wrV8KT3siKIGKDALMv1eAIUmKRYbAIh/9YugdPxhufggCkkQE/05U/qM9+XHwLV+ILl3EAjlIJoRIQPx7mUQUi9b36CVfEd7wbdFDHwkEYCAQCQgw/w5U/r0EMljAE/8evu5zYH2ICbAxJhAghLEMBhBXGBACDIC5wgAIYe4n6HrikS9Ovvyro5d+VbS1jTEQgAEwBkAY8+9C5d/JABJ68j/A1302Xh8RQAJCWAYHiRFCNiCMEWABNhbIYEAEYAz4+Gl48MPRgx+BH/FYeMijcDcHG2SMuMKQDVZL2NgCC8v8O1H5dxLG990NX/9ZsF4CQXKFMbKwGuHAJHaADAAITl2DFpvksZNw/BScPIXP3ADXXo+uuxkvNjEGAgS2CTWMEGASELQJvvfr8Du8PwIQGBD/LlT+vcYJvuUL4WgJMhgksLkiAm56KDzkkXDjg9A1N+CT18DJM3g2B4QxYLBAQhgDBqRATozBIAwOTALCCD3t8egHvhGPI9raAQwkQvw7UfnXkgADAST83A+g254KCFkAeLEFL/uq8NKvCo9+cZhtYAyAeS4GJIRAAObZhJ2AACOEAQtiMv6HP0e/84vwN3+KFfDm7wA2V4j/AFT+TQSaiDtup/3qT1JcyUjy5gejN3w79LKvQXaVQBgwIjAJCLAgEhzCJCKA5IogAWEgEcIYAPYuwBP+Dh735/hv/hwOLgECgdXQK7wm/8Go/JsYHLSf+T7Ukjx1Et7+/dErvCYAWEiJbUAEJklEQRhsrAAbIXCCBAgwaiOcvQ/uuR3f+Qy4/alw61Ph/D0AiCuMARCBH/nicMODwfxHovKvZsDo9qfDX/0RvNLrwHt8GMw2AANgARb3S0AUJGBK2D0Ll3bxwS7auwQXzsP5e+D8vXD+PnTuPiyQjQUyGDAAwkrk4H5Word8V/4TUPlXM0jwyz8Ob/fe8MZvjwgsI0NiBHD+Xnji36Fbn4zuuYM8fx/sXYDVmvuJ588ABiMwmAcyWCCDwYh4hdfEj3wJjBHiPxCVfyU5YL3EN9wCb/QOABjA4KMD4o9/m/yDXyZuewaQmCsEgPj3E2BssEDHT5Lv+sEIExRM8h+Iyr9SRqLDQ3iTdwAJAWDyd34J/cR34+UBksHC4jLLyAIlOPj3MQISEf0cf/TnE5vHMMYk/8Go/CvJgpOnEQlArpfoGz4XPf5vEGCEDAiEMYEMQtj8uwkAoWPH8Ud8Ntx4C3ZiiTCY/1BU/rUE2FiC5RH64o+DO5+BAXGFEQAgAEAYAPHchDEigATAWBAGI4wRAgwYE/CoF4f3/wQ4dgoSQMhg/sNR+VeSBQic+Du+Au68DQAB5l/PCIBGIwggwIllZBAAJmXizI34Ld8NXum1wAGRkOI/EZV/JZOA4K//GP31H2MMCJEkgfjXsZIwiIrVkBMBWIBxN4cXf1n0Sq9LvswroSggrrD4T0blXy247Bd+CAMCDIAIGVv8a8gCC6LB5nF87DhccwPc8CD0iBeDhz8GzxYIEAKbK8x/ASr/akb33Q23PgUAI7juJvyIx8AND4brboITp9HGFnniFDLPSQAB4wr2dgHwznHo5kACYEAGC4SwjCwSIwDzX4XKv5IxPOPJqOvwa70pvO5boDPXASIBMDJYIjBGPCcBCV0Pp68BAAMkIADAWEYEYGRhjPgvR+VfSQjt7+NP+1q48UGAMQKMMBAgY4QB8ZxEkgpkYwyAEJYIJyBACEgSAAFgIDDmvxDBv0G+9huhGx+ESQCMEcIEKMFCmOB5mQAbADmQg8tsTGBAgNcr9Bd/AOs1CVjC4r8alX8DRcUYIUBoXONnPAU948no3nvw7n1wdIQPLqH1CgyORPMdvLGBENo5TvYzZGMJRUBrsF7B2TvRubPkR3wm6ufIgAHMfzEq/yYGC3bPwS/8MPzxb8N6hUiMEIHVkEVKyEYEqbOEBTK2kIwcQAIgwAgfOw4f8wXEgx+OzX8nKv8mwod76As+Cl26BBgDSMiQSuQAjJwgYTfkwBgZBKTBmlAWkDHAjQ+Cj/gMOHUdiRHivxGVfyUhwHgcYLXGSkDIwoAA2YAxAAFpLBFAIq4wQsiBlUDAy70avM9Hw2wDK1EGYP4bEfwr2cYInTgN7/8JEB22sRJsrEQIEFcYAsQVAYABAGMD8wW8+4fBB38q9AuwUQow/80I/rWCZxJ66VfCH/CJRFRwgEy4kDLCIAEQDhAYYycgAITgJV4OPvsb4bXeFGT+h6HyryQLK7EFgF7uVcmP/yL4nq9C995Dw8iQCNkANDXkQAAKUOIHPZx86/dEL/ZyXCaDBZj/Qaj8K1lgQAhzRTzixfFnfSP87i+hP/gNuP2phI1DYBMZOBLvnIKXeAX8Gm9EPPTRCDAGGRyA+R+Gyr9WGiHAiCuMofbwum+FXu+t8e45fNtT4WAfYbyxhW54EHnNdchCgG2exQLM/0BU/oMZw/HTcPwkKLBBGBvE/zoE/9EkwKCANChJAIEx/8sQ/EezucwGCSxkASAK/8tQ+Y9mHsAAgMEAyf8yVK56Yahc9cJQueqFoXLVC0PlqheGylUvDJWrXhgqGCOKTbt0EX3Fp/L/mS9dpNg0CWEqiACaTBkG/MS/4f+zMDSZQBhRIUEiHDSB+P8tBYFABpsQgW0MCPP/nTAGbCOCfwTKTdI+1e4O6QAAAABJRU5ErkJggg=="/>`, "Zephyr Scale"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 128 128"><path fill="#1a62b3" d="M50.782 42.96h26.436a7.536 7.536 0 0 1 7.553 7.552v26.976a7.536 7.536 0 0 1-7.553 7.552H50.782a7.536 7.536 0 0 1-7.553-7.552V50.512a7.536 7.536 0 0 1 7.553-7.553zm55.803 41.611V34.477A13.566 13.566 0 0 0 92.99 20.88H35.01a13.566 13.566 0 0 0-13.595 13.596v59.046a13.566 13.566 0 0 0 13.595 13.595l92.171.002c-.935 11.716-10.67 20.88-22.623 20.88H23.442A22.61 22.61 0 0 1 .783 105.341V22.66A22.61 22.61 0 0 1 23.443 0h81.115a22.61 22.61 0 0 1 22.659 22.66v61.91z"/></svg>`, "qTest"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 246"><defs><linearGradient id="confluence-SVGvnhR7dox" x1="99.14%" x2="33.859%" y1="112.708%" y2="37.755%"><stop offset="18%" stop-color="#0052cc"/><stop offset="100%" stop-color="#2684ff"/></linearGradient><linearGradient id="confluence-SVGgker3cTp" x1=".926%" x2="66.18%" y1="-12.582%" y2="62.306%"><stop offset="18%" stop-color="#0052cc"/><stop offset="100%" stop-color="#2684ff"/></linearGradient></defs><path fill="url(#confluence-SVGvnhR7dox)" d="M9.26 187.33c-2.64 4.307-5.607 9.305-8.126 13.287a8.127 8.127 0 0 0 2.722 11.052l52.823 32.507a8.127 8.127 0 0 0 11.256-2.763c2.113-3.536 4.835-8.127 7.801-13.044c20.926-34.538 41.974-30.312 79.925-12.19l52.376 24.908a8.127 8.127 0 0 0 10.93-4.063l25.152-56.886a8.127 8.127 0 0 0-4.063-10.646c-11.052-5.201-33.034-15.562-52.823-25.111c-71.189-34.579-131.691-32.344-177.972 42.949"/><path fill="url(#confluence-SVGgker3cTp)" d="M246.115 58.232c2.641-4.307 5.607-9.305 8.127-13.287a8.127 8.127 0 0 0-2.723-11.052L198.696 1.386a8.127 8.127 0 0 0-11.58 2.682c-2.113 3.535-4.835 8.127-7.802 13.043c-20.926 34.538-41.974 30.313-79.925 12.19L47.176 4.515a8.127 8.127 0 0 0-10.93 4.063L11.093 65.465a8.127 8.127 0 0 0 4.063 10.645c11.052 5.202 33.035 15.563 52.823 25.112c71.351 34.538 131.854 32.222 178.135-42.99"/></svg>`, "Confluence"],
+    ],
+    "marks-alerts": [
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 239"><defs><linearGradient id="teams-SVGCo9xpmZW" x1="17.372%" x2="82.628%" y1="-6.51%" y2="106.51%"><stop offset="0%" stop-color="#5a62c3"/><stop offset="50%" stop-color="#4d55bd"/><stop offset="100%" stop-color="#3940ab"/></linearGradient><path id="teams-SVGhJCUgeMn" d="M136.93 64.476v12.8a32.7 32.7 0 0 1-5.953-.952a38.7 38.7 0 0 1-26.79-22.742h21.848c6.008.022 10.872 4.887 10.895 10.894"/></defs><path fill="#5059c9" d="M178.563 89.302h66.125c6.248 0 11.312 5.065 11.312 11.312v60.231c0 22.96-18.613 41.574-41.573 41.574h-.197c-22.96.003-41.576-18.607-41.579-41.568V95.215a5.91 5.91 0 0 1 5.912-5.913"/><circle cx="223.256" cy="50.605" r="26.791" fill="#5059c9"/><circle cx="139.907" cy="38.698" r="38.698" fill="#7b83eb"/><path fill="#7b83eb" d="M191.506 89.302H82.355c-6.173.153-11.056 5.276-10.913 11.449v68.697c-.862 37.044 28.445 67.785 65.488 68.692c37.043-.907 66.35-31.648 65.489-68.692v-68.697c.143-6.173-4.74-11.296-10.913-11.449"/><path d="M142.884 89.302v96.268a10.96 10.96 0 0 1-6.787 10.062c-1.3.55-2.697.833-4.108.833H76.68c-.774-1.965-1.488-3.93-2.084-5.953a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".1"/><path d="M136.93 89.302v102.222c0 1.411-.283 2.808-.833 4.108a10.96 10.96 0 0 1-10.062 6.787H79.48c-1.012-1.965-1.965-3.93-2.798-5.954a59 59 0 0 1-2.084-5.953a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M136.93 89.302v90.315c-.045 5.998-4.896 10.85-10.895 10.895H74.597a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M130.977 89.302v90.315c-.046 5.998-4.897 10.85-10.895 10.895H74.597a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M142.884 58.523v18.753c-1.012.06-1.965.12-2.977.12s-1.965-.06-2.977-.12a32.7 32.7 0 0 1-5.953-.952a38.7 38.7 0 0 1-26.791-22.742a33 33 0 0 1-1.905-5.954h29.708c6.007.023 10.872 4.887 10.895 10.895" opacity=".1"/><use href="#teams-SVGhJCUgeMn" opacity=".2"/><use href="#teams-SVGhJCUgeMn" opacity=".2"/><path d="M130.977 64.476v11.848a38.7 38.7 0 0 1-26.791-22.743h15.896c6.008.023 10.872 4.888 10.895 10.895" opacity=".2"/><path fill="url(#teams-SVGCo9xpmZW)" d="M10.913 53.581h109.15c6.028 0 10.914 4.886 10.914 10.913v109.151c0 6.027-4.886 10.913-10.913 10.913H10.913C4.886 184.558 0 179.672 0 173.645V64.495C0 58.466 4.886 53.58 10.913 53.58"/><path fill="#fff" d="M94.208 95.125h-21.82v59.416H58.487V95.125H36.769V83.599h57.439z"/></svg>`, "Microsoft Teams"],
+      [`<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E1A2E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>`, "Email"],
+    ],
+    "marks-ci": [
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 250"><path fill="#161614" d="M128.001 0C57.317 0 0 57.307 0 128.001c0 56.554 36.676 104.535 87.535 121.46c6.397 1.185 8.746-2.777 8.746-6.158c0-3.052-.12-13.135-.174-23.83c-35.61 7.742-43.124-15.103-43.124-15.103c-5.823-14.795-14.213-18.73-14.213-18.73c-11.613-7.944.876-7.78.876-7.78c12.853.902 19.621 13.19 19.621 13.19c11.417 19.568 29.945 13.911 37.249 10.64c1.149-8.272 4.466-13.92 8.127-17.116c-28.431-3.236-58.318-14.212-58.318-63.258c0-13.975 5-25.394 13.188-34.358c-1.329-3.224-5.71-16.242 1.24-33.874c0 0 10.749-3.44 35.21 13.121c10.21-2.836 21.16-4.258 32.038-4.307c10.878.049 21.837 1.47 32.066 4.307c24.431-16.56 35.165-13.12 35.165-13.12c6.967 17.63 2.584 30.65 1.255 33.873c8.207 8.964 13.173 20.383 13.173 34.358c0 49.163-29.944 59.988-58.447 63.157c4.591 3.972 8.682 11.762 8.682 23.704c0 17.126-.148 30.91-.148 35.126c0 3.407 2.304 7.398 8.792 6.14C219.37 232.5 256 184.537 256 128.002C256 57.307 198.691 0 128.001 0m-80.06 182.34c-.282.636-1.283.827-2.194.39c-.929-.417-1.45-1.284-1.15-1.922c.276-.655 1.279-.838 2.205-.399c.93.418 1.46 1.293 1.139 1.931m6.296 5.618c-.61.566-1.804.303-2.614-.591c-.837-.892-.994-2.086-.375-2.66c.63-.566 1.787-.301 2.626.591c.838.903 1 2.088.363 2.66m4.32 7.188c-.785.545-2.067.034-2.86-1.104c-.784-1.138-.784-2.503.017-3.05c.795-.547 2.058-.055 2.861 1.075c.782 1.157.782 2.522-.019 3.08m7.304 8.325c-.701.774-2.196.566-3.29-.49c-1.119-1.032-1.43-2.496-.726-3.27c.71-.776 2.213-.558 3.315.49c1.11 1.03 1.45 2.505.701 3.27m9.442 2.81c-.31 1.003-1.75 1.459-3.199 1.033c-1.448-.439-2.395-1.613-2.103-2.626c.301-1.01 1.747-1.484 3.207-1.028c1.446.436 2.396 1.602 2.095 2.622m10.744 1.193c.036 1.055-1.193 1.93-2.715 1.95c-1.53.034-2.769-.82-2.786-1.86c0-1.065 1.202-1.932 2.733-1.958c1.522-.03 2.768.818 2.768 1.868m10.555-.405c.182 1.03-.875 2.088-2.387 2.37c-1.485.271-2.861-.365-3.05-1.386c-.184-1.056.893-2.114 2.376-2.387c1.514-.263 2.868.356 3.061 1.403"/></svg>`, "GitHub"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="#64b5f6" d="M3.98 22.01h1.803v4.208H9.99v1.803H3.98Z"/><path fill="#1565c0" d="M3.98 10.991v5.51l3.505 3.61l1.503-1.606l4.508 4.508l-1.502 1.502l3.506 3.506h5.51a1 1 0 0 0 1.001-1.002v-8.014L12.995 9.99H4.982a1 1 0 0 0-1.003 1.001Z"/><path fill="#1e88e5" d="M8.317 18.44a1 1 0 0 1-.125-1.265L16.407 4.87a2 2 0 0 1 1.666-.891h8.946A1 1 0 0 1 28.02 4.98v8.946a2 2 0 0 1-.891 1.667l-12.305 8.215a1 1 0 0 1-1.265-.126Z"/><path fill="#64b5f6" d="m8.976 21.542l7.648-7.648l1.48 1.481l-7.647 7.648Z"/><path fill="#42a5f5" d="m11.68 21.801l-1.481-1.48l6.426-6.427l1.48 1.481Z"/><path fill="#90caf9" d="M22.011 12.995a3.006 3.006 0 0 0 .096-6.011h-.096a3.006 3.006 0 0 0 0 6.01Z"/></svg>`, "Azure Pipelines"],
+    ],
+    "marks-models": [
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 199"><path d="M118.432 187.698c32.89-5.81 60.055-10.618 60.367-10.684l.568-.12l-31.052-36.935c-17.078-20.314-31.051-37.014-31.051-37.11c0-.182 32.063-88.477 32.243-88.792c.06-.105 21.88 37.567 52.893 91.32c29.035 50.323 52.973 91.815 53.195 92.203l.405.707l-98.684-.012l-98.684-.013l59.8-10.564zM0 176.435c0-.052 14.631-25.451 32.514-56.442l32.514-56.347l37.891-31.799C123.76 14.358 140.867.027 140.935.001c.069-.026-.205.664-.609 1.534s-18.919 40.582-41.145 88.25l-40.41 86.67l-29.386.037c-16.162.02-29.385-.005-29.385-.057z" fill="#0089D6" fill-rule="nonzero"/></svg>`, "Azure OpenAI"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 260"><path fill="#111" d="M239.184 106.203a64.72 64.72 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.72 64.72 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.67 64.67 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.77 64.77 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483m-97.56 136.338a48.4 48.4 0 0 1-31.105-11.255l1.535-.87l51.67-29.825a8.6 8.6 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601M37.158 197.93a48.35 48.35 0 0 1-5.781-32.589l1.534.921l51.722 29.826a8.34 8.34 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803M23.549 85.38a48.5 48.5 0 0 1 25.58-21.333v61.39a8.29 8.29 0 0 0 4.195 7.316l62.874 36.272l-21.845 12.636a.82.82 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405zm179.466 41.695l-63.08-36.63L161.73 77.86a.82.82 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.54 8.54 0 0 0-4.4-7.213m21.742-32.69l-1.535-.922l-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.72.72 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391zM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87l-51.67 29.825a8.6 8.6 0 0 0-4.246 7.367zm11.868-25.58L128.067 97.3l28.188 16.218v32.434l-28.086 16.218l-28.188-16.218z"/></svg>`, "OpenAI"],
+      [`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 128 128"><path fill="#111" d="M17.94 125.975c-1.328-4.78-.267-14.335 2.11-18.992c1.062-2.084 1.062-2.084-.519-5.002c-4.036-7.453-4.31-18.279-.692-27.318c1.37-3.424 1.37-3.424.003-5.959c-5.619-10.41-3.848-22.86 4.502-31.66c3.62-3.815 3.62-3.815 3.176-6.515c-1.438-8.734.373-20.617 3.943-25.87c6.444-9.484 16.241-3.814 18.853 10.91c.353 1.99.704 3.704.78 3.807s1.778-.468 3.78-1.269c7.248-2.9 14.003-2.8 20.681.304c1.9.884 3.495 1.542 3.542 1.462c.048-.08.368-1.863.711-3.964C81.25 1 91.191-4.921 97.7 4.659c3.573 5.258 5.387 17.18 3.937 25.87c-.451 2.7-.451 2.7 2.894 6.21c8.381 8.793 10.265 21.377 4.73 31.595c-1.49 2.753-1.49 2.753-.197 5.694c3.853 8.763 3.673 20.372-.432 27.953c-1.581 2.918-1.581 2.918-.518 5.002c2.376 4.657 3.437 14.211 2.11 18.992c-.563 2.025-.563 2.025-4.115 2.025s-3.552 0-3.08-1.755c1.276-4.736.571-12.311-1.56-16.796c-2.466-5.184-2.465-5.131-.1-8.964c4.587-7.43 4.684-17.018.26-25.616c-2.064-4.01-2.05-4.469.254-7.891c8.675-12.891.254-30.435-14.981-31.21c-4.72-.24-4.72-.24-5.883-2.569c-6.442-12.9-25.928-13.5-33.46-1.031c-1.945 3.221-1.945 3.221-6.482 3.517C25.41 36.71 16.086 57.975 26.865 68.1c1.712 1.609 1.648 2.924-.33 6.769c-4.425 8.598-4.328 18.186.258 25.616c2.366 3.833 2.366 3.78-.098 8.964c-2.133 4.485-2.837 12.06-1.561 16.796c.472 1.755.472 1.755-3.08 1.755s-3.552 0-4.115-2.025zm20.79-97.129c4.504-.46 4.821-.985 4.378-7.23c-.634-8.923-3.835-15.995-6.251-13.808c-3.296 2.982-5.556 22.898-2.465 21.711c.447-.171 2.4-.474 4.338-.673m56.11-5.926c-.04-10.714-3.021-18.058-5.95-14.654c-2.634 3.062-5.13 16.32-3.592 19.072c.521.932 7.096 2.471 9.024 2.112c.325-.06.53-2.652.517-6.53zM56.213 83.552c-19.558-5.52-13.155-29.651 7.868-29.651c18.95 0 27.119 20.158 11.417 28.175c-4.221 2.156-14.179 2.918-19.285 1.476M73.087 78.2c11.73-5.37 5.16-19.86-9.006-19.86c-16.164 0-20.925 17.235-5.813 21.047c3.772.951 11.5.332 14.82-1.187zm-10.896-6.23c0-1.564-.343-2.395-1.35-3.27c-2.518-2.19-1.387-3.196 3.51-3.123c3.993.058 5.126 1.477 2.596 3.25c-.922.647-1.246 1.397-1.246 2.888c0 1.877-.119 2.025-1.755 2.183c-1.707.164-1.755.112-1.755-1.928m-26.214-9.017c-1.516-1.516-1.687-3.43-.51-5.706c2.28-4.409 8.364-3.014 8.364 1.918c0 4.24-4.994 6.648-7.854 3.788M85.91 62.7c-2.063-2.063-2.168-4.901-.253-6.816c2.224-2.224 5.513-1.587 7.04 1.363c2.651 5.13-2.761 9.478-6.787 5.453"/></svg>`, "Ollama"],
+    ],
+  };
+  var GROUPS = [["TEST CASES & REQUIREMENTS", "marks-cases"], ["ALERTS", "marks-alerts"], ["PIPELINES", "marks-ci"], ["MODELS", "marks-models"]];
+  var band = document.getElementById("integrations-band");
+  var y = 152, chips = "";
+  GROUPS.forEach(function(g){
+    chips += '<text x="1424" y="' + y + '" class="igh">' + g[0] + '</text>';
+    y += 10;
+    MARKS[g[1]].forEach(function(m){
+      var icon = m[0];
+      var src = icon.match(/^<img[^>]*src="([^"]+)"/);
+      icon = src ? '<image href="' + src[1] + '" width="18" height="18"/>' : icon.replace('width="22" height="22"', 'width="18" height="18"');
+      chips += '<rect x="1424" y="' + y + '" width="204" height="32" rx="8" fill="#fff" stroke="#5F6B7E" stroke-opacity="0.3" stroke-width="1.2" filter="url(#sh)"/>' +
+        '<g transform="translate(1434,' + (y + 7) + ')">' + icon + '</g>' +
+        '<text x="1460" y="' + (y + 20.5) + '" class="ntitle" fill="#0E1A2E">' + m[1] + '</text>';
+      y += 40;
+    });
+    y += 26;
+  });
+  band.insertAdjacentHTML("beforeend", chips);
+
+  var NODE_ICONS = {"shell":"<path d=\"m7 11 2-2-2-2\"/><path d=\"M11 13h4\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\"/>","transcript":"<path d=\"M15 12h-5\"/><path d=\"M15 8h-5\"/><path d=\"M19 17V5a2 2 0 0 0-2-2H4\"/><path d=\"M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3\"/>","composer":"<path d=\"M12 20h-1a2 2 0 0 1-2-2 2 2 0 0 1-2 2H6\"/><path d=\"M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7\"/><path d=\"M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1\"/><path d=\"M6 4h1a2 2 0 0 1 2 2 2 2 0 0 1 2-2h1\"/><path d=\"M9 6v12\"/>","plain":"<path d=\"M12 19h8\"/><path d=\"m4 17 6-6-6-6\"/>","agent":"<path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/>","mcp":"<rect width=\"20\" height=\"8\" x=\"2\" y=\"2\" rx=\"2\" ry=\"2\"/><rect width=\"20\" height=\"8\" x=\"2\" y=\"14\" rx=\"2\" ry=\"2\"/><line x1=\"6\" x2=\"6.01\" y1=\"6\" y2=\"6\"/><line x1=\"6\" x2=\"6.01\" y1=\"18\" y2=\"18\"/>","tools":"<path d=\"M14 4.1 12 6\"/><path d=\"m5.1 8-2.9-.8\"/><path d=\"m6 12-1.9 2\"/><path d=\"M7.2 2.2 8 5.1\"/><path d=\"M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z\"/>","cases":"<path d=\"M13 5h8\"/><path d=\"M13 12h8\"/><path d=\"M13 19h8\"/><path d=\"m3 17 2 2 4-4\"/><path d=\"m3 7 2 2 4-4\"/>","connectors":"<path d=\"M12 22v-5\"/><path d=\"M15 8V2\"/><path d=\"M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z\"/><path d=\"M9 8V2\"/>","setup":"<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/>","bridge":"<path d=\"M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z\"/><path d=\"M17 21v-2\"/><path d=\"M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10\"/><path d=\"M21 21v-2\"/><path d=\"M3 5V3\"/><path d=\"M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z\"/><path d=\"M7 5V3\"/>","engine":"<path d=\"M12 20v2\"/><path d=\"M12 2v2\"/><path d=\"M17 20v2\"/><path d=\"M17 2v2\"/><path d=\"M2 12h2\"/><path d=\"M2 17h2\"/><path d=\"M2 7h2\"/><path d=\"M20 12h2\"/><path d=\"M20 17h2\"/><path d=\"M20 7h2\"/><path d=\"M7 20v2\"/><path d=\"M7 2v2\"/><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/><rect x=\"8\" y=\"8\" width=\"8\" height=\"8\" rx=\"1\"/>","chrome":"<rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"M10 4v4\"/><path d=\"M2 8h20\"/><path d=\"M6 4v4\"/>","judge":"<path d=\"m14 13-8.381 8.38a1 1 0 0 1-3.001-3l8.384-8.381\"/><path d=\"m16 16 6-6\"/><path d=\"m21.5 10.5-8-8\"/><path d=\"m8 8 6-6\"/><path d=\"m8.5 7.5 8 8\"/>","config":"<path d=\"M15 8a1 1 0 0 1-1-1V2a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8z\"/><path d=\"M20 8v12a2 2 0 0 1-2 2h-4.182\"/><path d=\"m3.305 19.53.923-.382\"/><path d=\"M4 10.592V4a2 2 0 0 1 2-2h8\"/><path d=\"m4.228 16.852-.924-.383\"/><path d=\"m5.852 15.228-.383-.923\"/><path d=\"m5.852 20.772-.383.924\"/><path d=\"m8.148 15.228.383-.923\"/><path d=\"m8.53 21.696-.382-.924\"/><path d=\"m9.773 16.852.922-.383\"/><path d=\"m9.773 19.148.922.383\"/><circle cx=\"7\" cy=\"18\" r=\"3\"/>","memory":"<ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"/><path d=\"M3 12A9 3 0 0 0 21 12\"/>","reports":"<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"M8 18v-1\"/><path d=\"M12 18v-6\"/><path d=\"M16 18v-3\"/>","logins":"<path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"/><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/>","repo":"<path d=\"M18 19a5 5 0 0 1-5-5v8\"/><path d=\"M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v5\"/><circle cx=\"13\" cy=\"12\" r=\"2\"/><circle cx=\"20\" cy=\"19\" r=\"2\"/>","handoff":"<path d=\"m11 17 2 2a1 1 0 1 0 3-3\"/><path d=\"m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4\"/><path d=\"m21 3 1 11h-2\"/><path d=\"M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3\"/><path d=\"M3 4h8\"/>","scribe":"<path d=\"M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"m5 16-3 3 3 3\"/><path d=\"m9 22 3-3-3-3\"/>","confirm":"<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/>","reviewer":"<path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/><path d=\"M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0\"/>","heal":"<path d=\"M10 10.01h.01\"/><path d=\"M10 14.01h.01\"/><path d=\"M14 10.01h.01\"/><path d=\"M14 14.01h.01\"/><path d=\"M18 6v12\"/><path d=\"M6 6v12\"/><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"/>","testsys":"<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"M12 11h4\"/><path d=\"M12 16h4\"/><path d=\"M8 11h.01\"/><path d=\"M8 16h.01\"/>","llm":"<path d=\"M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z\"/><path d=\"M9 13a4.5 4.5 0 0 0 3-4\"/><path d=\"M6.003 5.125A3 3 0 0 0 6.401 6.5\"/><path d=\"M3.477 10.896a4 4 0 0 1 .585-.396\"/><path d=\"M6 18a4 4 0 0 1-1.967-.516\"/><path d=\"M12 13h4\"/><path d=\"M12 18h6a2 2 0 0 1 2 2v1\"/><path d=\"M12 8h8\"/><path d=\"M16 8V5a2 2 0 0 1 2-2\"/><circle cx=\"16\" cy=\"13\" r=\".5\"/><circle cx=\"18\" cy=\"3\" r=\".5\"/><circle cx=\"20\" cy=\"21\" r=\".5\"/><circle cx=\"20\" cy=\"8\" r=\".5\"/>","app":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>","ci":"<path d=\"M10.268 21a2 2 0 0 0 3.464 0\"/><path d=\"M22 8c0-2.3-.8-4.3-2-6\"/><path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\"/><path d=\"M4 2C2.8 3.7 2 5.7 2 8\"/>"};
+  Array.prototype.forEach.call(document.querySelectorAll("#diagram .node[data-id]"), function(node){
+    var ic = NODE_ICONS[node.getAttribute("data-id")];
+    var box = node.querySelector(".box"), title = node.querySelector(".ntitle");
+    if (!ic || !box || !title) return;
+    var x = +box.getAttribute("x"), y = +box.getAttribute("y");
+    title.setAttribute("x", x + 37);
+    title.insertAdjacentHTML("beforebegin", '<svg class="nic" x="' + (x + 16) + '" y="' + (y + 16.5) + '" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic + '</svg>');
+  });
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tablist [role="tab"]'));
+  var ink = document.querySelector(".tab-ink");
+  function moveInk(tab){
+    ink.style.width = tab.offsetWidth + "px";
+    ink.style.transform = "translateX(" + tab.offsetLeft + "px)";
+  }
+  function selectTab(tab, focus){
+    if (tab.getAttribute("aria-selected") === "true") { if (focus) tab.focus(); return; }
+    tabs.forEach(function(t){
+      var on = t === tab;
+      var panel = document.getElementById(t.getAttribute("aria-controls"));
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panel.hidden = !on;
+      panel.classList.remove("enter");
+      if (on) { void panel.offsetWidth; panel.classList.add("enter"); }
+    });
+    moveInk(tab);
+    if (focus) tab.focus();
+  }
+  function current(){ return tabs.filter(function(t){ return t.getAttribute("aria-selected") === "true"; })[0]; }
+  function placeInk(){
+    ink.style.transition = "none";
+    moveInk(current());
+    void ink.offsetWidth;
+    ink.style.transition = "";
+  }
+  placeInk();
+  window.addEventListener("resize", placeInk);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeInk);
+  tabs.forEach(function(tab, i){
+    tab.addEventListener("click", function(){ selectTab(tab); });
+    tab.addEventListener("keydown", function(e){
+      var next = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : null;
+      if (next === null) return;
+      e.preventDefault();
+      selectTab(tabs[(next + tabs.length) % tabs.length], true);
+    });
+  });
+
+  var subs = Array.prototype.slice.call(document.querySelectorAll(".subnav .sub"));
+  function selectSub(sub, focus){
+    subs.forEach(function(s){
+      var on = s === sub;
+      s.setAttribute("aria-selected", on ? "true" : "false");
+      s.tabIndex = on ? 0 : -1;
+      document.getElementById(s.getAttribute("aria-controls")).classList.toggle("on", on);
+    });
+    if (focus) sub.focus();
+  }
+  subs.forEach(function(sub, i){
+    sub.addEventListener("click", function(){ selectSub(sub); });
+    sub.addEventListener("keydown", function(e){
+      var k = e.key;
+      var next = k === "ArrowDown" || k === "ArrowRight" ? i + 1 : k === "ArrowUp" || k === "ArrowLeft" ? i - 1 : k === "Home" ? 0 : k === "End" ? subs.length - 1 : null;
+      if (next === null) return;
+      e.preventDefault();
+      selectSub(subs[(next + subs.length) % subs.length], true);
+    });
+  });
+
+  var DATA = {
+    "nodes": {
+      "user": {"title":"You","role":"Type a goal, a test case, or a request in the shell or in forgeqe run.","color":"#0E1A2E","mono":null},
+      "shell": {"title":"OpenTUI shell","role":"Full-screen shell: type a goal, a test case, or a request; watch each step as it happens.","color":"#0B6E4F","mono":"src/tui/App.tsx"},
+      "transcript": {"title":"Transcript","role":"Live tool lines, step results, run and test cards; select to copy.","color":"#0B6E4F","mono":"src/tui/components.tsx"},
+      "composer": {"title":"Composer","role":"Always-on input: plain requests, /stop, Tab to switch the model profile.","color":"#0B6E4F","mono":"src/tui/App.tsx"},
+      "plain": {"title":"Plain & CI mode","role":"The same agent without the full-screen shell, for scripts and pipelines.","color":"#0B6E4F","mono":"src/cli/index.ts"},
+      "agent": {"title":"ForgeQE's agent","role":"Runs on the agent runtime with the active profile's model, reads every request, and decides which ForgeQE tools to call. write_test hands a passing run to Scribe.","color":"#C86A0A","mono":"src/brain/index.ts"},
+      "mcp": {"title":"Tool server","role":"ForgeQE's tools over MCP, bound to 127.0.0.1 behind a random bearer token, one per session.","color":"#C86A0A","mono":"src/mcp/server.ts"},
+      "tools": {"title":"Browser tools","role":"browser_run, run_test, run_details, page_memory, write_test, heal_tests, find_tests, run_tests, list_sprints, monitor, logins, forgeqe_setup, push_branch, set_ci_secret.","color":"#C86A0A","mono":"src/mcp/tools.ts"},
+      "cases": {"title":"Test-case tools","role":"find_test_cases and run_test_cases: fetch cases or suites and run each one in the browser.","color":"#C86A0A","mono":"src/cases/index.ts"},
+      "connectors": {"title":"Connectors","role":"Azure DevOps, Jira, Xray, TestRail, Zephyr Scale, qTest, Confluence, and files; extra MCP servers from config.","color":"#C86A0A","mono":"src/cases · src/mcp/external.ts"},
+      "setup": {"title":"Engine setup","role":"Creates ~/.forgeqe/engine/.venv on first use, finds Chrome or installs Chromium. No manual steps.","color":"#2563EB","mono":"src/engine/setup.ts"},
+      "bridge": {"title":"Engine bridge","role":"Starts the Python engine, sends the request on stdin, turns JSON-line events into steps and results.","color":"#2563EB","mono":"src/engine/bridge.ts"},
+      "engine": {"title":"ForgeQE engine","role":"The browser agent: recovery prompts, loop breaker, step verdicts, page memory, workflow export.","color":"#2563EB","mono":"py/forgeqe_engine/service.py"},
+      "chrome": {"title":"Chrome","role":"Installed Google Chrome (or Chromium) over the DevTools Protocol, with the ForgeQE overlay when visible.","color":"#2563EB","mono":"py/forgeqe_engine/brand.py"},
+      "judge": {"title":"Judge & verdicts","role":"Checks the finish against the goal and gives each test-case step a verdict.","color":"#2563EB","mono":"py/forgeqe_engine/report.py"},
+      "config": {"title":"Config","role":"Model profiles, browser settings, test systems, code and heal options.","color":"#D02670","mono":"src/config.ts"},
+      "memory": {"title":"Page memory","role":"Element facts, ranked locators, and recorded flows that later runs replay without the model.","color":"#D02670","mono":"py/forgeqe_engine/memory.py · replay.py"},
+      "reports": {"title":"Run reports","role":"run.json, steps with screenshots, workflow.yaml, trace.md, report.html, JUnit, code.json. Tokens, and cost in the machine's currency when the profile has a price.","color":"#D02670","mono":"src/report · src/suite"},
+      "logins": {"title":"Saved logins","role":"Credentials by environment variable name, one-time codes, and saved sessions per site.","color":"#D02670","mono":"py/forgeqe_engine/logins.py"},
+      "repo": {"title":"Your repo","role":"Where Scribe writes the test. ForgeQE's files are protected, and files Scribe removes or reverts are put back.","color":"#D02670","mono":"src/code/worktree.ts"},
+      "handoff": {"title":"Handoff","role":"Everything the passing run learned: steps, locators, pages, the repo's test stack.","color":"#0B8A8A","mono":"src/code/handoff.ts"},
+      "scribe": {"title":"Scribe","role":"ForgeQE's coding agent. Reads the repo and the handoff, ports the replay into the repo's own language and framework, reusing its page objects, and asserts the browser agent's checks; ForgeQE runs the test.","color":"#0B8A8A","mono":"src/code/loop.ts · prompt.ts"},
+      "confirm": {"title":"ForgeQE's check","role":"ForgeQE runs the new test itself; a browser the test never opened counts as a failure.","color":"#0B8A8A","mono":"src/code/testrun.ts"},
+      "reviewer": {"title":"Scribe reviewer","role":"A second, read-only Scribe session checks the change against the goal and the test rules; issues go back as the next attempt.","color":"#0B8A8A","mono":"src/code/review.ts"},
+      "heal": {"title":"Scribe heals","role":"Runs the repo's tests; for each failure Scribe re-runs the flow with browser_run, then fixes the test or reports an app bug.","color":"#0B8A8A","mono":"src/heal/loop.ts"},
+      "testsys": {"title":"Test systems","role":"Azure DevOps, Jira, Xray, TestRail, Zephyr Scale, qTest, and Confluence. Results can post back.","color":"#5B4BC9","mono":null},
+      "llm": {"title":"LLM providers","role":"Azure OpenAI, OpenAI, Ollama, or any OpenAI-compatible endpoint, as named in llms.json.","color":"#5B4BC9","mono":null},
+      "app": {"title":"Your web app","role":"The site under test, opened in a real browser from this machine.","color":"#5B4BC9","mono":null},
+      "ci": {"title":"CI & alerts","role":"GitHub and Azure Pipelines for secrets and branches. Microsoft Teams and email for monitor alerts.","color":"#5B4BC9","mono":null}
+    },
+    "edges": [
+      {"f":"user","t":"shell","label":"types a goal, test case, or request"},
+      {"f":"shell","t":"agent","label":"sends the request"},
+      {"f":"agent","t":"mcp","label":"calls browser_run"},
+      {"f":"mcp","t":"bridge","label":"starts a run"},
+      {"f":"bridge","t":"engine","label":"request on stdin"},
+      {"f":"engine","t":"chrome","label":"drives the browser"},
+      {"f":"engine","t":"reports","label":"writes run.json, steps, memory"},
+      {"f":"reports","t":"handoff","label":"passing run becomes the handoff"},
+      {"f":"handoff","t":"scribe","label":"Scribe reads it"},
+      {"f":"scribe","t":"confirm","label":"reports the test and command"},
+      {"f":"confirm","t":"reviewer","label":"passed in a browser: review"},
+      {"f":"shell","t":"transcript","label":"renders tool lines and cards"},
+      {"f":"composer","t":"transcript","label":"your text and /commands"},
+      {"f":"plain","t":"agent","label":"same agent, no full screen"},
+      {"f":"mcp","t":"tools","label":"exposes"},
+      {"f":"tools","t":"cases","label":"each case is a browser run"},
+      {"f":"cases","t":"connectors","label":"fetch cases, post results"},
+      {"f":"setup","t":"bridge","label":"Python and Chrome paths"},
+      {"f":"engine","t":"judge","label":"checks the finish"},
+      {"f":"memory","t":"engine","label":"replays recorded flows"},
+      {"f":"logins","t":"engine","label":"secrets by env name"},
+      {"f":"config","t":"agent","label":"active profile, code.model"},
+      {"f":"reviewer","t":"reports","label":"code.json, report.html"},
+      {"f":"scribe","t":"repo","label":"writes the test"},
+      {"f":"heal","t":"repo","label":"fixes out-of-date tests"},
+      {"f":"confirm","t":"scribe","label":"failure output, or no browser: fix it"},
+      {"f":"reviewer","t":"scribe","label":"review issues: fix them"},
+      {"f":"connectors","t":"testsys","label":"REST or MCP"},
+      {"f":"agent","t":"llm","label":"decides the next tool"},
+      {"f":"engine","t":"llm","label":"one call per step"},
+      {"f":"chrome","t":"app","label":"opens real pages"},
+      {"f":"scribe","t":"llm","label":"writes and fixes code"},
+      {"f":"reports","t":"ci","label":"JUnit, secrets, alerts"},
+      {"f":"scribe","t":"app","label":"checks the live page in its own browser"},
+      {"f":"heal","t":"tools","label":"re-runs each failing flow with browser_run"},
+      {"f":"tools","t":"handoff","label":"write_test builds the handoff"}
+    ]
+  };
+  var svg = document.getElementById('diagram');
+  var panel = document.getElementById('trace');
+  var idle = '';
+  var wrap = document.getElementById('trace-wrap');
+  var openId = null, leaveTimer = null;
+  var edges = Array.prototype.slice.call(svg.querySelectorAll('.edge'));
+  var badges = Array.prototype.slice.call(svg.querySelectorAll('.badge'));
+  var nodes = Array.prototype.slice.call(svg.querySelectorAll('.node'));
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function list(items){
+    if(!items.length) return '<p class="none">Nothing</p>';
+    return '<ul>'+items.map(function(i){return '<li><span>'+esc(i.name)+'</span><span>'+esc(i.label)+'</span></li>'}).join('')+'</ul>';
+  }
+  function show(id){
+    var n = DATA.nodes[id]; if(!n) return;
+    var hot = {}; hot[id] = 1;
+    var out = [], inc = [];
+    DATA.edges.forEach(function(e){
+      if(e.f === id){ out.push({name:DATA.nodes[e.t].title,label:e.label}); hot[e.t]=1; }
+      if(e.t === id){ inc.push({name:DATA.nodes[e.f].title,label:e.label}); hot[e.f]=1; }
+    });
+    svg.style.setProperty('--hot', n.color);
+    svg.classList.add('tracing');
+    function mark(el){
+      var on = el.getAttribute('data-from') === id || el.getAttribute('data-to') === id;
+      el.classList.toggle('hot', on);
+    }
+    edges.forEach(mark); badges.forEach(mark);
+    nodes.forEach(function(el){ el.classList.toggle('hot', !!hot[el.getAttribute('data-id')]); });
+    if (openId === id) return;
+    var wasOpen = wrap.classList.contains('open') && openId !== null;
+    openId = id;
+    panel.innerHTML =
+      '<div><h2><i style="background:'+n.color+'"></i>'+esc(n.title)+'</h2><p class="role">'+esc(n.role)+'</p>'+(n.mono?'<code class="file">'+esc(n.mono)+'</code>':'')+'</div>'+
+      '<div><h3>Sends to</h3>'+list(out)+'</div>'+
+      '<div><h3>Receives from</h3>'+list(inc)+'</div>';
+    panel.classList.remove('swap');
+    if (wasOpen) { void panel.offsetWidth; panel.classList.add('swap'); }
+    wrap.classList.add('open');
+  }
+  function clear(){
+    openId = null;
+    svg.classList.remove('tracing');
+    edges.concat(badges,nodes).forEach(function(el){el.classList.remove('hot')});
+    wrap.classList.remove('open');
+  }
+  function enter(id){ clearTimeout(leaveTimer); show(id); }
+  function leave(){ clearTimeout(leaveTimer); leaveTimer = setTimeout(clear, 140); }
+  wrap.addEventListener('transitionend', function(e){
+    if (e.propertyName === 'grid-template-rows' && !wrap.classList.contains('open')) panel.innerHTML = idle;
+  });
+  nodes.forEach(function(el){
+    var id = el.getAttribute('data-id');
+    if(!id) return;
+    el.addEventListener('mouseenter', function(){enter(id)});
+    el.addEventListener('mouseleave', leave);
+    el.addEventListener('focus', function(){enter(id)});
+    el.addEventListener('blur', leave);
+    el.addEventListener('click', function(){enter(id)});
+  });
+})();
+</script>
+</body>
+</html>

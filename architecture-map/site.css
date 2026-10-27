@@ -1,0 +1,70 @@
+/* The website's look for ForgeQE's architecture map (ForgeQE/forgeqe-architecture.html, which ForgeQE ships light, for
+   `forgeqe docs --open`): build.sh links this file after the page's styles, with site-header.css and the site's header.
+   The page turns dark: its tokens become the site's palette, its fonts Ubuntu, and the diagram's colours, which are
+   SVG attributes, are re-mapped here (CSS outranks them). Band colours are lifted so they read on the dark ground. */
+
+:root {
+  --bg: #080a10; --ink: #e9edf3; --muted: #8f97a9; --hair: #1a2030; --card: #0e121b;
+  --sans: "Ubuntu", system-ui, sans-serif; --display: "Ubuntu", system-ui, sans-serif; --mono: "Ubuntu Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: radial-gradient(55% 45% at 12% 0%, rgb(79 141 245 / .14), transparent 70%), radial-gradient(45% 50% at 95% 35%, rgb(79 141 245 / .08), transparent 70%), #080a10; background-attachment: fixed; }
+h1 { font-weight: 500; letter-spacing: -.03em; }
+.trace h2, .story h2, .card h3, .tab { font-weight: 500; }
+
+/* The first screen holds the header too. */
+.first { height: calc(100vh - 76px); height: calc(100dvh - 76px); }
+
+/* Panels, tabs and tiles on dark. */
+.scroller { background: #0b0e15; box-shadow: inset 0 0 0 1px #1a2030; }
+.card, .trace { background: linear-gradient(180deg, #141a26, #0e121b); border-color: #1a2030; border-radius: 16px; }
+.n { background: #4f8df5; }
+.tab .ic, .tile { color: #79aaff; }
+.tile { background: rgb(79 141 245 / .12); box-shadow: inset 0 0 0 1px rgb(121 170 255 / .25); }
+.tab-ink { background: #79aaff; }
+.tab:focus-visible, .sub:focus-visible { outline-color: #79aaff; }
+.sub:hover { background: rgb(255 255 255 / .03); }
+.sub[aria-selected="true"] { background: #141a26; border-color: #263049; box-shadow: none; }
+code { color: #c7d8ff; }
+[stroke="#0E1A2E"]:not(#diagram *) { stroke: #79aaff; }
+
+/* The diagram. */
+#diagram [fill="#F5F7FB"] { fill: #0b0e15; }
+#diagram [stroke="#F5F7FB"] { stroke: #0b0e15; }
+#diagram rect[fill="#fff"] { fill: #141a26; }
+#diagram text[fill="#0E1A2E"], #diagram .ntitle { fill: #e9edf3; }
+#diagram path[fill="#0E1A2E"] { fill: #c9d1de; }
+#diagram :is(rect, circle)[fill="#0E1A2E"] { fill: #4f8df5; }
+#diagram [stroke="#0E1A2E"] { stroke: #c9d1de; }
+#diagram [fill="#5F6B7E"], #diagram .lgt, #diagram .igh { fill: #8f97a9; }
+#diagram [stroke="#5F6B7E"] { stroke: #4a5468; }
+#diagram [fill="#9AA6BB"] { fill: #6b7690; }
+#diagram [stroke="#9AA6BB"] { stroke: #6b7690; }
+#diagram [fill="#0B6E4F"] { fill: #5bd1a4; } #diagram [stroke="#0B6E4F"] { stroke: #5bd1a4; }
+#diagram [fill="#C86A0A"] { fill: #f5b14a; } #diagram [stroke="#C86A0A"] { stroke: #f5b14a; }
+#diagram [fill="#2563EB"] { fill: #79aaff; } #diagram [stroke="#2563EB"] { stroke: #79aaff; }
+#diagram [fill="#D02670"] { fill: #f472b6; } #diagram [stroke="#D02670"] { stroke: #f472b6; }
+#diagram [fill="#0B8A8A"] { fill: #5fd0ef; } #diagram [stroke="#0B8A8A"] { stroke: #5fd0ef; }
+#diagram [fill="#5B4BC9"] { fill: #a98bf3; } #diagram [stroke="#5B4BC9"] { stroke: #a98bf3; }
+#diagram [fill="#8A82D6"] { fill: #a5a0f0; } #diagram [stroke="#8A82D6"] { stroke: #a5a0f0; }
+#diagram .ntitle, #diagram .bandtitle, #diagram .lgt, #diagram .igh, #diagram .bnum { font-family: "Ubuntu", system-ui, sans-serif; }
+#diagram .nmono { font-family: "Ubuntu Mono", ui-monospace, monospace; }
+/* A traced path lights up in the site's blue, whatever its band's colour. */
+#diagram .edge.hot:not(.loop) .line { stroke: #79aaff; }
+#diagram .edge.hot:not(.loop) .head { fill: #79aaff; }
+/* Logos drawn in black (GitHub, OpenAI, Ollama) turn light, or they vanish on the dark ground. */
+#diagram [fill="#161614"], #diagram [fill="#111"] { fill: #e9edf3; }
+
+/* Small screens: the tabs scroll sideways instead of widening the page. */
+@media (max-width: 640px) {
+  .tablist { overflow-x: auto; scrollbar-width: none; }
+  .tablist::-webkit-scrollbar { display: none; }
+  .tab { flex: none; font-size: 16px; padding: 10px 12px 12px; }
+}
+
+/* Tablets: the diagram is sized by its width, not the screen's height, so a tall screen leaves no empty box around it. */
+@media (max-width: 1100px) and (min-width: 761px) {
+  .first { height: auto; min-height: 0; }
+  .stage { display: block; }
+  .stage .scroller { height: auto; width: 100%; aspect-ratio: 1680 / 990; }
+}

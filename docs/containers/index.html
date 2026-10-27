@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Containers · ForgeQE docs</title>
+<meta name="description" content="Status:">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/containers/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/" aria-current="page"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40">Containers</h1>
+    <article class="prose">
+<p>Status: the tests run against a fake runtime on any OS. They check the commands ForgeQE builds, the checks on config,
+compose files, mounts and secrets, the mock stubs, and tests in a container. <code>tests/containers.live.test.ts</code> runs on
+real Docker (and is skipped without it):</p>
+<ul>
+<li>Postgres from forgeqe.yaml and from a compose file.</li>
+<li>A WireMock mock that answers a recorded run's calls.</li>
+<li>A tests container that reaches the database by name and writes its results into the repository as this machine's
+user.</li>
+</ul>
+<p><code>.github/workflows/forgeqe-containers.yml</code> runs both on GitHub's Docker. There, a skipped live test fails the job.</p>
+<p>ForgeQE uses Docker or Podman, when one is installed, for five jobs:</p>
+<ul>
+<li><strong>Services a test run needs:</strong> a database, a queue, a cache, or the API under test. The project declares them in
+forgeqe.yaml, or in a docker-compose file that forgeqe.yaml names.</li>
+<li><strong>Mocks of an API:</strong> WireMock stubs made from the calls a browser run recorded, or from an OpenAPI description, so
+the tests can run without the real service.</li>
+<li><strong>The repository's tests in a container:</strong> <code>run_tests</code> runs the command the user confirmed in an image, instead of
+on this machine, after starting the services the tests need.</li>
+<li><strong>A workspace for the coding agents:</strong> with <code>containers.workspace</code>, Scribe's shell commands (build, restore, run,
+git) and every test ForgeQE runs for it go to a container of the project's image. The agents stay on this machine.</li>
+<li><strong>A browser in a container:</strong> with <code>browser.provider: docker</code>, the browser agent, the replay and Scribe's live
+browser drive Chromium in a container of Microsoft's Playwright image.</li>
+</ul>
+<p>Scribe also has a <code>testcontainers</code> skill, for tests that start their own services from code (below).</p>
+<p>ForgeQE's agent uses them through two tools, <code>services</code> and <code>mock_service</code>. The CLI has <code>forgeqe services</code>. When
+neither Docker nor Podman is on PATH, the agent isn't offered these tools.</p>
+<h2 id="use"><a href="#use" class="hash">#</a>Use</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe services                     # the declared services, what runs, whether the runtime answers
+forgeqe services up                  # start every declared service and wait until each is ready
+forgeqe services up db queue         # just these
+forgeqe services logs db --lines 50  # last lines, secrets removed
+forgeqe services down                # stop and remove this project's containers (mocks included)
+</code></pre></div>
+<p>In the shell or <code>forgeqe run</code>, you can ask, for example:</p>
+<ul>
+<li>&quot;start the database&quot;</li>
+<li>&quot;is the queue up?&quot;</li>
+<li>&quot;mock the payments API from the last run&quot;</li>
+<li>&quot;make a mock service from openapi.yaml and point order-api at it&quot;</li>
+<li>&quot;stop the services&quot;</li>
+</ul>
+<p>The agent asks before it starts anything.</p>
+<h2 id="declaring-services"><a href="#declaring-services" class="hash">#</a>Declaring services</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code># forgeqe.yaml
+containers:
+  runtime: docker                       # docker | podman; default: docker, else podman, on PATH
+  services:
+    db:
+      description: Orders database for the API tests
+      image: postgres:16.4              # an exact version, or name@sha256:&amp;lt;digest&gt;
+      ports: [5432]                     # 127.0.0.1:5432 -&gt; 5432; &quot;15432:5432&quot; maps another port of this machine
+      env:                              # plain values only
+        POSTGRES_DB: shop
+        POSTGRES_USER: shop
+      secrets: [POSTGRES_PASSWORD]      # environment variable names; their values come from the environment or .env
+      volumes:
+        - ./db/init:/docker-entrypoint-initdb.d    # read-only; a folder or file inside the project
+      command: [&quot;-c&quot;, &quot;log_statement=all&quot;]         # arguments for the image's entrypoint
+      ready: { tcp: 5432 }              # or { http: /health, port: 8080 }; without it: the container runs
+      timeout: 90                       # seconds to wait until ready (default 60)
+    queue:
+      image: rabbitmq:3.13.7-management
+      ports: [5672, 15672]
+      ready: { http: /, port: 15672 }
+  mock:
+    image: wiremock/wiremock:3.9.1      # the default
+</code></pre></div>
+<div class="tbl"><table>
+<thead>
+<tr><th>Setting</th><th>Rule</th></tr>
+</thead>
+<tbody>
+<tr><td>Service name</td><td>Lower-case letters, digits and <code>-</code>, starting with a letter. Names starting with <code>mock-</code> are kept for mocks.</td></tr>
+<tr><td><code>image</code></td><td>Must have an exact tag or a digest. An untagged image or <code>latest</code> is refused, because it changes under the same name.</td></tr>
+<tr><td><code>ports</code></td><td>Always bound to 127.0.0.1. An address such as <code>0.0.0.0:5432:5432</code> is refused.</td></tr>
+<tr><td><code>env</code></td><td>Plain values on one line. Secrets go under <code>secrets</code>.</td></tr>
+<tr><td><code>secrets</code></td><td>Variable names. They are passed to the runtime by name (<code>--env NAME</code>), so the value is never on a command line. One of ForgeQE's own keys (a model key, a tracker token) is refused.</td></tr>
+<tr><td><code>volumes</code></td><td>Always read-only. Must be inside the folder of forgeqe.yaml, and can't be the whole folder.</td></tr>
+<tr><td><code>command</code></td><td>A list of arguments, never one command string.</td></tr>
+<tr><td><code>depends_on</code></td><td>Services to start first.</td></tr>
+<tr><td>Anything else</td><td>Refused with an error, not ignored. That includes <code>privileged</code>, <code>network</code>, <code>cap_add</code>, <code>devices</code>, <code>user</code>, <code>pid</code> and the socket.</td></tr>
+</tbody>
+</table></div>
+<p>Every service, whether from forgeqe.yaml or a compose file, can list <code>depends_on</code>. <code>up</code> starts a service after the
+ones it depends on; a circle is refused.</p>
+<h2 id="compose-files"><a href="#compose-files" class="hash">#</a>Compose files</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>containers:
+  compose: docker-compose.yml          # or a list; inside the project
+</code></pre></div>
+<p>ForgeQE reads each service of the file and translates it into a forgeqe.yaml service. The same rules then check it,
+and a service declared in forgeqe.yaml wins over the compose file's service of the same name. Compose itself never
+runs.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Compose</th><th>ForgeQE</th></tr>
+</thead>
+<tbody>
+<tr><td><code>image</code></td><td>Required; an exact version or a digest. <code>build</code> is refused: build and tag the image first.</td></tr>
+<tr><td><code>ports</code></td><td><code>&quot;5432&quot;</code>, <code>&quot;15432:5432&quot;</code>, <code>&quot;127.0.0.1:15432:5432&quot;</code>, or the long form; always bound to 127.0.0.1. Any other address, and UDP, are refused.</td></tr>
+<tr><td><code>environment</code></td><td>Plain values are passed as they are. <code>KEY: ${KEY}</code>, <code>KEY</code> alone in the list form, and <code>KEY: ${KEY:-default}</code> pass the variable by name as a secret. <code>${OTHER}</code> under another name, and values that mix text and <code>${…}</code>, are refused.</td></tr>
+<tr><td><code>volumes</code></td><td>Bind mounts (<code>./db/init:/docker-entrypoint-initdb.d</code>) are mounted read-only, and <code>:rw</code> is noted. Named and anonymous volumes are left out, so the container keeps no data between runs. A path outside the project is refused when the service starts.</td></tr>
+<tr><td><code>command</code></td><td>A list, or a string split into arguments (compose uses no shell, and neither does ForgeQE).</td></tr>
+<tr><td><code>depends_on</code></td><td>List or map form: the start order. <code>condition</code> is not used; ForgeQE waits until each service is ready.</td></tr>
+<tr><td><code>x-forgeqe</code></td><td><code>ready</code>, <code>timeout</code>, <code>description</code>, as in forgeqe.yaml. Without <code>ready</code>, a service with ports is ready when its first port takes connections.</td></tr>
+<tr><td><code>container_name</code>, <code>restart</code>, <code>labels</code>, <code>healthcheck</code>, <code>networks</code>, <code>expose</code>, <code>deploy</code>, <code>profiles</code>, …</td><td>Ignored: ForgeQE names, labels and networks the containers itself.</td></tr>
+<tr><td><code>privileged</code>, <code>network_mode</code>, <code>cap_add</code>, <code>devices</code>, <code>pid</code>, <code>ipc</code>, <code>user</code>, <code>security_opt</code>, <code>volumes_from</code>, <code>env_file</code>, <code>entrypoint</code>, <code>extends</code>, …</td><td>Refused, and the error names the setting.</td></tr>
+</tbody>
+</table></div>
+<p>What was left out (a named volume, a mount made read-only) is listed in <code>notes</code>.</p>
+<h2 id="the-project-network"><a href="#the-project-network" class="hash">#</a>The project network</h2>
+<p>Each project's containers join their own network, <code>forgeqe-&amp;lt;project&gt;</code>, under their service name. So the API container
+reaches the database as <code>db:5432</code>, and the tests container reaches both. No other container joins the network, and no
+container is on the host's network. <code>forgeqe services down</code> with no names also removes the network.</p>
+<h2 id="tests-in-a-container"><a href="#tests-in-a-container" class="hash">#</a>Tests in a container</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>containers:
+  tests:
+    image: mcr.microsoft.com/playwright:v1.48.2-jammy   # an exact version; the tests' toolchain
+    services: [db, order-api]          # started first (when not running yet); the tests reach them by name
+    env: { DB_HOST: db }
+    secrets: [TEST_DB_PASSWORD]
+</code></pre></div>
+<p>With <code>containers.tests</code> set, <code>run_tests</code> runs the tests in that image unless it is called with <code>in_container: false</code>.
+Its confirmation says where the tests will run. The container:</p>
+<ul>
+<li><strong>Runs the command the user confirmed</strong> with the image's own shell, <code>sh -c &quot;&amp;lt;command&gt;&quot;</code>, inside the container,
+never on this machine.</li>
+<li><strong>Mounts the repository read-write at its own path</strong> and works in it, so results land where ForgeQE reads them.
+On this machine, the tests already have the whole disk. A folder outside the repository that the results go to is
+mounted the same way.</li>
+<li><strong>Runs as this machine's user</strong> (<code>--user uid:gid</code>), so files it writes are yours. It also gets
+<code>--security-opt no-new-privileges</code>, <code>--pids-limit 4096</code> and <code>--rm</code>, and it is removed by name when the run ends or is
+stopped.</li>
+<li><strong>Gets only these variables:</strong> <code>CI=1</code>, <code>NO_COLOR</code>, <code>HOME=/tmp</code>, the environment's <code>FORGEQE_ACTIVE_ENV</code>,
+<code>FORGEQE_APP_*</code> and <code>FORGEQE_VAR_*</code>, the saved logins' variables, and <code>containers.tests</code> <code>env</code> and <code>secrets</code>.
+Secrets are passed by name. ForgeQE's own keys are never passed.</li>
+<li><strong>Has secret values removed from its output</strong>, as on this machine.</li>
+</ul>
+<p>This needs a Linux or macOS machine, because the repository is mounted at its own path.</p>
+<h2 id="the-workspace"><a href="#the-workspace" class="hash">#</a>The workspace</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>containers:
+  workspace:
+    image: mcr.microsoft.com/playwright/dotnet:v1.63.0-noble   # an exact version; the project's toolchain
+    services: [db]                       # started first; reached by name
+    env: { NEXUS_ENVIRONMENT: CI, DOTNET_ROLL_FORWARD: Major }
+    secrets: [TEST_DB_PASSWORD]          # by name; values from the environment or .env
+</code></pre></div>
+<p>With <code>containers.workspace</code> set:</p>
+<ul>
+<li><strong>Scribe's shell runs in the container.</strong> The agent runtime runs each command as <code>$SHELL -c &amp;lt;command&gt;</code>. ForgeQE
+sets <code>SHELL</code> to a script that runs the same command with <code>docker exec … sh -c &amp;lt;command&gt;</code>, in the same folder,
+in the workspace container. A folder outside the repository is refused, since the container has only the
+repository. The agent is told its commands run in a Linux container of that image.</li>
+<li><strong>Every test ForgeQE runs goes to the same image:</strong> the coding loop's runs, <code>heal</code>, <code>suite</code>'s existing tests and
+<code>run_tests</code>. Each run gets its own container (<code>docker run --rm</code>), so stopping a run removes it. Browsers the test
+starts are found with <code>docker top</code>, as ForgeQE finds them on this machine.</li>
+<li><strong>What stays on this machine:</strong> the agent runtime, the model key, ForgeQE's other secrets, the file tools (read,
+edit, write; the repository is the same folder in both places), and ForgeQE's own agent, which works with you
+on this machine and keeps its shell here. <code>FORGEQE_HOST_RUN=1</code> runs everything on this machine for a session.</li>
+<li><strong>The container:</strong>
+<ul>
+<li>one per ForgeQE process and project, <code>forgeqe-&amp;lt;project&gt;-workspace-&amp;lt;id&gt;</code>, removed when ForgeQE ends;</li>
+<li>the repository mounted read-write at its own path; credential files in it (<code>.env</code>, <code>.env.*</code> except templates,
+<code>.npmrc</code>, <code>.netrc</code>, <code>*.pem</code>, <code>*.key</code>, <code>id_*</code> keys) covered with an empty read-only file, and <code>.ssh</code>, <code>.aws</code>,
+<code>.azure</code>, <code>.docker</code>, <code>.kube</code> and <code>.forgeqe/sessions</code> with an empty folder;</li>
+<li><code>HOME</code> on the project's volume <code>forgeqe-&amp;lt;project&gt;-home</code>, so NuGet, npm and pip caches outlive the session. Docker
+creates the volume for root, so ForgeQE runs <code>chown</code> in it once, with a fixed command;</li>
+<li>this machine's user (<code>--user uid:gid</code>), <code>no-new-privileges</code>, <code>--pids-limit 4096</code>, the project network;</li>
+<li>only <code>CI=1</code>, <code>HOME</code>, the <code>env</code> and <code>secrets</code> listed, and, in each command, the environment's <code>FORGEQE_APP_*</code> and
+<code>FORGEQE_VAR_*</code> and the saved logins' variables, by name.</li>
+</ul>
+</li>
+<li><strong><code>containers.tests</code></strong> still names the image <code>run_tests</code> uses when it is set. Without it, <code>run_tests</code> uses the
+workspace's image.</li>
+</ul>
+<p>This needs a Linux or macOS machine, as tests in a container do.</p>
+<h2 id="the-browser-in-a-container"><a href="#the-browser-in-a-container" class="hash">#</a>The browser in a container</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>browser:
+  provider: docker        # or per run: --browser-provider docker
+containers:
+  browser:                # optional
+    image: mcr.microsoft.com/playwright:v1.63.0-noble   # default; needs Node.js and /ms-playwright
+    headless: false       # default: browser.headless; a visible browser runs on a virtual display (Xvfb)
+</code></pre></div>
+<ul>
+<li><strong>One container per use:</strong> each browser run (a suite runs <code>suite.parallel</code> at once) gets its own, and a coding job
+gets one that its replay and live browser share. Each is removed when its run or job ends.</li>
+<li><strong>Connection:</strong> Chromium listens on 127.0.0.1 inside the container. CDP has no authentication of its own, so a small
+gateway in front of it (<code>BROWSER_SERVER</code> in <code>src/containers/browser.ts</code>, run with the image's Node.js) accepts a
+connection only with a random 48-character token in its path, compared in constant time, and refuses a browser
+<code>Origin</code> that is not local. The port is published on 127.0.0.1 only. The token reaches the engine, the replay and
+the live browser's MCP server through the environment, never a file or a command line.</li>
+<li><strong>Visible or headless:</strong> a visible browser runs on Xvfb inside the container. Sites that turn headless browsers
+away see an ordinary one, but you do not see it on your screen. Runs keep screenshots and traces as usual.</li>
+<li><strong>Reaching the app:</strong> the container joins the project network, so a declared service is reached by its name
+(<code>http://order-api:8080</code>). An app this machine serves is <code>http://host.docker.internal:&amp;lt;port&gt;</code>; <code>localhost</code> is the
+container itself, and ForgeQE warns when a run starts there.</li>
+<li><strong>Replay:</strong> one pass, in a new browser context. The second pass (without Playwright's automation switches) needs a
+launch, which a running browser does not have.</li>
+<li>A run explored in a container is replayed in one even when the provider is changed back later (<code>run.json</code>).</li>
+</ul>
+<h2 id="testcontainers-scribe"><a href="#testcontainers-scribe" class="hash">#</a>Testcontainers (Scribe)</h2>
+<p>When a test needs a real service, or the repository already uses Testcontainers (Java, .NET, Node, Python, Go), Scribe
+loads the <code>testcontainers</code> skill. It reuses the repository's containers and fixtures, pins images, waits for
+readiness, uses the mapped port, and sets the app's own configuration from it. It never uses privileged mode, the
+host network, the Docker socket, or a <code>docker</code> command from a test. These containers belong to the tests in the
+repository: the tests start and stop them, wherever they run.</p>
+<h2 id="mocks"><a href="#mocks" class="hash">#</a>Mocks</h2>
+<p><code>mock_service</code> builds WireMock stubs and runs WireMock on a free port of 127.0.0.1:</p>
+<ul>
+<li><strong>From a run</strong> (the default: the latest run, or <code>run_dir</code>):
+<ul>
+<li>One stub per method, path and query of the app's own API calls, answering with the last status, content type
+and body the app got.</li>
+<li>Other sites' calls are left out unless <code>third_party</code> is set.</li>
+<li>Failed calls are left out.</li>
+<li>Answers that were cut when recorded are listed under <code>skipped</code>.</li>
+</ul>
+</li>
+<li><strong>From a description</strong> (<code>spec</code>: OpenAPI 3 or Swagger 2, a link or a file):
+<ul>
+<li>One stub per REST operation.</li>
+<li>Each stub answers with the operation's first success status and a body from the schema's examples, or values
+made from its types.</li>
+<li>A path parameter (<code>/orders/{id}</code>) matches any one path segment.</li>
+<li>Instead of a description, you can give a contract set from <code>api_contracts</code> (<code>set_id</code>).</li>
+</ul>
+</li>
+<li><strong>GraphQL, SOAP and gRPC</strong> are listed under <code>skipped</code>, not mocked.</li>
+</ul>
+<p>A spec given as a link is fetched by ForgeQE itself, with no credentials, as <code>api_contracts</code> does. The stubs are written to <code>.forgeqe/mocks/&amp;lt;name&gt;/mappings/</code>. You can read and edit them there. The folder is mounted
+read-only at <code>/home/wiremock/mappings</code>. WireMock runs with <code>--enable-stub-cors</code>, so a web app on another local port
+can call it.</p>
+<p>With <code>for_app: &amp;lt;api app&gt;</code>, the active environment's API app points at the mock for the rest of the session. That
+covers the API tools, and the tests ForgeQE runs, which read <code>FORGEQE_APP_&amp;lt;APP&gt;_URL</code>. env.yaml itself is not
+changed.</p>
+<h2 id="lifetime"><a href="#lifetime" class="hash">#</a>Lifetime</h2>
+<ul>
+<li><strong>Services and mocks the agent starts</strong> are removed when the shell, <code>forgeqe run</code>, or <code>forgeqe mcp</code> ends, as are
+the workspace and browser containers (<code>forgeqe.kind</code> <code>workspace</code> and <code>browser</code>). The home volume stays.</li>
+<li><strong><code>forgeqe services up</code></strong> keeps its services running after the command ends, until <code>forgeqe services down</code>.</li>
+<li><strong>Container names</strong> are <code>forgeqe-&amp;lt;project&gt;-&amp;lt;service&gt;</code>. <code>&amp;lt;project&gt;</code> is a hash of the project folder, so two projects
+never share a container. Starting a service replaces its earlier container. Removing a container also removes the anonymous volumes its image declares (a database's data folder), so nothing is left on the machine. A container is never reused with old
+settings.</li>
+<li><strong>Labels:</strong> each container carries <code>forgeqe=1</code>, <code>forgeqe.project</code>, <code>forgeqe.service</code> and <code>forgeqe.kind</code>.
+<code>down</code> and <code>status</code> look only at this project's containers.</li>
+</ul>
+<h2 id="security"><a href="#security" class="hash">#</a>Security</h2>
+<p>ForgeQE's agent reads text other people control: tickets, web pages, repositories. A container command built from that
+text could mount the whole disk or run privileged, so:</p>
+<ul>
+<li><strong>No commands from the model.</strong> The agent names services that forgeqe.yaml declares, and ForgeQE builds the
+argument array (<code>docker run …</code>). It never uses a shell. Images, flags and mounts never come from a request.</li>
+<li><strong>The same restrictions for every container:</strong> <code>--security-opt no-new-privileges</code>, <code>--pids-limit 1024</code>, ports on
+127.0.0.1, and read-only mounts. There is no setting to turn these off.</li>
+<li><strong>Mounts are checked like uploads</strong> (except a mock's stubs folder, which ForgeQE writes itself and mounts read-only). The path is resolved with <code>realpath</code> and must be inside the project. A mount
+that is or holds a hidden file or folder (<code>.env</code>, <code>.git</code>, <code>.npmrc</code>), a file named like a key (<code>*.pem</code>, <code>id_rsa</code>,
+<code>llms.json</code>) or a link is refused. A container can send what it reads anywhere.</li>
+<li><strong>Environment:</strong>
+<ul>
+<li>The <code>docker</code> and <code>podman</code> programs see only the system settings and the variables they need to find their daemon
+(<code>DOCKER_HOST</code>, <code>DOCKER_CONTEXT</code>, <code>CONTAINER_HOST</code>, …), plus the service's listed secrets.</li>
+<li>A container gets only its <code>env</code> and <code>secrets</code>.</li>
+<li>Logs and errors have secret values replaced with <code>***</code>.</li>
+</ul>
+</li>
+<li><strong>Not in the agents' shell:</strong> <code>docker</code>, <code>podman</code>, <code>nerdctl</code>, <code>docker-compose</code> and <code>podman-compose</code> are denied in the
+shell of ForgeQE's agent and of Scribe. So the only way to start a container is these tools.</li>
+<li><strong>Asked first:</strong> <code>services up</code> and <code>mock_service</code> ask the user before starting, as <code>run_tests</code> does.</li>
+</ul>
+<h2 id="code"><a href="#code" class="hash">#</a>Code</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>File</th><th>Contents</th></tr>
+</thead>
+<tbody>
+<tr><td><code>src/containers/config.ts</code></td><td><code>containers:</code> in forgeqe.yaml: services, images, ports, env, secrets, mounts, ready checks</td></tr>
+<tr><td><code>src/containers/run.ts</code></td><td>The runtime (docker or podman), <code>run</code> arguments, mount and secret checks, start and wait, status, logs, stop, the session's containers</td></tr>
+<tr><td><code>src/containers/mock.ts</code></td><td>WireMock stubs from run traffic and from contract sets; values from JSON schemas</td></tr>
+<tr><td><code>src/containers/compose.ts</code></td><td>docker-compose files as services: what is translated, ignored, left out or refused</td></tr>
+<tr><td><code>src/containers/tests.ts</code></td><td><code>run_tests</code> in a container: arguments, environment, mounts, output, browsers from <code>docker top</code></td></tr>
+<tr><td><code>src/containers/workspace.ts</code></td><td><code>containers.workspace</code>: the container, its home volume, the agent's shell script, its test runner</td></tr>
+<tr><td><code>src/containers/active.ts</code></td><td>The registered workspaces, by repository: <code>runTestCommand</code> and <code>openSession</code> look them up</td></tr>
+<tr><td><code>src/containers/masks.ts</code></td><td>The repository's credential files and folders, covered in every container that mounts it</td></tr>
+<tr><td><code>src/containers/browser.ts</code></td><td><code>browser.provider: docker</code>: the browser container, its token gateway, the endpoint</td></tr>
+<tr><td><code>src/containers/command.ts</code></td><td><code>forgeqe services</code></td></tr>
+<tr><td><code>skills/testcontainers/SKILL.md</code></td><td>Scribe's Testcontainers skill</td></tr>
+<tr><td><code>src/mcp/containertools.ts</code></td><td>The agent's <code>services</code> and <code>mock_service</code></td></tr>
+</tbody>
+</table></div>
+<p>Tests: <code>bun test tests/containers.test.ts tests/workspace.test.ts</code>, which use a fake runtime that records each command
+(<code>workspace.test.ts</code> also runs the gateway against a stand-in browser, and the agent runtime against the workspace's
+script). <code>tests/containers.live.test.ts</code> uses real Docker.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/mobile/"><small>Previous</small><span>Mobile apps</span></a>
+      <a class="next" href="/docs/product-knowledge/"><small>Next</small><span>Product knowledge</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#use">Use</a></li><li><a href="#declaring-services">Declaring services</a></li><li><a href="#compose-files">Compose files</a></li><li><a href="#the-project-network">The project network</a></li><li><a href="#tests-in-a-container">Tests in a container</a></li><li><a href="#the-workspace">The workspace</a></li><li><a href="#the-browser-in-a-container">The browser in a container</a></li><li><a href="#testcontainers-scribe">Testcontainers (Scribe)</a></li><li><a href="#mocks">Mocks</a></li><li><a href="#lifetime">Lifetime</a></li><li><a href="#security">Security</a></li><li><a href="#code">Code</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

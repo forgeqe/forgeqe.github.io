@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model routing · ForgeQE docs</title>
+<meta name="description" content="With more than one model in llms.json, ForgeQE can give each kind of work the model it needs.">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/model-routing/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/" aria-current="page"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40">Model routing</h1>
+    <article class="prose">
+<p>With more than one model in <code>llms.json</code>, ForgeQE can give each kind of work the model it needs. A small, fast,
+cheap model can plan and review. A strong model can write code and find root causes. A model that takes screenshots
+drives the browser, and a model with a large window reads a large pull request. You do not need to know what each
+model can do: ForgeQE finds out.</p>
+<h2 id="turn-it-on"><a href="#turn-it-on" class="hash">#</a>Turn it on</h2>
+<p>In <code>forgeqe.yaml</code>:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>llm:
+  models_file: ./llms.json
+  routing: auto        # off (the default for existing projects) | shadow | auto
+</code></pre></div>
+<p><code>forgeqe init</code> writes <code>routing: auto</code> for new projects. With no <code>routing</code> line it is off. <code>shadow</code> decides and logs each pick in the session log
+(<code>model.route</code>) but changes nothing, so you can see what the router would do before you let it. Shadow still runs the
+live checks and the rating call described below.</p>
+<p>Whatever <code>routing</code> says, the model an area gets must work: its key or sign-in is set and it passed a live call
+(one per model, kept for a day in <code>.forgeqe/model-checks.json</code> once it passes; a failed one is never kept, and a failed
+check in <code>model-profile.json</code> is checked again). When it does not, the next model that works is used, a GitHub Copilot
+profile first, and ForgeQE says why and how to fix the first. When none works, the error lists each model with the fix.
+Only <code>--profile</code> skips this. With <code>auto</code>, a GitHub Copilot seat counts as costing nothing more per call, so it is picked
+whenever it is rated good enough.</p>
+<p>See the picks, and every model's check with its fix:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe models --routes
+</code></pre></div>
+<h2 id="the-areas-of-work"><a href="#the-areas-of-work" class="hash">#</a>The areas of work</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Area</th><th>What runs in it</th><th>Needs</th></tr>
+</thead>
+<tbody>
+<tr><td><code>agent</code></td><td>ForgeQE's agent: the shell, <code>forgeqe run</code>, <code>forgeqe mcp</code></td><td>tool calls; rated 4+</td></tr>
+<tr><td><code>browser</code></td><td>Browser, desktop and mobile runs, from screenshots</td><td>images; rated 4+</td></tr>
+<tr><td><code>coding</code></td><td>Scribe writing and healing tests, API tests</td><td>tool calls; rated 5</td></tr>
+<tr><td><code>review</code></td><td>Test reviewer, pull-request review, evaluation judge</td><td>tool calls; rated 3+</td></tr>
+<tr><td><code>analysis</code></td><td>Root cause of defects</td><td>tool calls; rated 5</td></tr>
+<tr><td><code>planning</code></td><td>Refine, finding tests, API scenarios, exploratory charters</td><td>tool calls; rated 3+</td></tr>
+</tbody>
+</table></div>
+<h2 id="how-a-model-is-picked"><a href="#how-a-model-is-picked" class="hash">#</a>How a model is picked</h2>
+<ol>
+<li>
+<p><strong>Your choices win.</strong> <code>--profile</code> (or <code>WP_LLM_PROFILE</code>) and <code>code.model</code> keep the router out. A profile pinned in
+<code>llm.routes</code> is used for its area. <code>code.review_profile</code> still sets the reviewer.</p>
+</li>
+<li>
+<p><strong>Facts rule models out.</strong> The router never picks a model that:</p>
+<ul>
+<li>has no key, or failed its live check;</li>
+<li>takes no images, for browser work;</li>
+<li>takes no tool calls, for agent work;</li>
+<li>has a window too small for the prompt (a large pull-request diff, for example).</li>
+</ul>
+<p>The facts come from <code>llms.json</code>, a live check, and the public model lists (models.dev and LiteLLM) that ForgeQE
+already downloads for prices. A fact that nobody knows never rules a model out.</p>
+</li>
+<li>
+<p><strong>Ratings pick among the rest.</strong> The cheapest model rated at the area's bar is picked. Writing code and finding
+root causes ask for 5, because a weaker model there costs more in failed attempts than it saves. If no model reaches the bar,
+the best-rated one is picked. With no ratings yet, the active profile is kept unless a fact rules it out.</p>
+</li>
+<li>
+<p><strong>A failed answer escalates once.</strong> When a root-cause analysis finds nothing, or finds a cause with low confidence
+although it could read the product's code, it runs again on a stronger model: one rated higher for the area, or rated
+the same and priced higher. Both runs are counted in its cost.</p>
+</li>
+</ol>
+<p>The same configuration and task always give the same model. A pick changes only when the models, the ratings or the
+size of the prompt change. Each pick is shown once (&quot;Model for planning: mini (…)&quot;) and is written to the session log.</p>
+<h2 id="how-forgeqe-learns-the-models"><a href="#how-forgeqe-learns-the-models" class="hash">#</a>How ForgeQE learns the models</h2>
+<p>The first routed call in a project with two or more usable profiles does this once:</p>
+<ol>
+<li><strong>A live check of each model</strong> (<code>python -m forgeqe_engine probe</code>): one short structured answer and one image.
+This finds a deployment that does not exist, a wrong key, and whether the model really takes images. It also
+measures how fast the model answers.</li>
+<li><strong>One rating call.</strong> The active profile's model receives the facts of every model, never a key, an endpoint or an
+account. It rates each model 1–5 for each area and gives it a tier (fast, balanced or strong).</li>
+</ol>
+<p>The result is kept in <code>.forgeqe/model-profile.json</code> next to <code>forgeqe.yaml</code>. ForgeQE uses it until the profiles in
+<code>llms.json</code> change (provider, model, deployment or endpoint). You can edit the ratings. ForgeQE keeps your edits while
+the profiles stay the same. It checks the file every time it reads it: names that are not profiles and unknown areas
+are dropped, and ratings are rounded to whole numbers from 1 to 5.</p>
+<p>The live checks reach every profile in <code>llms.json</code> that has a key, whatever <code>llm.routes</code> pins. A pin keeps your runs'
+data on one deployment; the checks carry nothing from your runs. To send nothing to the other profiles at all, use
+<code>routing: off</code>, keep one profile with a key, or pass <code>--profile</code>.</p>
+<p>To check and rate again (for example, after a deployment changed its model):</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe models --routes --profile-models
+</code></pre></div>
+<h2 id="limit-what-an-area-may-use"><a href="#limit-what-an-area-may-use" class="hash">#</a>Limit what an area may use</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>llm:
+  routing: auto
+  routes:
+    browser: [gpt4o, gpt54]   # only these two, the router picks between them
+    coding: gpt54             # pinned
+    planning: auto            # any configured model (the default)
+</code></pre></div>
+<p>A name in <code>routes</code> must be a profile in <code>llms.json</code>, and an area must be one of the six above. Anything else stops
+ForgeQE at start with a message that names it.</p>
+<h2 id="what-it-does-not-do"><a href="#what-it-does-not-do" class="hash">#</a>What it does not do</h2>
+<ul>
+<li>ForgeQE's agent picks its model when its session starts and keeps it for the whole conversation. Changing the model
+mid-conversation would drop the prompt cache and make every later turn cost more. The agent hands heavy work to the
+other agents, and those are routed.</li>
+<li>A rating is one model's judgement. It is kept in a file that you can read and correct.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/cost-architecture/"><small>Previous</small><span>Cost-aware execution</span></a>
+      <span></span>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#turn-it-on">Turn it on</a></li><li><a href="#the-areas-of-work">The areas of work</a></li><li><a href="#how-a-model-is-picked">How a model is picked</a></li><li><a href="#how-forgeqe-learns-the-models">How ForgeQE learns the models</a></li><li><a href="#limit-what-an-area-may-use">Limit what an area may use</a></li><li><a href="#what-it-does-not-do">What it does not do</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

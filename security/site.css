@@ -1,0 +1,73 @@
+/* The website's look for ForgeQE's security page (ForgeQE/docs/security-data-flow.html, which ForgeQE itself ships in
+   its own theme): build.sh links this file after the page's styles, with site-header.css and the site's header. The page's colour
+   tokens become the site's palette, dark only; its fonts become Ubuntu and Ubuntu Mono, self-hosted; its square
+   panels get the site's rounded corners. The page's markup and script are left as they are. */
+
+/* Specificity above the page's own light, dark and system-dark token sets, so the site's palette always wins. */
+html:root:root {
+  --bg: #080a10; --band: #0c1018; --card: #0e121b; --canvas: #0b0f17; --code: #141a26;
+  --ink: #e9edf3; --ink2: #c9d1de; --muted: #8f97a9; --hair: #1a2030; --rule: #263049;
+  --grid: #10141e; --grid2: #151b28;
+  --local: #79aaff; --local-bg: rgb(79 141 245 / .14);
+  --org: #5bd1a4; --org-bg: rgb(91 209 164 / .12);
+  --pub: #f5d58a; --pub-bg: rgb(245 213 138 / .12);
+  --agent: #a98bf3; --agent-bg: rgb(169 139 243 / .14);
+  --block: #ff6b6b; --block-bg: rgb(255 107 107 / .13);
+  --focus: #79aaff; --brand: #4f8df5; --brand-ink: #ffffff; --brand-soft: #79aaff;
+  --guide-bg: #080a10; --guide-panel: #0e121b; --guide-panel-2: #141a26; --guide-line: #1a2030;
+  --guide-text: #e9edf3; --guide-muted: #8f97a9; --guide-soft: #141a26; --guide-accent: #79aaff;
+  --sans: "Ubuntu", system-ui, sans-serif; --display: "Ubuntu", system-ui, sans-serif; --mono: "Ubuntu", system-ui, sans-serif;
+  --codefont: "Ubuntu Mono", ui-monospace, monospace;
+  --site-h: 76px;
+  color-scheme: dark;
+}
+html:root:root body { background: radial-gradient(55% 45% at 12% 0%, rgb(79 141 245 / .14), transparent 70%), radial-gradient(45% 50% at 95% 35%, rgb(79 141 245 / .08), transparent 70%), #080a10; background-attachment: fixed; font-size: 13.5px; }
+
+#app { height: calc(100vh - var(--site-h)); height: calc(100dvh - var(--site-h)); }
+
+/* The header carries the logo, and the site is dark only: the rail drops its own brand and theme switch. */
+.side-brand .mark, .side-brand .theme, .brand-meta .partner-logo { display: none !important; }
+.side-brand { margin-bottom: 4px !important; padding: 0 !important; gap: 0 !important; }
+
+/* Type a size up, so the page reads like the rest of the site. */
+.chapters button .t { font-size: 14px; }
+.chead h2 { font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
+.chead p { font-size: 13px; }
+.chead .mono, .mono { letter-spacing: .06em; }
+
+/* The site's rounded panels and controls. */
+.search-wrap, .theme, .jump button { border-radius: 10px; }
+.ledger, .fig, .spec, .tw, .sheet, .info { border-radius: 16px; overflow: hidden; }
+.ledger, .spec { background: linear-gradient(180deg, #141a26, #0e121b); border-color: #1a2030; }
+.fig, .sheet { border-color: #263049; }
+.band, .zone { border-radius: 14px; }
+.cn, .st { border-radius: 10px; }
+.ctrl { border-radius: 10px; overflow: hidden; }
+.where { border-radius: 999px; padding: 1px 8px 1px 7px; }
+code { border-radius: 5px; border: 0; background: rgb(121 170 255 / .1); color: #c7d8ff; }
+.info { box-shadow: 0 20px 60px -20px rgb(0 0 0 / .8); }
+.ticks::before { display: none; }
+
+/* The overview's heading, in the site's two-tone style. */
+.cover h2 { font-weight: 500; letter-spacing: -.025em; }
+.cover h2 em { color: #4f8df5; background: linear-gradient(100deg, #4f8df5 10%, #79aaff 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding-right: .12em; }
+.cover .kick { color: #79aaff; }
+.cover .lead { font-size: 15px; }
+
+/* Code sheets: a dark title bar instead of a light one. */
+.sheet .file { background: #141a26; color: #8f97a9; border-bottom: 1px solid #263049; padding: 7px 12px; }
+
+/* The page's script writes the key's colours inline; they follow the site's palette too. */
+[style*="background-color: rgb(0, 121, 200)"] { background-color: #79aaff !important; }
+[style*="background-color: rgb(0, 122, 105)"] { background-color: #5bd1a4 !important; }
+[style*="background-color: rgb(90, 61, 174)"] { background-color: #a98bf3 !important; }
+[style*="background-color: rgb(163, 87, 0)"] { background-color: #f5d58a !important; }
+
+/* Small screens: the page's rail collapsed to nothing and its chapters sat under the panel. The rail stacks above the
+   panel instead, with its chapters scrolling sideways, and the panel scrolls below it. */
+@media (max-width: 900px) {
+  .shell { display: flex !important; flex-direction: column; }
+  .rail { flex: none; overflow: visible; }
+  .rail .foot, .rail .cap { display: none !important; }
+  .panel { flex: 1; min-height: 0; }
+}

@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost-aware execution · ForgeQE docs</title>
+<meta name="description" content="Status:">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/cost-architecture/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/" aria-current="page"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40">Cost-aware execution</h1>
+    <article class="prose">
+<p>Status: proposal · 2026-10-15</p>
+<p>ForgeQE pays the model for work it has already done. This document sets out how ForgeQE decides when the
+model is needed at all, and how much of it. The approach is built from published, measured techniques.
+The goal for known work: <strong>a rerun of an existing test costs 0–5% of its first run</strong>, and the model is
+paid only for what is new or broken.</p>
+<h2 id="1-what-a-request-costs-today-measured"><a href="#1-what-a-request-costs-today-measured" class="hash">#</a>1. What a request costs today (measured)</h2>
+<p>From the session logs in a live project (<code>.forgeqe/logs</code>, Azure OpenAI gpt-5.4):</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Request</th><th>Agent calls</th><th>Input tokens</th><th>Output tokens</th><th>Cached</th></tr>
+</thead>
+<tbody>
+<tr><td>&quot;Are we ready to release?&quot; (one release-readiness tool call)</td><td>12</td><td>577K</td><td>2.6K</td><td>518K</td></tr>
+<tr><td>Test-authoring session</td><td>many</td><td>1.9M</td><td>8.9K</td><td>1.65M</td></tr>
+</tbody>
+</table></div>
+<p>These numbers show three things:</p>
+<ol>
+<li><strong>Fixed overhead per call.</strong> Every chat-agent call resends about 45K tokens of system prompt, tool
+definitions and history. Output is under 0.5% of tokens, so the cost is the context, not the work.</li>
+<li><strong>Calls multiply.</strong> The deterministic release check took 12 calls, because the agent asked
+questions, searched for files, read config and summarised.</li>
+<li><strong>Known work is not recognised:</strong>
+<ul>
+<li>Every request goes through the chat agent, including the <strong>rerun</strong> link.</li>
+<li>Page memory finds a saved flow only by the exact goal text plus the URL (<code>memory.py: goal_key</code>), so a
+reworded goal misses it.</li>
+<li><code>replay: verify</code> replays every step, then starts the browser agent to check the result.</li>
+</ul>
+</li>
+</ol>
+<p>Prompt caching already works (about 90% of input is cached). It lowers the price per token, but not the
+number of tokens or calls, so on its own it cannot reach the target.</p>
+<h2 id="2-the-approaches-this-design-uses"><a href="#2-the-approaches-this-design-uses" class="hash">#</a>2. The approaches this design uses</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Technique</th><th>Evidence</th><th>Where it applies here</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Workflows before agents.</strong> Use fixed code paths for predictable tasks; keep agents for open-ended ones.</td><td>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" class="ext" rel="noopener"><em>Building effective agents</em></a> (2024)</td><td>Tier 0: rerun, run case, run suite, release check</td></tr>
+<tr><td><strong>Plan caching.</strong> Extract a plan template from a finished run, match new requests by key, and adapt the template with a small model.</td><td>Zhang et al., <a href="https://arxiv.org/abs/2506.14852" class="ext" rel="noopener"><em>Agentic Plan Caching</em></a>, NeurIPS 2025: 50.3% lower cost and 27.3% lower latency on average, performance maintained</td><td>Tier 1: known flow, new wording or new data</td></tr>
+<tr><td><strong>Workflow memory.</strong> Turn successful trajectories into reusable routines.</td><td>Wang et al., <a href="https://arxiv.org/abs/2409.07429" class="ext" rel="noopener"><em>Agent Workflow Memory</em></a>, ICML 2025: +51.1% relative success on WebArena, fewer steps</td><td>Flows saved from passing runs, shared across cases</td></tr>
+<tr><td><strong>Model cascade and routing.</strong> Try the cheapest model or step that can answer, and escalate only when a check fails.</td><td>Chen et al., <a href="https://arxiv.org/abs/2305.05176" class="ext" rel="noopener"><em>FrugalGPT</em></a> (up to 98% savings, task-dependent); Ong et al., <a href="https://arxiv.org/abs/2406.18665" class="ext" rel="noopener"><em>RouteLLM</em></a>, ICLR 2025 (over 2x savings at about 95% quality)</td><td>The <a href="/docs/model-routing/">router</a>; result checks on the reviewer model</td></tr>
+<tr><td><strong>Content-addressed memoization.</strong> Key cached work by a fingerprint of its inputs; any change to the inputs invalidates it.</td><td>Standard in build systems (Bazel, Gradle remote cache) and in test impact analysis</td><td>Registry fingerprints, the tool-result cache</td></tr>
+<tr><td><strong>Record–replay with self-healing locators.</strong></td><td>Already in ForgeQE (<code>replay.py</code>, ranked locators)</td><td>Tier 0 and Tier 2 execution</td></tr>
+</tbody>
+</table></div>
+<p>The published figures come from the authors' own benchmarks. ForgeQE has to measure its own (section 7).</p>
+<h2 id="3-the-execution-ladder"><a href="#3-the-execution-ladder" class="hash">#</a>3. The execution ladder</h2>
+<p>Every request is resolved to the <strong>lowest tier that can do it</strong>. A tier escalates only on a concrete
+failure signal, never on a guess.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Tier</th><th>When</th><th>Model use</th><th>Target cost vs. first run</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>0: Deterministic</strong></td><td>The request resolves to a known entity, and replay and end-state checks pass</td><td>None. The reply is filled in from the result.</td><td>0%</td></tr>
+<tr><td><strong>1: Adapt</strong></td><td>A known flow, but with new wording, new test data, or an end-state check that is unsure</td><td>One call to the small (reviewer) model with a short prompt (about 2K tokens)</td><td>≤5%</td></tr>
+<tr><td><strong>2: Heal</strong></td><td>Replay stopped at step <em>k</em>, or a check failed</td><td>The agent starts at step <em>k</em> with the steps so far as context, not from the beginning</td><td>Proportional to what broke</td></tr>
+<tr><td><strong>3: Explore</strong></td><td>No match in the registry: a new goal or new kind of task</td><td>Full agent, as today</td><td>100%</td></tr>
+</tbody>
+</table></div>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>request ──► Resolver (no model) ──hit──► Tier 0 run ──checks pass──► reply from template
+               │                            │ checks fail / replay stops
+               │ ambiguous                  ▼
+               ▼                         Tier 2 heal (agent from step k)
+         Router (small model, ~2K) ──known──► Tier 1 adapt
+               │ novel
+               ▼
+         Tier 3 full agent ──passes──► registry learns the flow, plan and checks
+</code></pre></div>
+<p><strong>Resolver (no model).</strong> Matches IDs (<code>TC-123</code>, <code>SHOP-12</code>, plan/suite numbers, run folders,
+<code>last</code>), file and test names, and aliases from the registry. The <strong>rerun</strong> link and <code>/rerun</code> call it
+directly. Plain requests try it before any model is called.</p>
+<p><strong>Router (small model).</strong> Runs only when the resolver is unsure. It sees the request and the top
+registry candidates (ranked by alias and keyword match), not the full tool catalogue. It returns
+<code>{entity, tier}</code> or <code>novel</code>.</p>
+<p><strong>Safety rules (non-negotiable):</strong></p>
+<ul>
+<li>A Tier 0 pass needs evidence: replay complete <strong>and</strong> every recorded end-state check passing. Anything
+else escalates.</li>
+<li><strong>Freshness.</strong> A flow is marked <em>stale</em> when the app changes: a new deploy or build id (when
+configured), a changed page fingerprint seen during replay, or the age limit
+(<code>registry.maxAgeDays</code>). A stale flow runs at Tier 1 once to re-confirm it.</li>
+<li><strong>Canary.</strong> Every <em>N</em>th Tier 0 run of an entity (default 10) runs at Tier 1, so a check that silently
+passes is caught.</li>
+<li>The user can always force a tier: <code>/rerun --verify</code>, <code>/rerun --fresh</code>.</li>
+</ul>
+<h2 id="4-the-registry-one-indexed-catalogue"><a href="#4-the-registry-one-indexed-catalogue" class="hash">#</a>4. The registry: one indexed catalogue</h2>
+<p>The registry is one SQLite file per project: <code>.forgeqe/registry/registry.db</code>.</p>
+<ul>
+<li>Bun ships <code>bun:sqlite</code> and Python ships <code>sqlite3</code>, so there are no new dependencies.</li>
+<li>It is local, and git-ignored by default (its folder carries its own <code>.gitignore</code>).</li>
+<li>Existing JSON stores (page memory, code graph, quality history) stay where they are. The registry
+<strong>indexes and links</strong> them, it does not replace them.</li>
+</ul>
+<h3 id="41-taxonomy"><a href="#41-taxonomy" class="hash">#</a>4.1 Taxonomy</h3>
+<p>Every row has a <code>kind</code>, and every kind has a single source of truth:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Kind</th><th>Source of truth</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><code>test_case</code></td><td>ADO / Jira / Xray / TestRail / cases file</td><td><code>ado:QI-Claims:TC-4812</code></td></tr>
+<tr><td><code>code_test</code></td><td>Repo test code (code graph)</td><td><code>PlaywrightPom.Web.Tests.LoginTests.ValidLogin</code></td></tr>
+<tr><td><code>flow</code></td><td>Page memory <code>flows/</code></td><td>recorded steps for a goal</td></tr>
+<tr><td><code>page</code>, <code>element</code></td><td>Page memory <code>pages/</code></td><td><code>/login</code>, <code>#username</code></td></tr>
+<tr><td><code>suite</code>, <code>plan</code></td><td>ADO / cases file</td><td><code>plan 12 / suite 34</code></td></tr>
+<tr><td><code>work_item</code></td><td>ADO / Jira</td><td>story, bug, feature</td></tr>
+<tr><td><code>pipeline</code>, <code>environment</code>, <code>login</code></td><td>Config, ADO, saved sessions</td><td><code>QI-Claims nightly</code>, <code>staging</code>, <code>saucedemo-standard</code></td></tr>
+<tr><td><code>run</code>, <code>report</code></td><td><code>.forgeqe/reports</code></td><td>run folders</td></tr>
+</tbody>
+</table></div>
+<h3 id="42-tables"><a href="#42-tables" class="hash">#</a>4.2 Tables</h3>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>sql</span><button class="copy-code" type="button">Copy</button></div><pre><code>-- Everything ForgeQE knows about, categorised. fingerprint = hash of the inputs that define it.
+entities(id TEXT PK, kind TEXT, source TEXT, external_id TEXT, title TEXT,
+         path TEXT, fingerprint TEXT, version TEXT, updated_at TEXT)
+-- Every name a person might use for an entity: ids, titles, file and method names, normalised.
+aliases(alias TEXT, entity_id TEXT, weight REAL, PRIMARY KEY(alias, entity_id))
+-- Links between entities: case↔code_test, case↔flow, flow↔page, test↔page_object, story↔case.
+links(from_id TEXT, rel TEXT, to_id TEXT, PRIMARY KEY(from_id, rel, to_id))
+-- Reusable plans (the plan cache): what to call, with which arguments, how to judge the result.
+plans(id TEXT PK, entity_id TEXT, intent TEXT, tool TEXT, args_template TEXT,
+      checks TEXT, input_fingerprint TEXT, successes INT, failures INT,
+      last_success TEXT, stale INT DEFAULT 0)
+-- End-state checks recorded from a passing run: url, visible text, element, API status.
+checks(plan_id TEXT, kind TEXT, target TEXT, expected TEXT)
+-- The cost ledger: every request, its tier, and what it cost.
+runs(id TEXT PK, entity_id TEXT, plan_id TEXT, tier INT, outcome TEXT,
+     escalated_from INT, tokens_in INT, tokens_out INT, tokens_cached INT,
+     cost REAL, currency TEXT, ms INT, started_at TEXT)
+-- Memoised reads from external systems (ADO, Jira, GitHub), keyed by arguments and source version.
+tool_cache(tool TEXT, args_hash TEXT, source_version TEXT, result_path TEXT,
+           fetched_at TEXT, ttl_s INT, PRIMARY KEY(tool, args_hash, source_version))
+-- Pre-built context briefs per entity, rebuilt only when the fingerprint changes.
+context_packs(entity_id TEXT PK, fingerprint TEXT, brief TEXT, tokens INT, built_at TEXT)
+</code></pre></div>
+<h3 id="43-fingerprints-and-invalidation"><a href="#43-fingerprints-and-invalidation" class="hash">#</a>4.3 Fingerprints and invalidation</h3>
+<p>A cached item is valid only while its fingerprint matches its source:</p>
+<ul>
+<li><strong>test_case:</strong> hash of the normalised steps plus expected results, together with the ADO <code>rev</code>.
+This replaces matching on goal text, so rewording a request no longer misses the flow.</li>
+<li><strong>code_test:</strong> git blob sha of the test file and of the page objects it reaches (from the code graph).</li>
+<li><strong>flow:</strong> hash of its steps, together with the page fingerprints seen on its last pass.</li>
+<li><strong>tool_cache:</strong> the source's own version (work item <code>rev</code>, sprint id, ETag) where one exists;
+otherwise a short TTL. Writes always bypass it.</li>
+</ul>
+<h2 id="5-building-context-for-tiers-13"><a href="#5-building-context-for-tiers-13" class="hash">#</a>5. Building context (for Tiers 1–3)</h2>
+<p>The agent's fixed 45K-token context is the main cost driver. Context is built from the registry instead
+of being discovered by the agent:</p>
+<ul>
+<li><strong>Context packs.</strong> For each entity, a brief of a few hundred tokens: what it is, its linked case, code
+test, flow, pages and last results. The agent gets the brief rather than spending calls on
+<code>read</code>, <code>grep</code> and <code>code_outline</code>.</li>
+<li><strong>Tool listing by tier:</strong>
+<ul>
+<li>Tier 1 gets one tool.</li>
+<li>Tier 2 gets the tools of the capability that broke.</li>
+<li>Tier 3 gets today's progressive listing (<code>routing.ts</code>).</li>
+</ul>
+</li>
+<li><strong>Stable prefix first, variable last</strong>, so prompt caching keeps hitting.</li>
+<li><strong>History compaction.</strong> After a request finishes, only its outcome and ids are carried forward, not
+its tool results.</li>
+</ul>
+<h2 id="6-learning-how-the-registry-fills-itself"><a href="#6-learning-how-the-registry-fills-itself" class="hash">#</a>6. Learning: how the registry fills itself</h2>
+<ul>
+<li><strong>Indexing.</strong>
+<ul>
+<li>On <code>forgeqe init</code>, and incrementally on file change, the code graph and cases sources are indexed
+into <code>entities</code>, <code>aliases</code> and <code>links</code>.</li>
+<li>ADO and Jira items are indexed when they are first fetched.</li>
+</ul>
+</li>
+<li><strong>Promotion.</strong> A Tier 2 or Tier 3 run that passes, and passes the judge when it is on, writes or updates
+its <code>plan</code> and <code>checks</code>. A plan needs two passes, or one pass plus user confirmation, before it is
+allowed to run at Tier 0.</li>
+<li><strong>Demotion.</strong> Failures increment <code>failures</code>. Two failures in a row mark the plan <em>stale</em>, and the next
+run goes to Tier 1 or 2.</li>
+</ul>
+<h2 id="7-measurement-and-acceptance"><a href="#7-measurement-and-acceptance" class="hash">#</a>7. Measurement and acceptance</h2>
+<p>The ledger (<code>runs</code>) makes cost measurable per tier and per entity. <code>forgeqe cost</code> reports the following
+metrics. Each must meet its target before a phase counts as done.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Metric</th><th>Target</th></tr>
+</thead>
+<tbody>
+<tr><td>Cost of a rerun of a known passing test, vs. its first run</td><td>≤5% (Tier 0: 0 tokens)</td></tr>
+<tr><td>Share of reruns served at Tier 0 or Tier 1</td><td>≥90%</td></tr>
+<tr><td>Tier escalation rate on unchanged apps</td><td>≤5%</td></tr>
+<tr><td><strong>False pass rate</strong> (Tier 0 pass that a Tier 1 canary then fails)</td><td>0 known; every one investigated</td></tr>
+<tr><td>Release check (&quot;are we ready&quot;, scope known)</td><td>0–1 agent calls</td></tr>
+</tbody>
+</table></div>
+<p>The evaluation is an offline replay suite under <code>src/evals</code>. It holds recorded requests (rerun, reworded
+rerun, changed app, new goal), each with an expected tier and outcome. It runs on every change to the
+resolver, router or registry, and live against the real model before release.</p>
+<h2 id="8-compatibility-and-rollout-safety"><a href="#8-compatibility-and-rollout-safety" class="hash">#</a>8. Compatibility and rollout safety</h2>
+<p>Nothing here may change what ForgeQE does today until it has been shown to give the same results.</p>
+<p><strong>Built alongside, never in place of</strong></p>
+<ul>
+<li><code>registry.mode: off | shadow | on</code> in <code>forgeqe.yaml</code>. It defaulted to <code>off</code> through phases 1 and 2,
+and to <code>on</code> from 2026-10-15, after the live results in sections 9–10. With <code>off</code>, every request takes the
+agent's path, unchanged.</li>
+<li>The new code lives in <code>src/registry/</code>. Existing modules gain only small hooks at their entry points:
+the chat request handler, the command parser and config. The chat agent, page memory, replay modes and
+tools keep their behaviour.</li>
+<li>Any registry error (missing, locked or corrupt database, an exception in the resolver) falls back to
+today's path. The registry is a cache: deleting it loses savings, never behaviour.</li>
+<li>Existing stores (page memory, code graph, quality history, run folders) keep their formats. The registry
+reads and indexes them and never writes to them.</li>
+<li>Tier 0 runs through the same <code>browser_run</code> tool the agent calls. Existing-test reuse, page memory
+replay, the configured replay mode, reports and quality checks all apply as they do today.</li>
+</ul>
+<p><strong>Proven before it is switched on</strong></p>
+<ul>
+<li><strong>Tests that lock in today's behaviour.</strong> Written before the hooks, they pin down today's results:
+a request with the registry <code>off</code> goes to the agent, and the <strong>rerun</strong> link goes to the agent.
+They have to pass unchanged afterwards.</li>
+<li><strong>Shadow mode.</strong> The resolver decides and records what it would do (<code>runs</code> with <code>mode = shadow</code>), while
+the request still takes today's path. The decisions are compared with real outcomes before <code>on</code>.</li>
+<li><strong>False pass check.</strong> During rollout, every Tier 0 pass is re-checked at Tier 1. Any disagreement blocks
+the next phase.</li>
+<li><strong>The full suite.</strong> Every existing test passes unchanged in every phase, with no existing test edited
+to make it pass.</li>
+</ul>
+<p><strong>Switched on gradually</strong></p>
+<ul>
+<li>One phase per release. Each one can be turned off on its own.</li>
+<li>A live check against the real model, Azure DevOps and Teams before each phase is called done.</li>
+<li>Every reply says which tier answered it. <code>/rerun</code> is an explicit command, and the agent remains one
+sentence away: anything the resolver is unsure of goes to it.</li>
+</ul>
+<h2 id="9-phase-1-live-result-2026-10-15"><a href="#9-phase-1-live-result-2026-10-15" class="hash">#</a>9. Phase 1 live result (2026-10-15)</h2>
+<p>Live run against Azure OpenAI gpt-5.4 and a real headless Chrome: a <code>/rerun</code> of a 27-step practice-form run
+whose first run used 242K tokens.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th></th><th>Result</th></tr>
+</thead>
+<tbody>
+<tr><td>Resolver</td><td>Matched the run; no chat-agent calls</td></tr>
+<tr><td>Page memory</td><td>Replayed 26 of 27 steps without the model</td></tr>
+<tr><td>Step 27</td><td>A read-only <code>evaluate</code> (reading the fields to check them) is not replayable, so the browser agent took over for 14 model steps</td></tr>
+<tr><td>Cost</td><td><strong>178K tokens: 74% of the first run.</strong> The target is not met</td></tr>
+</tbody>
+</table></div>
+<p>The remaining cost is the browser agent's check after replay. Phase 2 is the step that reaches the target.
+Read-only steps (<code>evaluate</code>, extract) and the final check must be answered from recorded end-state checks
+(<code>run.json</code> already records <code>checks</code> with expected values). The agent comes in only when a check fails.</p>
+<h2 id="10-phase-2-live-result-2026-10-15"><a href="#10-phase-2-live-result-2026-10-15" class="hash">#</a>10. Phase 2 live result (2026-10-15)</h2>
+<p>What phase 2 adds, with <code>registry.mode: on</code> only:</p>
+<ul>
+<li><code>evaluate</code> steps whose script only reads the page are left out of a replay. The test is on the script's
+source and conservative: any assignment, any page-changing call, any request or deferred code counts
+as writing. Checked against every <code>evaluate</code> in a live project's flows: no write was classed as read-only.</li>
+<li>A passing run's <code>record_check</code> results are kept in its flow, each with the step it was recorded after.</li>
+<li>A replay finds each check on the page again after that step, with no model. If every check holds, the
+run passes with no model. The first check that does not hold stops the replay there, and the agent
+takes over on that page (today's path).</li>
+<li>The agent still judges the run when: a check is dynamic, the flow has not passed for 30 days, or it is
+every 10th replay of the flow (the canary).</li>
+</ul>
+<p>Live, Azure OpenAI gpt-5.4 and headless Chrome:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Flow</th><th>Run</th><th>Tokens</th><th>vs. first run</th></tr>
+</thead>
+<tbody>
+<tr><td>Wikipedia search (3 steps, 1 check)</td><td>first run</td><td>50.3K</td><td>100%</td></tr>
+<tr><td></td><td>rerun: the search suggestion did not show in time, so the agent took 2 steps</td><td>25.1K</td><td>50%</td></tr>
+<tr><td></td><td>rerun: replay complete, the check held</td><td><strong>0</strong></td><td><strong>0%</strong> (6 s)</td></tr>
+<tr><td></td><td>rerun with the saved check changed to text the page does not show</td><td>25.1K</td><td>the replay refused to pass it, and the agent judged the real page</td></tr>
+<tr><td>Practice-form playground (27+ steps)</td><td>reruns</td><td>122K, 135K, 82K</td><td>50%, 56%, 34%</td></tr>
+</tbody>
+</table></div>
+<p>The practice page is built to resist replay: double-click targets, clipboard paste and per-key typing that
+replay's direct input does not reproduce. Its checks correctly never passed a replay that ended in a
+different state. Flows like that stay with the agent until replay can repeat those inputs (a later phase).</p>
+<h2 id="11-rollout"><a href="#11-rollout" class="hash">#</a>11. Rollout</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Phase</th><th>Scope</th><th>Done when</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>1</strong></td><td>Registry (entities, aliases, plans, runs). Resolver plus Tier 0 for <code>/rerun</code>, the rerun link, and case and run ids. Fingerprint matching for test cases. Reply filled in from the result.</td><td>A rerun of a known passing case logs 0 tokens; a reworded request still finds its flow</td></tr>
+<tr><td><strong>2</strong></td><td>Recorded end-state checks replace the post-replay agent check. Canary and freshness rules.</td><td><code>verify</code> default costs one small-model call or none; the false pass suite stays green</td></tr>
+<tr><td><strong>3</strong></td><td>Router (small model) plus Tier 1 adapt. Repo code tests run directly (<code>dotnet test</code> / <code>npx playwright test</code> with filters, results files parsed).</td><td>Reworded and new-data reruns at ≤5%</td></tr>
+<tr><td><strong>4</strong></td><td>Tool-result cache, context packs, history compaction. Release check as a fixed workflow.</td><td>The release check takes 0–1 agent calls; the agent's average context per call is down by half</td></tr>
+<tr><td><strong>5</strong></td><td><code>forgeqe cost</code> report and the evaluation suite in CI</td><td>Metrics in section 7 reported per release</td></tr>
+</tbody>
+</table></div>
+<h2 id="12-per-turn-tool-scope-2026-10-17"><a href="#12-per-turn-tool-scope-2026-10-17" class="hash">#</a>12. Per-turn tool scope (2026-10-17)</h2>
+<p>Tool definitions are part of the fixed overhead in section 1, and they grew with the desktop, mobile and
+TestMu tools. The forgeqe agent's fixed context went past its budget. ForgeQE's agent now gets the tools of
+the capabilities a turn needs, not all of them (<code>src/mcp/scope.ts</code>; see
+<a href="/docs/architecture/#tool-scope-srcmcpscopets-srccapabilities">ARCHITECTURE.md</a>):</p>
+<ul>
+<li><strong>Every turn:</strong> the core (help and setup, <code>use_capabilities</code>, the test environments and their apps).</li>
+<li><strong>Picked without a model call:</strong> up to four capabilities matched from the request's words, the apps it
+names, its links and issue keys. A capability the project has no apps or tracker for is not picked from
+words alone.</li>
+<li><strong>Sticky:</strong> capabilities whose tools ran in the last three turns.</li>
+<li><strong>On request:</strong> <code>use_capabilities</code> adds one when the request turns out to need it, and ForgeQE continues the
+same request.</li>
+</ul>
+<p><code>forgeqe context</code>, measured on this repo:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th></th><th>Tokens</th></tr>
+</thead>
+<tbody>
+<tr><td>The forgeqe agent's fixed context (prompt 6.2K + core tools 1.6K)</td><td>7.8K of a 10K budget</td></tr>
+<tr><td>A turn with the four largest capabilities</td><td>14.7K</td></tr>
+<tr><td>Every tool on every turn (<code>FORGEQE_TOOL_SCOPE=off</code>)</td><td>about 26.7K</td></tr>
+<tr><td>Largest single capability (<code>api-testing</code>, <code>systems</code>)</td><td>1.8K of a 2.5K budget per capability</td></tr>
+</tbody>
+</table></div>
+<p>A typical turn (&quot;replay the courier login on Maestro&quot;) adds one or two capabilities, around 1–3K. Beyond
+the cost, fewer tools in view keep the agent from mixing up similar ones (<code>browser_run</code>,
+<code>desktop_explore</code>, <code>mobile_explore</code>). The test <code>tests/agents.test.ts</code> fails when an agent or a capability passes its
+budget. That keeps new tools from bringing the fixed overhead back.</p>
+<p><strong>Still to measure:</strong> live-model evaluations of the tool picks against <code>FORGEQE_TOOL_SCOPE=off</code>: the success
+rate, the <code>use_capabilities</code> calls per request, and tokens per request.</p>
+<h2 id="13-page-memory-at-every-step-2026-10-21"><a href="#13-page-memory-at-every-step-2026-10-21" class="hash">#</a>13. Page memory at every step (2026-10-21)</h2>
+<p>A suite run in a live project (three Toolshop cases, Azure OpenAI gpt-5.4) showed why a rerun of a known case still
+cost what its first run did:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Run</th><th>Model steps</th><th>Input tokens</th><th>Replayed</th></tr>
+</thead>
+<tbody>
+<tr><td>ADO-3287, first run (an expected result did not hold at step 7)</td><td>11</td><td>88K</td><td>0</td></tr>
+<tr><td>ADO-3287, the reproduce run straight after</td><td>29</td><td>243K</td><td>0</td></tr>
+</tbody>
+</table></div>
+<p>Each model step costs about 8K input tokens, 6.3K of it the cached system prefix: the live page is a small part. So
+page memory can only lower cost by taking steps away from the model, and two things kept it from doing that:</p>
+<ol>
+<li>
+<p><strong>A failed case saved nothing to replay.</strong> <code>resume</code> steps were kept for errors only; a run that failed because an
+expected result did not hold (<code>assertion_failed</code>, which is what a reproduce run or a rerun of a failing case is
+about) saved no steps, and the next run explored the whole case again. Now the steps up to the first check that did
+not hold are kept (<code>assertion_resume</code>, marked <code>assertion: true</code>), the next run replays them, and the handoff tells
+the agent to check that result again where it is, not to redo the steps or try to make it true.</p>
+</li>
+<li>
+<p><strong>Known controls were described, not addressable.</strong> The site-memory hints in the system prompt named the controls
+earlier runs used, but an action needs the element's index in this step's list, which changes with every page load,
+so the agent read the whole list anyway. Now each page memory knows gets a note after the element list, before the
+model call, naming up to 10 controls earlier runs used with the index each has right now
+(<code>MemoryStore.known_controls</code>, through the library's per-step context messages). The page is observed once per step
+and that snapshot also scores the step's actions.</p>
+</li>
+<li>
+<p><strong>A replay to a failed check handed the check to the agent.</strong> The page that failed often shows its message only
+briefly (a toast), so it was gone by the agent's first step, and the agent spent six steps looking for it (live:
+49.5K tokens, more than the first run). Now, with <code>registry.mode: on</code> and <code>replay: verify</code>, the run looks for the
+text the page showed instead right after the replay, with no model (<code>reproduced_by_check</code>). Finding it again fails
+the run the same way at 0 tokens; not finding it hands over to the agent as before. A failure text that a passing
+check of that run also found (a heading, the product name) is never kept for this, since it shows whatever the outcome.</p>
+</li>
+</ol>
+<p>Live, Toolshop, headless Chrome, Azure OpenAI gpt-5.4, a clean memory folder:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Run</th><th>Model steps</th><th>Tokens</th><th>Result</th></tr>
+</thead>
+<tbody>
+<tr><td>A: first run of a 3-step case whose last expected result does not hold</td><td>5</td><td>37.1K</td><td>failed; kept the 3 steps up to the failed check</td></tr>
+<tr><td>B: the same case again (a rerun or reproduce run)</td><td>0</td><td><strong>0</strong> (5 s)</td><td>replayed 3 steps, found the same failure text, failed the same way</td></tr>
+<tr><td>C: a new goal on the same pages</td><td>4</td><td>30.1K</td><td>passed; the agent was told the known control on each page with its index</td></tr>
+</tbody>
+</table></div>
+<p>Run C is a different task, so it explores; the per-step note saves steps on pages the site's earlier runs used, but
+does not replace exploration of a new goal.</p>
+<h3 id="131-every-case-every-area-2026-10-21"><a href="#131-every-case-every-area-2026-10-21" class="hash">#</a>13.1 Every case, every area (2026-10-21)</h3>
+<p>The same project's history showed the wider gap: of 20 recorded web runs only 4 replayed anything (2.7M tokens in all),
+almost every miss a goal worded differently from its flow. Mobile and desktop explores never read what an earlier one
+saved, desktop and mobile heals were found again on every replay, API plans were made again for the same cases, and
+only browser goals could be rerun without the agent. What now holds in every area:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Area</th><th>Before the model is called</th><th>No model at all when</th></tr>
+</thead>
+<tbody>
+<tr><td>Browser</td><td>the goal's flow, its failed-run steps, an edited case's unchanged steps, else the start it shares with another goal on the host (<code>flowmatch</code>)</td><td>checks of a replayed flow hold (section 10); a failed check shows the same failure text again</td></tr>
+<tr><td>Mobile, desktop</td><td>the goal's workflow, its failed-run steps, else the shared start in the app (app memory); known controls marked for the model</td><td>the goal's workflow replays and its checks hold</td></tr>
+<tr><td>Replay heals</td><td>the target an earlier heal found</td><td>it is on screen</td></tr>
+<tr><td>API</td><td>the plan made from the same cases or text and operations</td><td>always, for a repeated plan; saved API calls replay in browser flows when the status matches</td></tr>
+<tr><td>Reruns</td><td>the registry runs the plan's own tool (browser, mobile, desktop, API) from the shell or <code>forgeqe run</code></td><td>the tool needs none</td></tr>
+</tbody>
+</table></div>
+<p><code>forgeqe memory stats</code> reports it per area. On the live project before this change: browser 18 runs, 4 (22%) reused
+history, none without the model. The memory gate workflow keeps it from regressing.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/architecture/"><small>Previous</small><span>Architecture</span></a>
+      <a class="next" href="/docs/model-routing/"><small>Next</small><span>Model routing</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#1-what-a-request-costs-today-measured">1. What a request costs today (measured)</a></li><li><a href="#2-the-approaches-this-design-uses">2. The approaches this design uses</a></li><li><a href="#3-the-execution-ladder">3. The execution ladder</a></li><li><a href="#4-the-registry-one-indexed-catalogue">4. The registry: one indexed catalogue</a></li><li><a href="#5-building-context-for-tiers-13">5. Building context (for Tiers 1–3)</a></li><li><a href="#6-learning-how-the-registry-fills-itself">6. Learning: how the registry fills itself</a></li><li><a href="#7-measurement-and-acceptance">7. Measurement and acceptance</a></li><li><a href="#8-compatibility-and-rollout-safety">8. Compatibility and rollout safety</a></li><li><a href="#9-phase-1-live-result-2026-10-15">9. Phase 1 live result (2026-10-15)</a></li><li><a href="#10-phase-2-live-result-2026-10-15">10. Phase 2 live result (2026-10-15)</a></li><li><a href="#11-rollout">11. Rollout</a></li><li><a href="#12-per-turn-tool-scope-2026-10-17">12. Per-turn tool scope (2026-10-17)</a></li><li><a href="#13-page-memory-at-every-step-2026-10-21">13. Page memory at every step (2026-10-21)</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>

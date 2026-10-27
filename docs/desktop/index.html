@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desktop apps · ForgeQE docs</title>
+<meta name="description" content="Status:">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/desktop/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/desktop/" aria-current="page"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=5948d1c713" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40">Desktop apps</h1>
+    <article class="prose">
+<p>Status: runs on Windows. The CI job <code>.github/workflows/forgeqe-desktop-windows.yml</code> (GitHub's <code>windows-2022</code>) installs the
+engine and the pinned UFO², replays Notepad live with the pywinauto driver and through <code>forgeqe desktop replay</code>, heals a
+moved control from the live window, and runs a whole explore: UFO² drives Notepad with a scripted model behind an
+OpenAI-compatible server, the action is recorded with the control's AutomationId, and the recording replays. Not yet
+run: explore with a real model (the job has no key), and your own apps. See
+<a href="#before-first-use-on-windows">Before first use on Windows</a>.</p>
+<p>ForgeQE drives web apps through Chrome. The desktop engine does the same for Windows thick clients (Win32, WinForms,
+WPF, and the native parts of Electron and WebView2 apps): say what you want in plain language, UFO² does it on the live
+app, and the run is saved as a YAML workflow that replays later without a model.</p>
+<h2 id="use"><a href="#use" class="hash">#</a>Use</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe desktop setup --ufo                       # once, on Windows: the engine, pywinauto, and the pinned UFO²
+forgeqe desktop apps                              # what forgeqe.yaml allows
+forgeqe desktop explore &quot;Create an invoice for Contoso, net 30&quot; --app billing
+forgeqe desktop record --app billing              # or do the steps yourself: no model, no UFO
+forgeqe desktop replay .forgeqe/reports/desktop-explore-…/workflow.yaml customer=Fabrikam
+forgeqe desktop replay workflow.yaml --data customers.csv   # once per row; the header names the variables
+forgeqe desktop replay desktop-tests/ --junit results.xml   # every workflow in a folder, results for CI
+forgeqe desktop replay workflow.yaml --update-baselines     # save new baselines for its expect_image steps
+forgeqe desktop doctor                            # can this machine run replay unattended?
+forgeqe desktop validate workflow.yaml            # any OS
+</code></pre></div>
+<p>Or ask ForgeQE's agent in the shell or <code>forgeqe run</code>: &quot;create an invoice for Contoso in Billing and save it as a test&quot;,
+or &quot;I'll show you the steps in Billing, record them&quot;. Its tools are <code>test_apps</code>, <code>desktop_explore</code>, <code>desktop_record</code>,
+<code>desktop_replay</code> and <code>desktop_edit_workflow</code>. It asks before it starts the app or takes over the desktop, and before it
+changes a workflow. Where it cannot ask (an MCP client), the call answers <code>needs_confirmation</code> until the user agrees.</p>
+<p>Desktop apps come from the active environment in <code>env.yaml</code> (see HOW_TO_USE.md, &quot;Environments and apps&quot;), or from
+<code>desktop.apps</code> in <code>forgeqe.yaml</code>, which works without environments:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>desktop:
+  apps:
+    billing:
+      path: C:\Program Files\Contoso\Billing\Billing.exe
+      args: [&quot;--profile&quot;, &quot;test&quot;]
+      # window: &quot;Billing.*&quot;        # for a launcher that starts the real app and exits: connect by title
+  secrets: [BILLING_PASSWORD]      # the only environment variables {{secret:…}} may read
+  heal: true                       # replay asks the model to re-find a control that moved (default on)
+  screenshots: true                # one screenshot per replayed step (default on)
+</code></pre></div>
+<p>Each run writes a folder under the reports folder (<code>desktop-explore-…</code> or <code>desktop-replay-…</code>): <code>run.json</code>,
+<code>report.html</code>, <code>steps/NNN.png</code>, and for explore <code>workflow.yaml</code>, <code>trace.json</code> and UFO's own logs in <code>ufo/</code>. A replay
+whose steps were healed also writes <code>heals.json</code> and asks whether to write the new locators into the workflow
+(<code>--accept-heals</code> writes them without asking; with no terminal they are never written).</p>
+<h2 id="decisions"><a href="#decisions" class="hash">#</a>Decisions</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Question</th><th>Decision</th><th>Why</th></tr>
+</thead>
+<tbody>
+<tr><td>Agent that explores an app</td><td>Microsoft UFO² (<code>microsoft/UFO</code>, MIT), pinned to commit <code>eae3c0a8d168</code> and never edited, behind one adapter (<code>ufo_runner.py</code>)</td><td>It already solves UI Automation (UIA) control detection, merging it with vision, and the per-app agent loop. Behind the adapter it can be swapped for our own engine without touching the CLI, the YAML or replay.</td></tr>
+<tr><td>Saved scripts</td><td>ForgeQE's own YAML (<code>forgeqe-desktop-v1</code>), replayed on pywinauto (UIA backend)</td><td>UFO calls a model at every step. Replay must be fast, free, repeatable and fit for CI, so no model runs unless a step needs healing.</td></tr>
+<tr><td>Models</td><td><code>llms.json</code>, the same profiles as the browser engine. UFO never gets its own model config</td><td>One place to configure models, keys and Microsoft Entra ID.</td></tr>
+<tr><td>Python environment</td><td>Its own (<code>~/.forgeqe/desktop/.venv</code>, Python 3.10), not the browser engine's</td><td>UFO pins <code>openai==1.66.2</code> and <code>pydantic</code>, which the browser engine's library does not run with, and <code>pandas==1.4.3</code>, which has Windows wheels up to Python 3.10. Replay's packages use UFO's pins, so one environment runs both.</td></tr>
+<tr><td>Not chosen: <code>windowsagent</code></td><td>Reference only</td><td>Very early (v0.1.0), replay not built, and it exposes a model-driven <code>/shell</code> endpoint.</td></tr>
+</tbody>
+</table></div>
+<h2 id="how-a-run-flows"><a href="#how-a-run-flows" class="hash">#</a>How a run flows</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe desktop explore ──► src/desktop/bridge.ts ──JSON lines──► python -m forgeqe_desktop serve
+                                                                    │ start the app from desktop.apps (no shell)
+                                                                    │ UFO² in-process: model = llms.json profile,
+                                                                    │ UI tools only, every action traced with its
+                                                                    ▼ control's UIA properties
+                                                       record.py ──► workflow.yaml
+forgeqe desktop replay ───► bridge ──► serve (replay.py on pywinauto, no model)
+                                          │ a control is not found
+                                          ▼
+                                       heal.py: the model picks one of the window's real controls, by number
+                                          ▼
+                                       proposed locator → heals.json, written into the workflow only when accepted
+</code></pre></div>
+<h2 id="one-model-config-llmsjson--ufo"><a href="#one-model-config-llmsjson--ufo" class="hash">#</a>One model config: <code>llms.json</code> → UFO</h2>
+<p>UFO picks its model client by <code>API_TYPE</code> through <code>ufo.llm.base.BaseService.get_service</code>, which every model call goes
+through (<code>ufo/llm/llm_call.py</code>). The adapter adds the type <code>forgeqe</code>:</p>
+<ul>
+<li><code>write_ufo_config</code> writes UFO's <code>config/ufo/agents.yaml</code> from its template, with <code>API_TYPE: forgeqe</code>, the model's name,
+and no endpoint and no key, for <code>HOST_AGENT</code>, <code>APP_AGENT</code>, <code>BACKUP_AGENT</code> and <code>EVALUATION_AGENT</code>.</li>
+<li><code>ufo_bridge.install</code> makes <code>get_service(&quot;forgeqe&quot;, …)</code> return <code>ForgeQEService</code>, which calls the profile through the
+<code>openai</code> SDK (<code>models.py</code>): <code>azure</code> (key or <code>auth: entra</code>), <code>openai</code>, <code>openai_compatible</code> (key or Entra), and <code>ollama</code>
+through its OpenAI-compatible <code>/v1</code>. Keys, Azure endpoints and Entra use the browser engine's own helpers
+(<code>forgeqe_engine.llm</code>), so a profile means the same thing in both. Keys stay in environment variables.</li>
+<li>Each call's time and tokens go to ForgeQE's usage ledger as the &quot;desktop agent&quot; (counts only, never the prompt).</li>
+</ul>
+<p>Explore sends screenshots, so its profile must take images: <code>&quot;vision&quot;: true</code> or <code>false</code> on the profile says so; without
+it, <code>ollama</code> profiles are refused and others accepted. Healing sends a screenshot only to a profile that takes images.</p>
+<p>The request parameters suit the model by themselves: a reasoning model (o1, o3, o4, gpt-5, by the profile's <code>model</code> or
+<code>deployment</code> name, or <code>&quot;reasoning&quot;: true</code> on the profile) gets <code>max_completion_tokens</code> and no temperature from the first
+call, and when the API refuses a parameter (<code>max_tokens</code>, <code>temperature</code>, <code>frequency_penalty</code>, <code>response_format</code>, …) the
+call is sent again without it, and later calls to that model leave it out (<code>py/forgeqe_engine/model_params.py</code>). The
+browser agent does the same.</p>
+<h2 id="workflow-yaml-forgeqe-desktop-v1"><a href="#workflow-yaml-forgeqe-desktop-v1" class="hash">#</a>Workflow YAML (<code>forgeqe-desktop-v1</code>)</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>format: forgeqe-desktop-v1
+name: Create an invoice
+app: billing                 # a name from forgeqe.yaml desktop.apps, never a path or a command
+variables:
+  customer: Contoso
+steps:
+  - op: launch
+  - op: click
+    target: {automation_id: btnNewInvoice, control_type: Button, name: New invoice}
+  - op: type
+    target: {automation_id: txtCustomer, control_type: Edit}
+    text: &quot;{{customer}}&quot;
+  - op: type
+    target: {automation_id: txtPassword, control_type: Edit}
+    text: &quot;{{secret:BILLING_PASSWORD}}&quot;
+  - op: select
+    target: {automation_id: cmbTerms, control_type: ComboBox}
+    value: Net 30
+  - op: keys
+    keys: ctrl+s
+  - op: expect
+    target: {automation_id: lblStatus}
+    text: Saved
+  - op: close
+</code></pre></div>
+<ul>
+<li><strong>Ops:</strong> <code>launch</code>, <code>click</code>, <code>double_click</code>, <code>type</code>, <code>select</code>, <code>keys</code>, <code>expect</code>, <code>expect_image</code>, <code>wait</code> (at most
+60 s), <code>wait_for</code>, <code>close</code>.</li>
+<li><strong>Locators</strong> use UIA properties, never screen coordinates: <code>automation_id</code>, <code>name</code>, <code>control_type</code>, <code>class_name</code>,
+<code>index</code> (when several match), and <code>path</code> (the ancestors' <code>control_type</code> and <code>name</code>). A target needs an
+<code>automation_id</code> or a <code>name</code>. Replay looks in the launched app's own windows only.</li>
+<li><strong>Variables:</strong> <code>{{name}}</code> from the workflow's <code>variables</code> or <code>name=value</code> on the command line; <code>{{secret:NAME}}</code> from
+the environment, only for names in <code>desktop.secrets</code>. A secret ForgeQE itself uses (a model key, a tracker token) is
+refused there. Values are substituted once and never expanded again. Targets take <code>{{name}}</code> too (a CSV row's
+<code>{{customer}}</code> as the control to click), never a secret.</li>
+<li><strong>Keys:</strong> <code>ctrl</code>, <code>shift</code> and <code>alt</code> with one named key or character (<code>ctrl+s</code>, <code>alt+f4</code>, <code>enter</code>, <code>f5</code>). The Windows
+and context-menu keys are refused: Win+R followed by typing runs any command.</li>
+<li><strong>Typing</strong> is literal: pywinauto's key syntax (<code>^</code>, <code>%</code>, <code>+</code>, <code>~</code>, <code>{ENTER}</code>) in the text is escaped.</li>
+</ul>
+<h2 id="recording-by-hand"><a href="#recording-by-hand" class="hash">#</a>Recording by hand</h2>
+<p>When you know the steps, do them yourself instead of describing a goal: no model and no UFO are involved, so it costs
+nothing and does exactly what you did.</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe desktop record --app billing --name &quot;Create an invoice&quot;
+</code></pre></div>
+<p>ForgeQE starts the app and watches the mouse and keyboard (low-level Windows hooks), asking UI Automation which control
+each click and key went to. Do the steps, then:</p>
+<ul>
+<li><strong>Ctrl+Shift+F11</strong> with the mouse over a control adds a check: an <code>expect</code> step with the text it shows now (a
+status message, a saved total). Add one at the end, so the replay tests the outcome, not only the steps.</li>
+<li><strong>Ctrl+Shift+F12</strong>, or closing the app, finishes. The console shows each step as it is recorded.</li>
+</ul>
+<p>What becomes a step:</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>You do</th><th>Step</th></tr>
+</thead>
+<tbody>
+<tr><td>Click a control (two quick clicks: <code>double_click</code>)</td><td><code>click</code> with its AutomationId, name and control type</td></tr>
+<tr><td>Pick an item in a drop-down</td><td><code>select</code> on the drop-down, with the item's name</td></tr>
+<tr><td>Type into a field (corrections and pastes included)</td><td>one <code>type</code> with the field's text when you move on, read from the field</td></tr>
+<tr><td>A key chord outside a text field (<code>ctrl+s</code>, <code>enter</code>, <code>f5</code>)</td><td><code>keys</code></td></tr>
+<tr><td>Ctrl+Shift+F11 over a control</td><td><code>expect</code> with its text</td></tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Passwords:</strong> a password field is never read; its step types <code>{{secret:NAME}}</code> (the one name in <code>desktop.secrets</code>,
+or <code>&amp;lt;APP&gt;_PASSWORD</code>, which the result tells you to set). Text equal to a <code>desktop.secrets</code> value is written as its
+placeholder. The typed characters themselves are never kept, only the field's text when you move on.</li>
+<li><strong>Only the app:</strong> clicks and keys outside the app's own process are not recorded; nor are the Windows and menu keys,
+or controls with neither an AutomationId nor a name. The result lists what was left out.</li>
+<li>The run folder has <code>workflow.yaml</code>, <code>run.json</code> and <code>report.html</code>, like explore. Replay it with
+<code>forgeqe desktop replay</code>.</li>
+</ul>
+<h2 id="fixing-a-workflow-from-chat"><a href="#fixing-a-workflow-from-chat" class="hash">#</a>Fixing a workflow from chat</h2>
+<p>When a replayed step fails because the app was slow or a dialog was in the way, ForgeQE's agent fixes the workflow
+with <code>desktop_edit_workflow</code>: it proposes the change (a longer <code>timeout</code> or <code>retries</code> on the step, a <code>wait_for</code> before
+it, a dialog button in <code>dismiss</code>, a healed locator, a corrected text), shows you the diff, and writes the file only
+when you agree. For example, after &quot;step 4 timed out while the invoice list loaded&quot;:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>Change invoice.yaml?
+• new wait_for step before step 4
+• step 4: retries 2
+    - op: click
+  +   target: {automation_id: btnPost}
+  +   retries: 2
+</code></pre></div>
+<ul>
+<li>Each change has a fixed shape (<code>set</code>, <code>unset</code>, <code>set_step</code>, <code>add_dismiss</code>, <code>insert_step</code>, <code>remove_step</code>,
+<code>set_variable</code>); step numbers are the replay report's. Anything else is refused.</li>
+<li>The changed workflow is checked by the engine's own validator before it is shown; one that would not run is not
+offered. Comments and layout are kept.</li>
+<li>The old text is kept in the reports folder (<code>desktop-edits/</code>), and a file that changed since the edit was proposed is
+not overwritten.</li>
+<li>The workflow must be a <code>.yaml</code> inside the working folder or the reports folder.</li>
+</ul>
+<h2 id="waits-retries-and-dialogs"><a href="#waits-retries-and-dialogs" class="hash">#</a>Waits, retries and dialogs</h2>
+<p>Real apps are slow in places: a splash screen, a form that loads its data, a &quot;Tip of the day&quot; or &quot;Save changes?&quot;
+dialog. A workflow says how to wait for them, without fixed <code>wait</code> steps:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>timeout: 20              # seconds a step waits for its control (default 10, at most 300)
+retries: 1               # tries a failed action again, after a short pause (default 0, at most 5)
+dismiss:                 # clicked whenever one of them is in the way
+  - {name: OK, control_type: Button, automation_id: btnTipClose}
+  - {name: &quot;Don't Save&quot;, control_type: Button}
+steps:
+  - op: launch
+    timeout: 90          # a slow start: how long to wait for the app's window
+  - op: wait_for         # the splash screen goes away
+    target: {automation_id: splashForm}
+    gone: true
+    timeout: 120
+  - op: wait_for         # the form has loaded its data
+    target: {automation_id: lblStatus}
+    text: Ready
+  - op: click
+    target: {automation_id: btnPost}
+    timeout: 60          # per step, over the workflow's timeout
+    retries: 3
+</code></pre></div>
+<ul>
+<li><strong>Each step waits</strong> for its control up to its <code>timeout</code>. <code>click</code>, <code>type</code> and <code>select</code> also wait until the control is
+enabled and visible (a form that is still loading greys its buttons out).</li>
+<li><strong><code>wait_for</code></strong> waits until a control is there, shows a <code>text</code>, or with <code>gone: true</code> has gone.</li>
+<li><strong><code>retries</code></strong> applies to <code>click</code>, <code>double_click</code>, <code>type</code>, <code>select</code>, <code>keys</code>, <code>expect</code> and <code>expect_image</code>. Between
+tries, replay pauses (1 s, 2 s, … up to 5 s) and closes any <code>dismiss</code> dialog. An error in the workflow itself (a
+missing variable) is not retried.</li>
+<li><strong><code>dismiss</code></strong> lists at most 10 targets, checked like any target. When a control is not found, or something waits to
+go away, replay clicks the <code>dismiss</code> controls that are on screen and looks again, up to 3 times per lookup. The
+report and the console name every dialog closed, and how many tries a step took.</li>
+</ul>
+<h2 id="visual-checks-expect_image"><a href="#visual-checks-expect_image" class="hash">#</a>Visual checks (<code>expect_image</code>)</h2>
+<p><code>expect</code> compares text. When what matters is drawn (a chart, a signature, a colour, a layout), <code>expect_image</code>
+compares pixels with a baseline image:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>  - op: expect_image
+    target: {automation_id: chartRevenue}   # without a target: the app's top window
+    image: revenue-chart.png                # a file name in &amp;lt;workflow name&gt;.baselines/ next to the workflow
+    tolerance: 0.01                         # share of pixels that may differ (default 0.01, i.e. 1%)
+    ignore: [[0, 0, 120, 24]]               # regions [x, y, width, height] that change every run (a date, a clock)
+</code></pre></div>
+<ul>
+<li><strong>The first run</strong> with no baseline saves what it captured and passes; the report says so. Commit the baselines
+folder with the workflow. <code>--update-baselines</code> replaces them after an intended change.</li>
+<li><strong>A pixel counts as different</strong> when a colour channel differs by more than 32 of 255, so anti-aliasing and ClearType
+do not fail a check. A different size (another screen scale or window size) fails with both sizes named.</li>
+<li><strong>The report</strong> shows the baseline, what was captured, and the differences in red, with the share of pixels that
+differ (<code>images/NNN-baseline|actual|diff.png</code> in the run folder).</li>
+<li><strong>Image names</strong> are file names only (letters, digits, <code>_</code>, <code>-</code>, ending <code>.png</code>). A path, <code>..</code>, or a link that leads
+out of the baselines folder is refused.</li>
+<li>Run visual checks on one machine with a fixed resolution and scale (see <a href="/docs/desktop-ci/">DESKTOP-CI.md</a>).</li>
+</ul>
+<h2 id="unattended-runs"><a href="#unattended-runs" class="hash">#</a>Unattended runs</h2>
+<p>Replay needs a signed-in, unlocked Windows session. Before it starts the app, it checks the session and fails at once
+with the reason if it is a Windows service (session 0), a locked screen, or a disconnected Remote Desktop session.
+<code>forgeqe desktop doctor</code> runs the same check. To run the suite every night on a machine of your own, see
+<a href="/docs/desktop-ci/">DESKTOP-CI.md</a>: a runner set up in the user's session (<code>ci/desktop-runner/prepare-runner.ps1</code>), a
+nightly workflow (<code>ci/desktop-runner/desktop-nightly.example.yml</code>), and <code>--junit</code> results.</p>
+<h2 id="updating-ufo²"><a href="#updating-ufo²" class="hash">#</a>Updating UFO²</h2>
+<p>UFO² is pinned to one commit. Moving it is checked before it is pinned:</p>
+<ol>
+<li><code>.github/workflows/forgeqe-desktop-ufo-update.yml</code> runs weekly, or by hand with a commit. It sets up that UFO on
+Windows (<code>FORGEQE_UFO_COMMIT</code>, which takes a full 40-character commit id only), runs the adapter tests against its
+real code and a scripted explore of Notepad, and says in the job summary whether it passed.</li>
+<li>When it passed: <code>bun scripts/ufo-bump.ts &amp;lt;commit&gt;</code> writes the new pin into <code>src/desktop/setup.ts</code>,
+<code>py/forgeqe_desktop/ufo_runner.py</code> and this page. Run the tests and push; the Windows CI job tests the pin again.</li>
+</ol>
+<p>When it fails, the failing step names what changed in UFO (usually the action executor or the config layout that the
+adapter wraps). Keep the pin until the adapter is updated for it.</p>
+<h2 id="checks-of-the-outcome"><a href="#checks-of-the-outcome" class="hash">#</a>Checks of the outcome</h2>
+<p>A recording of actions only proves the steps run. When UFO has finished, and before the app closes, explore shows the
+model the goal and the app's controls with the text each shows now, and the model picks up to three whose text proves
+the goal (a status message, a saved value), by number, with the part of the text to expect. A check is kept only when
+that text really is in that control, so the model can choose among what is on screen but never invent it; text holding
+a <code>desktop.secrets</code> value is never offered. The checks are saved as <code>expect</code> steps at the end of the workflow, and the
+report says how many there are. With none, the report and the agent say so: add <code>expect</code> steps by hand.</p>
+<h2 id="recording"><a href="#recording" class="hash">#</a>Recording</h2>
+<p>UFO's own step log names the control and a per-step id, not its AutomationId, so the adapter wraps UFO's
+<code>ActionExecutor.execute</code> and records each action with the UIA properties of the control it acted on. <code>record.py</code> turns
+that trace into steps: <code>click_input</code> → <code>click</code>/<code>double_click</code>, <code>set_edit_text</code> → <code>type</code>, <code>keyboard_input</code> → <code>keys</code> (one
+allowed chord) or <code>type</code>, <code>select</code> → <code>select</code>. Coordinate clicks, scrolls and anything else are listed as not recorded
+in the report. A typed value equal to a <code>desktop.secrets</code> value is written as its placeholder; typed text that only
+looks like <code>{{…}}</code> is kept literal, so a model told to type <code>{{secret:X}}</code> cannot make replay type the secret.</p>
+<h2 id="security"><a href="#security" class="hash">#</a>Security</h2>
+<p>The YAML, the trace, the app's screen text and the model's replies can all be written by someone else. The rules in the
+repository's <code>CLAUDE.md</code> apply; for this engine:</p>
+<ul>
+<li><strong>No command in the workflow.</strong> <code>app:</code> names a <code>desktop.apps</code> entry: an absolute <code>.exe</code> (a <code>.bat</code> or <code>.cmd</code> would run
+through <code>cmd.exe</code>, which reparses its arguments) and an argument list, started with <code>subprocess.Popen([path, *args])</code>.</li>
+<li><strong>UFO gets UI tools only.</strong> Each explore writes UFO's <code>mcp.yaml</code> with <code>UICollector</code>, <code>HostUIExecutor</code> and
+<code>AppUIExecutor</code>. UFO's default <code>CommandLineExecutor</code>, which runs shell commands, and its Word, Excel, PowerPoint and
+PDF executors are left out. The adapter starts the app, so UFO never launches a program.</li>
+<li><strong>Keys:</strong> during explore the adapter refuses UFO's Windows and menu keys too, and the report lists what it refused.</li>
+<li><strong>No one at the console:</strong> UFO's safe guard asks before sensitive actions; explore answers no, since nobody is there.</li>
+<li><strong>Environment:</strong> the engine process gets system settings, the profile's key variable (or Entra's) and
+<code>desktop.secrets</code>, nothing else (<code>desktopEnvNames</code>).</li>
+<li><strong>Explore controls the real mouse and keyboard.</strong> It asks before starting (<code>--yes</code> to skip; required with no
+terminal). Use a test machine or VM and a test account.</li>
+<li><strong>Agent tools:</strong> a workflow path the agent gives must be a <code>.yaml</code> inside the working folder or the reports folder (real
+path, so a link out is refused); variables are names and text only; heals are reported, never written.</li>
+<li><strong>Healing:</strong> the model picks one of the window's real controls by number; control text is passed as data, and any
+other answer heals nothing. Heals are written into the workflow only when accepted.</li>
+<li><strong>Report:</strong> every value is escaped; images are only the engine's own <code>steps/NNN.png</code> and
+<code>images/NNN-baseline|actual|diff.png</code>.</li>
+<li><strong>Baselines:</strong> <code>expect_image</code> names are file names, and their real path must be inside the workflow's baselines
+folder, so a workflow cannot read or overwrite another file.</li>
+<li><strong>Unattended machines:</strong> <code>prepare-runner.ps1</code> never handles a password; automatic sign-in uses Sysinternals
+Autologon, which stores it encrypted.</li>
+<li><strong>Install:</strong> UFO is cloned and checked out at the pinned commit (or <code>FORGEQE_UFO_COMMIT</code>, a full commit id only),
+and the checkout's <code>HEAD</code> is verified; replay's packages are pinned to exact versions.</li>
+</ul>
+<h2 id="code"><a href="#code" class="hash">#</a>Code</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>File</th><th>Contents</th></tr>
+</thead>
+<tbody>
+<tr><td><code>src/desktop/command.ts</code></td><td><code>forgeqe desktop</code>: setup, apps, doctor, validate, explore, record, replay (folders, <code>--data</code>, <code>--junit</code>, <code>--update-baselines</code>); heal acceptance</td></tr>
+<tr><td><code>src/desktop/junit.ts</code></td><td>JUnit XML for a suite</td></tr>
+<tr><td><code>src/desktop/edit.ts</code></td><td>Changes to a workflow from chat: shapes, applied with comments kept, validated, diff, backup</td></tr>
+<tr><td><code>src/desktop/run.ts</code></td><td>Explore and replay as the CLI and the agent's tools run them; variables, CSV rows, workflow paths</td></tr>
+<tr><td><code>src/mcp/desktoptools.ts</code></td><td>ForgeQE's agent's <code>test_apps</code>, <code>desktop_explore</code>, <code>desktop_record</code>, <code>desktop_replay</code>, <code>desktop_edit_workflow</code></td></tr>
+<tr><td><code>src/desktop/bridge.ts</code></td><td>Starts <code>python -m forgeqe_desktop serve</code>, passes events on, records model calls in the usage ledger</td></tr>
+<tr><td><code>src/desktop/setup.ts</code></td><td>The desktop environment, the pinned UFO checkout (<code>ufoCommit</code>), <code>desktopDoctor</code></td></tr>
+<tr><td><code>scripts/ufo-bump.ts</code></td><td>Pins a new UFO commit in every place that names it</td></tr>
+<tr><td><code>ci/desktop-runner/</code></td><td><code>prepare-runner.ps1</code> and the nightly workflow example for unattended runs</td></tr>
+<tr><td><code>src/desktop/report.ts</code></td><td><code>report.html</code> for a run</td></tr>
+<tr><td><code>py/forgeqe_desktop/service.py</code></td><td><code>serve</code>: the JSON-lines protocol, replay and explore runs, <code>run.json</code></td></tr>
+<tr><td><code>py/forgeqe_desktop/workflow.py</code></td><td>Load, validate and save workflows; variables and secrets; the key-chord grammar</td></tr>
+<tr><td><code>py/forgeqe_desktop/apps.py</code></td><td><code>desktop.apps</code>: the app allowlist and the argument array a launch uses</td></tr>
+<tr><td><code>py/forgeqe_desktop/models.py</code></td><td>The profile through the <code>openai</code> SDK; image checks</td></tr>
+<tr><td><code>py/forgeqe_desktop/ufo_bridge.py</code></td><td>UFO's model blocks, and the <code>forgeqe</code> model service</td></tr>
+<tr><td><code>py/forgeqe_desktop/ufo_runner.py</code></td><td>UFO's config, the action trace and key guard, running UFO in-process</td></tr>
+<tr><td><code>py/forgeqe_desktop/record.py</code></td><td>Trace to workflow steps</td></tr>
+<tr><td><code>py/forgeqe_desktop/replay.py</code></td><td>Runs a workflow on a <code>Driver</code>: timeouts, retries, <code>wait_for</code>, dismissing dialogs, heal and stop</td></tr>
+<tr><td><code>py/forgeqe_desktop/handrecord.py</code></td><td>Recording by hand: clicks, typing, chords and checks as steps; secrets</td></tr>
+<tr><td><code>py/forgeqe_desktop/handhooks.py</code></td><td>The Windows hooks and UI Automation lookups that feed it</td></tr>
+<tr><td><code>py/forgeqe_desktop/visual.py</code></td><td><code>expect_image</code>: baselines, pixel comparison, diff images</td></tr>
+<tr><td><code>py/forgeqe_desktop/session.py</code></td><td>Whether this Windows session can be driven (service, locked, no screen)</td></tr>
+<tr><td><code>py/forgeqe_desktop/heal.py</code></td><td>One model call to re-find a moved control</td></tr>
+<tr><td><code>py/forgeqe_desktop/memory.py</code></td><td>App memory: an explore replays what earlier ones did before calling the model, and a heal found once is reused (mobile too)</td></tr>
+<tr><td><code>py/forgeqe_desktop/checks.py</code></td><td>One model call for checks of the outcome, kept only when on screen</td></tr>
+<tr><td><code>py/forgeqe_desktop/pywinauto_driver.py</code></td><td>The Windows <code>Driver</code></td></tr>
+</tbody>
+</table></div>
+<p>Tests: <code>bun test tests/desktop.test.ts</code>, and <code>&amp;lt;engine-python&gt; -m pytest tests/desktop -q</code> (needs <code>openai==1.66.2</code>
+and PyYAML; they use a fake driver and a fake UFO, so they run on any OS).</p>
+<h2 id="before-first-use-on-windows"><a href="#before-first-use-on-windows" class="hash">#</a>Before first use on Windows</h2>
+<p>Verified in CI: setup with and without <code>--ufo</code>, replay, healing, the CLI, and UFO's own code with the adapter (its
+config, its model calls routed to the profile, the action trace, UI tools only). Still to check, on a Windows test
+machine with your apps:</p>
+<ol>
+<li><strong>UIA coverage:</strong> <code>Inspect.exe</code> shows the controls that matter with stable <code>AutomationId</code>s. Custom grids, Java
+(needs Java Access Bridge), Delphi, SAP GUI and Citrix (vision only) are where UIA falls short.</li>
+<li><strong>Explore with your model:</strong> one goal with an Azure profile and one with <code>auth: entra</code>; <code>trace.json</code> has the
+controls' AutomationIds, and <code>ufo/</code> has UFO's logs.</li>
+<li><strong>Replay:</strong> the recorded workflow passes 10 runs out of 10; a renamed control is healed.</li>
+<li><strong>Cost and time</strong> of one explore, from <code>forgeqe</code> usage.</li>
+</ol>
+<p>Found by the Windows runs and fixed: UFO's pins need Python 3.10 (pandas 1.4.3); UFO prints emoji panels to stdout, which
+is the engine's event stream and crashed on the cp1252 console (now sent to stderr, characters replaced); an error in
+UFO's own evaluation lost the recorded actions (the trace is now kept and saved).</p>
+<h2 id="next-steps"><a href="#next-steps" class="hash">#</a>Next steps</h2>
+<ol>
+<li>The checks above.</li>
+<li><code>forgeqe suite</code> and test cases from Azure DevOps, Jira and Xray for desktop workflows, with results written back.</li>
+<li>Scribe: export a workflow as pywinauto code (or C# with FlaUI) in the user's repo.</li>
+<li>App adapters where UIA falls short: Java Access Bridge, SAP GUI scripting, vision-only for Citrix.</li>
+<li>A pipeline template for a self-hosted Windows runner signed in to a desktop session.</li>
+</ol>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/"><small>Back to</small><span>User guide</span></a>
+      <a class="next" href="/docs/desktop-ci/"><small>Next</small><span>Desktop in CI</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#use">Use</a></li><li><a href="#decisions">Decisions</a></li><li><a href="#how-a-run-flows">How a run flows</a></li><li><a href="#one-model-config-llmsjson--ufo">One model config: llms.json → UFO</a></li><li><a href="#workflow-yaml-forgeqe-desktop-v1">Workflow YAML (forgeqe-desktop-v1)</a></li><li><a href="#recording-by-hand">Recording by hand</a></li><li><a href="#fixing-a-workflow-from-chat">Fixing a workflow from chat</a></li><li><a href="#waits-retries-and-dialogs">Waits, retries and dialogs</a></li><li><a href="#visual-checks-expect_image">Visual checks (expect_image)</a></li><li><a href="#unattended-runs">Unattended runs</a></li><li><a href="#updating-ufo²">Updating UFO²</a></li><li><a href="#checks-of-the-outcome">Checks of the outcome</a></li><li><a href="#recording">Recording</a></li><li><a href="#security">Security</a></li><li><a href="#code">Code</a></li><li><a href="#before-first-use-on-windows">Before first use on Windows</a></li><li><a href="#next-steps">Next steps</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>
