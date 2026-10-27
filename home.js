@@ -53,7 +53,9 @@
     if (on) { v.preload = "auto"; v.play().catch(() => {}) } else v.pause()
   }, { threshold: 0.3 })
 
-  // The explainer: muted while on screen; "Play with sound" starts it over with sound and its own controls.
+  // The explainer: its first 30 seconds loop muted while on screen (media/preview.mp4, 0.75 MB); "Play with sound"
+  // loads the whole film (media/main.mp4, about 20 MB) and plays it from the start with sound and its own controls,
+  // so the page never downloads the full film unless someone asks for it.
   const film = document.getElementById("film")
   const sound = document.querySelector(".player__sound")
   if (film && sound) {
@@ -69,7 +71,7 @@
         film.muted = false
         film.loop = false
         film.controls = true
-        film.currentTime = 0
+        if (film.dataset.full) film.src = film.dataset.full
         film.play().catch(() => {})
         sound.dataset.state = "sound"
         label.textContent = "Mute"
