@@ -85,7 +85,7 @@
     if (on && box && box.scrollHeight > box.clientHeight) box.scrollTop = on.offsetTop - box.clientHeight / 2
   }
 
-  // Search: titles, headings and text of every page, from search.json.
+  // Search: titles, headings and text of every page, from search.json (or search.js).
   const dlg = document.createElement("dialog")
   dlg.className = "search"
   dlg.setAttribute("aria-label", "Search the docs")
@@ -111,8 +111,9 @@
   let selected = 0
   const load = async () => {
     if (index) return index
-    const r = await fetch("/docs/search.json")
-    index = (await r.json()).map((p) => ({ ...p, lt: p.t.toLowerCase(), lx: p.x.toLowerCase() }))
+    // The copy that ships with ForgeQE has its index in search.js (it opens from disk, where nothing can be fetched).
+    const all = window.FORGEQE_SEARCH || (await (await fetch("/docs/search.json")).json())
+    index = all.map((p) => ({ ...p, lt: p.t.toLowerCase(), lx: p.x.toLowerCase() }))
     return index
   }
   const open = async () => {

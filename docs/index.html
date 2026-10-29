@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
 <link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
-<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+<script src="/docs/docs.js?v=bd51851ab3" defer></script>
 </head>
 <body class="docs">
 <a class="skip" href="#main">Skip to content</a>
@@ -63,9 +63,9 @@
 </table></div>
 <p>After install:</p>
 <div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe docs                 # print the paths of the bundled docs
-forgeqe docs --guide         # open the user guide in the browser
+forgeqe docs --guide         # open the docs in the browser, offline: the pages of forgeqe.github.io/docs/, with search, and the architecture map
 forgeqe docs --open          # open the architecture page in the browser
-forgeqe docs --copy ./docs   # copy the guide, the architecture page, and the reference into a folder
+forgeqe docs --copy ./docs   # copy the guide, the architecture page, the reference and the docs pages into a folder
 </code></pre></div>
 </div>
 <h3 class="band-title">Every feature</h3>
@@ -1386,7 +1386,7 @@ Signing in stays <code>/auth</code> and <code>forgeqe login</code>; <code>forgeq
 <tr><td><code>forgeqe models</code></td><td>List the profiles in <code>llms.json</code> and the active one</td></tr>
 <tr><td><code>forgeqe models --routes [--profile-models]</code></td><td>The model each area of work gets (<code>llm.routing</code>) and why; <code>--profile-models</code> checks and rates the models again (see <a href="#doc-docs-model_routing-model-routing-the-right-configured-model-for-each-task">docs/MODEL_ROUTING.md</a>)</td></tr>
 <tr><td><code>forgeqe features</code></td><td>What ForgeQE can do, and what each capability still needs in this setup (works without a model)</td></tr>
-<tr><td><code>forgeqe docs [--guide|--open] [--copy DIR]</code></td><td>The bundled docs; <code>--guide</code> opens the user guide, <code>--open</code> the architecture page</td></tr>
+<tr><td><code>forgeqe docs [--guide|--open] [--copy DIR]</code></td><td>The bundled docs; <code>--guide</code> opens the docs pages (as on forgeqe.github.io/docs/, offline), <code>--open</code> the architecture page</td></tr>
 <tr><td><code>forgeqe mcp list</code></td><td>The MCP servers ForgeQE's agent gets from your settings</td></tr>
 <tr><td><code>forgeqe auth login [system|NAME]</code></td><td>Sign in to Azure DevOps, GitHub, GitHub Copilot (<code>copilot</code>), Jira, Confluence, TestRail, Zephyr, qTest, or Xray in the browser, or save one secret, in the system's credential store</td></tr>
 <tr><td><code>forgeqe auth [status]</code>, <code>forgeqe auth logout &lt;system&gt;</code></td><td>What is signed in; forget a sign-in</td></tr>
@@ -4393,11 +4393,11 @@ mcp:
 </article>
 <article class="spec feat" id="cap-system-data">
 <div class="hd"><span class="mono">Systems</span><h3>Read any data in Azure DevOps, Jira, Xray, and Confluence, and open Azure DevOps pull requests</h3></div>
-<p class="ds">Reads through a system's REST API what its MCP tools do not cover: pull requests and repositories, test plans and suites, classic releases, and anything else in Azure DevOps, Jira, Xray, or Confluence. Opens Azure DevOps pull requests, which the API reads cannot. Given on every turn once a system is set up, so the agent never turns to the browser or the shell for them.</p>
+<p class="ds">Reads through a system's REST API what its MCP tools do not cover: pull requests and repositories, test plans and suites, classic releases, and anything else in Azure DevOps, Jira, Xray, or Confluence. Opens Azure DevOps pull requests, which the API reads cannot. Sets a pull request reviewer as required, which the MCP server's update_reviewers cannot. Given on every turn once a system is set up, so the agent never turns to the browser or the shell for them.</p>
 <div class="facts">
-<div class="fact"><span class="mono">Ask it</span><ul class="asks"><li>Are there open pull requests in any repository of QI-Claims?</li><li>List the test plans in QI-MobileBanking with their suites</li><li>Create a pull request from demo_mai_qiclaims to main in the QI-Claims Typescript repository</li></ul></div>
+<div class="fact"><span class="mono">Ask it</span><ul class="asks"><li>Are there open pull requests in any repository of QI-Claims?</li><li>List the test plans in QI-MobileBanking with their suites</li><li>Create a pull request from demo_mai_qiclaims to main in the QI-Claims Typescript repository</li><li>Add javed@example.com as a required reviewer on PR 55</li></ul></div>
 <div class="fact"><span class="mono">What it needs</span><ul class="needs"><li><span class="need req">Required</span><span>Azure DevOps or Jira or Xray or Confluence: set up under sources: in forgeqe.yaml, or sign in with /auth</span></li></ul></div>
-<div class="fact"><span class="mono">Tools</span><p class="tools"><code>query_api</code> <code>create_ado_pull_request</code></p></div>
+<div class="fact"><span class="mono">Tools</span><p class="tools"><code>query_api</code> <code>create_ado_pull_request</code> <code>set_ado_pr_reviewer</code></p></div>
 </div>
 <div class="detail"><span class="mono">In detail</span>
 <p class="see">See <a href="#doc-readme-azure-devops-jira-and-other-systems">Azure DevOps, Jira, and other systems</a> (from the README).</p>
@@ -4525,6 +4525,27 @@ mcp:
 <section class="doc" id="doc-how_to_use-13-logs-for-debugging">
 <h3>Logs for debugging</h3>
 <div class="prose"><p>Every session (<code>forgeqe start</code>, <code>run</code>, <code>suite</code>, <code>heal</code>, <code>monitor</code>, <code>code</code>, <code>mcp</code>, <code>login</code>, <code>setup</code>) writes a log to <code>.forgeqe/logs/</code> next to <code>forgeqe.yaml</code> (the newest 30 are kept). It has the versions and settings in use, what you asked, ForgeQE's agent's answers and every tool call with its result, every browser step and result, the browser engine's own log lines, and errors. Secrets are replaced before anything is written: API keys, tokens and passwords from the environment, keys in <code>llms.json</code>, and credentials you gave in a message.</p>
+<p>Each session has two files with the same events:</p>
+<ul>
+<li>
+<p><code>&lt;time&gt;-&lt;command&gt;.log</code>, to read: a header with what ran, where, with which model and settings, then one entry per
+event with the time on this computer, where it came from (<code>BROWSER</code>, <code>AGENT</code>, <code>TOOL</code>, <code>MODEL</code>, <code>RUN</code>, <code>ERROR</code>…) and
+what happened in words, its details indented below. Paths inside the project are written from it, and errors stand
+apart with a blank line around them:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>text</span><button class="copy-code" type="button">Copy</button></div><pre><code>15:58:44  BROWSER   Step 2 · Checkout
+                    Page    https://shop.example.com/checkout
+                    Goal    Pay with the saved card
+                    Action  CLICK #pay
+15:58:46  BROWSER   ✗ Step 2 failed
+                    Error   #pay not found
+</code></pre></div>
+</li>
+<li>
+<p><code>&lt;time&gt;-&lt;command&gt;.jsonl</code>, the same events as data, one <code>{&quot;at&quot;, &quot;kind&quot;, &quot;data&quot;}</code> object a line, for scripts and
+tools (and what ForgeQE's own pages read). Logs written before this change are one file with a line of data each,
+and are still read.</p>
+</li>
+</ul>
 <p>To share a session, type <code>/logs</code> in the shell (<code>/logs shots</code> adds screenshots), or run <code>forgeqe logs bundle</code> afterwards. Either writes one <code>.tar.gz</code> with the session log, the run folders it mentions (<code>run.json</code>, <code>steps.json</code>, <code>trace.md</code>, <code>resume.json</code>, <code>workflow.yaml</code>, the failure screenshot), your <code>forgeqe.yaml</code>, your profiles without keys, and the versions. <code>forgeqe logs</code> lists recent logs.</p>
 <p>Start with <code>--debug</code> (or set <code>FORGEQE_DEBUG=1</code>) for more: the browser engine logs at debug level, and long values such as tool results are kept whole instead of cut at 8,000 characters.</p>
 </div>

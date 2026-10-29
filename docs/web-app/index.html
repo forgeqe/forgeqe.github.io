@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
 <link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
-<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+<script src="/docs/docs.js?v=bd51851ab3" defer></script>
 </head>
 <body class="docs">
 <a class="skip" href="#main">Skip to content</a>
@@ -84,11 +84,13 @@ files: each person's are in their own credential store.</p>
 <ul>
 <li><strong>The sidebar, on the left.</strong> New chat; <strong>Work</strong>: Home, Record, Regression, API tests, Quality, Data, Runs, Reports,
 Jobs; <strong>Agents</strong>: Knowledge, Memory, Guardrails, Skills, Prompts, What's ready; the recent chats with All chats; Help
-(the user guide) and Settings. It closes to give the page the width, and is a drawer on a phone.</li>
+(the docs, the same pages as forgeqe.github.io/docs/ with the architecture map, served by ForgeQE itself, so they work
+offline) and Settings. It closes to give the page the width, and is a drawer on a phone.</li>
 <li><strong>The workspace panel, on the right.</strong> The project, its repository and branch, and the test environment; the context
 and tokens of the chat and of the project, in your local currency (pounds in the UK, from the European Central Bank's
 daily rates); the background tasks running now; the files a chat changed, with <strong>Create pull request</strong>; and what it
-produced (reports, tests, recordings). It closes too, and opens over the page on a narrower screen.</li>
+produced (reports, tests, recordings). It closes too. It sits beside the page on a wide screen (1600 pixels and
+up); on a laptop it opens over the page from the button at the top right, so the page keeps its width.</li>
 </ul>
 <h2 id="home-and-a-chat"><a href="#home-and-a-chat" class="hash">#</a>Home and a chat</h2>
 <p>Home is one box: say what to test, in your words. Under it, suggestions (Run test cases, Explore a journey, Write a
@@ -150,6 +152,17 @@ See <a href="/docs/#doc-how_to_use-reports-from-the-agent">Reports from the agen
 <p>Settings takes over the window: one menu on the left, with <strong>Back to ForgeQE</strong> and <strong>Search settings</strong> (by name or
 <code>forgeqe.yaml</code> key), and the sections under General, AI, Testing, Activity and Advanced. Each setting shows its
 <code>forgeqe.yaml</code> key under its help.</p>
+<p><strong>Appearance</strong> gives the web app the project's look, for everyone who opens it: a logo (PNG, JPEG, WebP or SVG) and
+a name for the sidebar, the sidebar's colour (primary, with an optional second colour it fades into), and the colour
+of buttons, links and selection (secondary), with lighter and darker shades made from it. The page itself stays white,
+and text on each colour turns white or dark so it reads; the section shows the contrast. A square or round logo
+shows with the name beside it, a wide one alone; <strong>Logo frame</strong> keeps it as it is, rounds its corners, cuts a square
+one to a circle, or puts it on a white tile (for a dark logo on a dark sidebar); <strong>Logo size</strong> Large gives a wide logo
+the whole top of the sidebar, for one whose words are small. When the logo is the sidebar's colour (its own background,
+or a shape's ink), it sits on a plate that stands out from the sidebar, and the section suggests another sidebar colour. <strong>From a website</strong> reads a
+public site's page and stylesheets and suggests its colours (its header or brand colour for the sidebar, its buttons'
+for the buttons; never its logo); nothing changes until <strong>Use these colours</strong>. Only sites on the internet are read,
+never this computer or a private network. <strong>Choose a DESIGN.md</strong> fills the colours from a design file. It is saved under <code>theme:</code> in <code>forgeqe.yaml</code>; <strong>Back to ForgeQE's look</strong> removes it.</p>
 <p><strong>Environments</strong> lists each environment with Edit and Remove; adding or editing one opens a panel with its name,
 apps, values, secrets and <strong>Test data</strong> (the files its tests read, through <code>FORGEQE_DATA_&amp;lt;NAME&gt;</code>). <strong>Start from your
 team's YAML</strong> fills the panel from YAML in any layout: <strong>Paste</strong> it, <strong>Import a file</strong> from your computer (copied into
