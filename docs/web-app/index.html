@@ -47,7 +47,8 @@ computer only and works on one project folder at a time, as the CLI works in the
 forgeqe web                           # in a project folder, or anywhere
 </code></pre></div>
 <p>It opens in your default browser and prints its address, such as <code>http://127.0.0.1:53817/#token=…</code>. In CI, on a Linux
-machine without a desktop, or with <code>--no-open</code>, it only prints the address: open it yourself. The page keeps the token
+machine without a desktop, or with <code>--no-open</code>, it only prints the address: open it yourself. When it does not open the
+browser, or the browser could not be opened, the next line says why. The page keeps the token
 for that browser tab only; another tab, or the page after the token is gone, says it is signed out: open the printed
 address again. Ctrl+C in the terminal stops it.</p>
 <div class="tbl"><table>
@@ -85,12 +86,14 @@ files: each person's are in their own credential store.</p>
 <li><strong>The sidebar, on the left.</strong> New chat; <strong>Work</strong>: Home, Record, Regression, API tests, Quality, Data, Runs, Reports,
 Jobs; <strong>Agents</strong>: Knowledge, Memory, Guardrails, Skills, Prompts, What's ready; the recent chats with All chats; Help
 (the docs, the same pages as forgeqe.github.io/docs/ with the architecture map, served by ForgeQE itself, so they work
-offline) and Settings. It closes to give the page the width, and is a drawer on a phone.</li>
+offline) and Settings. It closes to a narrow rail of its icons (each named when you point at it), with the small logo
+on top, to give the page the width; on a phone it is a drawer.</li>
 <li><strong>The workspace panel, on the right.</strong> The project, its repository and branch, and the test environment; the context
 and tokens of the chat and of the project, in your local currency (pounds in the UK, from the European Central Bank's
 daily rates); the background tasks running now; the files a chat changed, with <strong>Create pull request</strong>; and what it
-produced (reports, tests, recordings). It closes too. It sits beside the page on a wide screen (1600 pixels and
-up); on a laptop it opens over the page from the button at the top right, so the page keeps its width.</li>
+produced (reports, tests, recordings), under the Capgemini logo. It sits beside the page on a wide screen (1600
+pixels and up); on a laptop it opens over the page, so the page keeps its width. Where it is not beside the page, a
+narrow rail of its sections' icons is: one opens the panel at that section.</li>
 </ul>
 <h2 id="home-and-a-chat"><a href="#home-and-a-chat" class="hash">#</a>Home and a chat</h2>
 <p>Home is one box: say what to test, in your words. Under it, suggestions (Run test cases, Explore a journey, Write a
@@ -158,7 +161,8 @@ of buttons, links and selection (secondary), with lighter and darker shades made
 and text on each colour turns white or dark so it reads; the section shows the contrast. A square or round logo
 shows with the name beside it, a wide one alone; <strong>Logo frame</strong> keeps it as it is, rounds its corners, cuts a square
 one to a circle, or puts it on a white tile (for a dark logo on a dark sidebar); <strong>Logo size</strong> Large gives a wide logo
-the whole top of the sidebar, for one whose words are small. When the logo is the sidebar's colour (its own background,
+the whole top of the sidebar, for one whose words are small. <strong>Small logo</strong> is the square or round one the narrow
+sidebar shows; without one, a square logo is used, else the name's first letter. When the logo is the sidebar's colour (its own background,
 or a shape's ink), it sits on a plate that stands out from the sidebar, and the section suggests another sidebar colour. <strong>From a website</strong> reads a
 public site's page and stylesheets and suggests its colours (its header or brand colour for the sidebar, its buttons'
 for the buttons; never its logo); nothing changes until <strong>Use these colours</strong>. Only sites on the internet are read,
