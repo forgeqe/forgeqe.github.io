@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The web app · ForgeQE docs</title>
+<meta name="description" content="forgeqe web opens ForgeQE in your browser:">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/web-app/">
+<link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
+<link rel="preload" href="/fonts/ubuntu-latin-400-normal.woff2?v=dabae363ac" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css?v=c972ddfdf0">
+<script src="/docs/docs.js?v=7d1b282f8d" defer></script>
+</head>
+<body class="docs">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <div class="nav__end">
+      <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+</header>
+<div class="container docs-layout">
+  <nav class="docs-side" aria-label="Docs">
+    <a class="side-home" href="/docs/"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">User guide</a>
+    <div class="side-group"><p class="side-head">Guide</p><ul><li><a href="/docs/#overview" data-chapter="overview"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Overview</span><b>01</b></a></li><li><a href="/docs/#get-started" data-chapter="get-started"><img class="pix" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><span>Get started</span><b>02</b></a></li><li><a href="/docs/#using" data-chapter="using"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Using ForgeQE</span><b>03</b></a></li></ul></div><div class="side-group"><p class="side-head">Capability areas</p><ul><li><a href="/docs/#area-browser" data-chapter="area-browser"><img class="pix" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><span>Browser</span><b>04</b></a></li><li><a href="/docs/#area-test-cases" data-chapter="area-test-cases"><img class="pix" src="/img/icons/case.svg?v=7797d81ad8" alt="" width="40" height="40"><span>Test cases</span><b>05</b></a></li><li><a href="/docs/#area-setup" data-chapter="area-setup"><img class="pix" src="/img/icons/healer.svg?v=93578f4956" alt="" width="40" height="40"><span>Setup</span><b>06</b></a></li><li><a href="/docs/#area-desktop" data-chapter="area-desktop"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop</span><b>07</b></a></li><li><a href="/docs/#area-mobile" data-chapter="area-mobile"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile</span><b>08</b></a></li><li><a href="/docs/#area-operations" data-chapter="area-operations"><img class="pix" src="/img/icons/network.svg?v=af49665d11" alt="" width="40" height="40"><span>Operations</span><b>09</b></a></li><li><a href="/docs/#area-data" data-chapter="area-data"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Data</span><b>10</b></a></li><li><a href="/docs/#area-automated-tests" data-chapter="area-automated-tests"><img class="pix" src="/img/icons/scribe.svg?v=bc6aae1899" alt="" width="40" height="40"><span>Automated tests</span><b>11</b></a></li><li><a href="/docs/#area-pull-requests" data-chapter="area-pull-requests"><img class="pix" src="/img/icons/pr-reviewer.svg?v=b48d28718f" alt="" width="40" height="40"><span>Pull requests</span><b>12</b></a></li><li><a href="/docs/#area-api" data-chapter="area-api"><img class="pix" src="/img/icons/api.svg?v=9a31a6f61b" alt="" width="40" height="40"><span>API</span><b>13</b></a></li><li><a href="/docs/#area-quality" data-chapter="area-quality"><img class="pix" src="/img/icons/result.svg?v=f9261c11b9" alt="" width="40" height="40"><span>Quality</span><b>14</b></a></li><li><a href="/docs/#area-release" data-chapter="area-release"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Release</span><b>15</b></a></li><li><a href="/docs/#area-systems" data-chapter="area-systems"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Systems</span><b>16</b></a></li></ul></div><div class="side-group"><p class="side-head">Reference</p><ul><li><a href="/docs/#reference" data-chapter="reference"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>Reference</span><b>17</b></a></li></ul></div>
+    <div class="side-group"><p class="side-head">More documentation</p><ul><li><a href="/docs/web-app/" aria-current="page"><img class="pix" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><span>The web app</span></a></li><li><a href="/docs/desktop/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop apps</span></a></li><li><a href="/docs/desktop-ci/"><img class="pix" src="/img/icons/desktop.svg?v=86d53f340f" alt="" width="40" height="40"><span>Desktop in CI</span></a></li><li><a href="/docs/mobile/"><img class="pix" src="/img/icons/mobile.svg?v=749f3fea33" alt="" width="40" height="40"><span>Mobile apps</span></a></li><li><a href="/docs/containers/"><img class="pix" src="/img/icons/knowledge-base.svg?v=f1d323fa7a" alt="" width="40" height="40"><span>Containers</span></a></li><li><a href="/docs/product-knowledge/"><img class="pix" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40"><span>Product knowledge</span></a></li><li><a href="/docs/guardrails/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Guardrails</span></a></li><li><a href="/docs/feature-test-prompts/"><img class="pix" src="/img/icons/scribe.svg?v=bc6aae1899" alt="" width="40" height="40"><span>Feature test prompts</span></a></li><li><a href="/docs/architecture/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture</span></a></li><li><a href="/docs/cost-architecture/"><img class="pix" src="/img/icons/speed.svg?v=c5effcb02e" alt="" width="40" height="40"><span>Cost-aware execution</span></a></li><li><a href="/docs/model-routing/"><img class="pix" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><span>Model routing</span></a></li></ul></div>
+    <div class="side-group"><p class="side-head">Pages of their own</p><ul>
+      <li><a href="/security/"><img class="pix" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40"><span>Security and data flows</span></a></li>
+      <li><a href="/architecture-map/"><img class="pix" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40"><span>Architecture map</span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main" class="docs-main">
+    <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>More documentation</p>
+    <h1 class="topic-h"><img class="pix pix--title" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">The web app</h1>
+    <article class="prose">
+<p><code>forgeqe web</code> opens ForgeQE in your browser: the same agents as the shell, with a chat on Home, pages for recordings,
+runs, reports, API tests, quality, data, regression packs and schedules, and every setting as a form. It runs on your
+computer only and works on one project folder at a time, as the CLI works in the folder it is started in.</p>
+<h2 id="starting-it"><a href="#starting-it" class="hash">#</a>Starting it</h2>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>sh</span><button class="copy-code" type="button">Copy</button></div><pre><code>npm install -g @capagents/forgeqe     # once
+forgeqe web                           # in a project folder, or anywhere
+</code></pre></div>
+<p>It prints an address such as <code>http://127.0.0.1:53817/#token=…</code>. Open it. The page keeps the token for that browser tab
+only; another tab, or the page after the token is gone, says it is signed out: open the printed address again. Ctrl+C
+in the terminal stops it.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>Option</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>--port N</code></td><td>A fixed port instead of a free one, for a bookmark or when a port is taken.</td></tr>
+<tr><td><code>--config forgeqe.yaml</code></td><td>Work on the folder of that file.</td></tr>
+</tbody>
+</table></div>
+<h2 id="the-first-time-set-up"><a href="#the-first-time-set-up" class="hash">#</a>The first time: Set up</h2>
+<p>The first page is <strong>Settings › Set up</strong>, in four steps. Until the folder has a <code>forgeqe.yaml</code>, the other sections of
+Settings are locked.</p>
+<ol>
+<li><strong>Project folder.</strong> The folder ForgeQE works on: browse to it, type its path, or make a new folder. It can be a clone
+of your test repository (tests written from passed runs go there), a clone of the application, or an empty folder to
+try ForgeQE in. ForgeQE does not clone repositories: clone with git first, then pick the folder.</li>
+<li><strong>ForgeQE in this folder.</strong> The same as <code>forgeqe init</code>: <code>forgeqe.yaml</code>, <code>llms.json</code>, the environment files and a
+<code>.forgeqe</code> folder with prompts, skills and guardrails to change. Files already there are kept, and
+<code>.forgeqe/reports/</code> is added to <code>.gitignore</code>.</li>
+<li><strong>This computer.</strong> What ForgeQE runs with (the browser engine and the agent runtime), with <strong>Install what's
+missing</strong>, which runs <code>forgeqe setup</code> and shows its output.</li>
+<li><strong>A model.</strong> At least one model with its key or sign-in, under <strong>Models</strong>.</li>
+</ol>
+<p>Next time, <code>forgeqe web</code> opens the folder it is started in when ForgeQE is set up there, else the last project opened
+(it keeps the last ten).</p>
+<p><strong>For a team.</strong> One person sets ForgeQE up in the shared test repository and commits what it made: <code>forgeqe.yaml</code>, the
+environment files, <code>llms.json</code>, and the team's guardrails, prompts and skills under <code>.forgeqe/</code>. Everyone else clones
+the repository, runs <code>forgeqe web</code> in it, and adds their own keys in Settings. Keys and passwords never go in those
+files: each person's are in their own credential store.</p>
+<h2 id="the-layout"><a href="#the-layout" class="hash">#</a>The layout</h2>
+<ul>
+<li><strong>The sidebar, on the left.</strong> New chat; <strong>Work</strong>: Home, Record, Regression, API tests, Quality, Data, Runs, Reports,
+Jobs; <strong>Agents</strong>: Knowledge, Memory, Guardrails, Skills, Prompts, What's ready; the recent chats with All chats; Help
+(the user guide) and Settings. It closes to give the page the width, and is a drawer on a phone.</li>
+<li><strong>The workspace panel, on the right.</strong> The project, its repository and branch, and the test environment; the context
+and tokens of the chat and of the project, in your local currency (pounds in the UK, from the European Central Bank's
+daily rates); the background tasks running now; the files a chat changed, with <strong>Create pull request</strong>; and what it
+produced (reports, tests, recordings). It closes too, and opens over the page on a narrower screen.</li>
+</ul>
+<h2 id="home-and-a-chat"><a href="#home-and-a-chat" class="hash">#</a>Home and a chat</h2>
+<p>Home is one box: say what to test, in your words. Under it, suggestions (Run test cases, Explore a journey, Write a
+test, Review requirements) fill the box with an example; they do not send.</p>
+<p>In the box:</p>
+<ul>
+<li><strong>Tools</strong>: whether this chat writes the test into the repository and shows the browser, and what comes from the
+settings (where browsers run, where test cases come from). They can be changed in a chat that has started.</li>
+<li><strong>The model</strong>: Auto routing, or one of your models.</li>
+<li><strong>Attach</strong>: files for the agent to read.</li>
+<li><strong>Refine</strong>: rewrites your request precisely against what ForgeQE knows here, in the same box, without running
+anything; Undo puts your words back.</li>
+</ul>
+<p>A reply shows the work as it happens:</p>
+<ul>
+<li><strong>The plan</strong> as a chain: what is done (a tick), what is being worked on now, and what is next.</li>
+<li><strong>The agents</strong>: each step under the agent doing it (ForgeQE's agent, the browser agent, Scribe), and each handoff
+from one to another.</li>
+<li><strong>The latest activity</strong>, live, with the full log a click away.</li>
+<li><strong>The result</strong>: each test with its status, file and the command to run it; reports as links; every file changed with
+its diff.</li>
+<li><strong>Next steps</strong> as buttons (run it on another browser, open a pull request, investigate a failure), each a new
+request in the chat.</li>
+</ul>
+<p><strong>Stop</strong> ends the work in progress. While the agent works the page follows the latest step; scroll up and it stops
+following, and <strong>Latest activity</strong> takes you back.</p>
+<p><strong>All chats</strong> lists every chat since <code>forgeqe web</code> started, newest first, grouped by day: Working, Needs you, Your turn
+and Ended as filters, a search, and 50 at a time.</p>
+<h2 id="the-pages"><a href="#the-pages" class="hash">#</a>The pages</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>Page</th><th>What it is for</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Record</strong></td><td>Do a test's steps yourself in a browser or a Windows app ForgeQE opens; each click, entry and check is recorded. A web recording becomes a test through a chat; a desktop one replays with no model. The recordings, searched and paged.</td></tr>
+<tr><td><strong>Regression</strong></td><td>Regression packs for a release: built from test cases, run, and healed, with their results.</td></tr>
+<tr><td><strong>API tests</strong></td><td>Contract sets from an API description or the calls a browser run saw; scenarios that chain calls. Run them (calls that change data only after you agree), see each call's result, write them as tests.</td></tr>
+<tr><td><strong>Quality</strong></td><td>What each browser run measured: accessibility (WCAG), Core Web Vitals, and visual changes against approved baselines, with <strong>Approve as the new baseline</strong>; and each page's trend.</td></tr>
+<tr><td><strong>Data</strong></td><td>Databases (read-only queries; test data only with a writable database and your confirmation), test data, and data flows.</td></tr>
+<tr><td><strong>Runs</strong></td><td>Every ForgeQE session in the project, from here, a schedule or the terminal: 25 to a page with filters. A run shows its summary, the conversation, its activity, and its details.</td></tr>
+<tr><td><strong>Reports</strong></td><td>Every report ForgeQE wrote, each opening as its HTML report in a new tab; and the project report: every run together, with pass rate by day, what fails most, flaky cases and defects.</td></tr>
+<tr><td><strong>Jobs</strong></td><td>Scheduled and long jobs (the jobs service): their runs, logs and alerts.</td></tr>
+<tr><td><strong>Knowledge</strong></td><td>What the agents know about your product, and adding to it.</td></tr>
+<tr><td><strong>Memory</strong></td><td>What ForgeQE learned from runs that passed, by site: flows replayed without a model, and pages with their elements. Clearing a site's memory asks first.</td></tr>
+<tr><td><strong>Guardrails</strong></td><td>The rules every agent follows.</td></tr>
+<tr><td><strong>Skills</strong></td><td>What the agents know how to do, by the agents that use them; add, edit and remove the project's own.</td></tr>
+<tr><td><strong>Prompts</strong></td><td>The instructions each agent starts from, with the agents that use each; edit one, or add your team's own for chosen agents.</td></tr>
+<tr><td><strong>What's ready</strong></td><td>Each capability, whether it is ready here, and what it still needs.</td></tr>
+</tbody>
+</table></div>
+<h3 id="reports-the-agent-writes"><a href="#reports-the-agent-writes" class="hash">#</a>Reports the agent writes</h3>
+<p>Ask for a report in a chat (&quot;a report of all open defects&quot;, &quot;release status for all projects&quot;) and the agent writes
+one from the results of the calls it made. The report has three pages: <strong>Overview</strong> (the summary, and when the rows
+are work items: how many are open, critical and high, unassigned, how old, untouched for 30 days, the ones that need
+someone now, and charts by project, person, age and week), <strong>the rows</strong> with filters and a CSV export, and
+<strong>Sources</strong>, each call the rows came from. The analytics are worked out from the rows; the model writes none of them.
+See <a href="/docs/#doc-how_to_use-reports-from-the-agent">Reports from the agent</a>.</p>
+<h2 id="settings"><a href="#settings" class="hash">#</a>Settings</h2>
+<p>Settings takes over the window: one menu on the left, with <strong>Back to ForgeQE</strong> and <strong>Search settings</strong> (by name or
+<code>forgeqe.yaml</code> key), and the sections under General, AI, Testing, Activity and Advanced. Each setting shows its
+<code>forgeqe.yaml</code> key under its help.</p>
+<p>Changes save themselves. A key or password typed in Settings goes to your credential store under its variable's name,
+never into a settings file, and is never shown again. <strong>Files</strong> shows each settings file as text for what the forms do
+not cover. Every option in <code>forgeqe.example.yaml</code> has a field.</p>
+<h2 id="safe-by-design"><a href="#safe-by-design" class="hash">#</a>Safe by design</h2>
+<ul>
+<li>It listens on <code>127.0.0.1</code> only, with a random token checked on every call, and refuses requests from other sites.</li>
+<li>Nothing a page shows is taken as HTML: replies, tickets and reports are drawn as text and links, and a link opens
+only when it is a web or mail address.</li>
+<li>A file a reply names opens through a short-lived link in its own sandbox, so a report's scripts never reach the app.</li>
+<li>Commands the pages start are built from fixed lists of what is allowed; anything that changes data, costs model
+calls or posts outside asks first.</li>
+</ul>
+<h2 id="when-something-is-wrong"><a href="#when-something-is-wrong" class="hash">#</a>When something is wrong</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>You see</th><th>What to do</th></tr>
+</thead>
+<tbody>
+<tr><td>The page says it is signed out</td><td>Open the address <code>forgeqe web</code> printed again; each tab needs it once.</td></tr>
+<tr><td>The port is in use</td><td><code>forgeqe web --port 4711</code> (any free port).</td></tr>
+<tr><td>Settings sections are locked</td><td>Set up ForgeQE in the project folder first (Settings › Set up, step 2).</td></tr>
+<tr><td>A chat cannot start</td><td>Settings › Set up, steps 3 and 4: install what is missing, and add a model with its key.</td></tr>
+</tbody>
+</table></div>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/"><small>Back to</small><span>User guide</span></a>
+      <a class="next" href="/docs/desktop/"><small>Next</small><span>Desktop apps</span></a>
+    </nav>
+  </main>
+  <aside class="docs-toc" aria-label="On this page">
+    <p class="side-head">On this page</p><ul><li><a href="#starting-it">Starting it</a></li><li><a href="#the-first-time-set-up">The first time: Set up</a></li><li><a href="#the-layout">The layout</a></li><li><a href="#home-and-a-chat">Home and a chat</a></li><li><a href="#the-pages">The pages</a></li><li><a href="#settings">Settings</a></li><li><a href="#safe-by-design">Safe by design</a></li><li><a href="#when-something-is-wrong">When something is wrong</a></li></ul>
+  </aside>
+</div>
+<footer class="foot">
+  <div class="container foot__row">
+    <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+  </div>
+  <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
+</footer>
+</body>
+</html>
