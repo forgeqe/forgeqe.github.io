@@ -46,9 +46,10 @@ computer only and works on one project folder at a time, as the CLI works in the
 <div class="code"><div class="code-bar"><i></i><i></i><i></i><span>sh</span><button class="copy-code" type="button">Copy</button></div><pre><code>npm install -g @capagents/forgeqe     # once
 forgeqe web                           # in a project folder, or anywhere
 </code></pre></div>
-<p>It prints an address such as <code>http://127.0.0.1:53817/#token=…</code>. Open it. The page keeps the token for that browser tab
-only; another tab, or the page after the token is gone, says it is signed out: open the printed address again. Ctrl+C
-in the terminal stops it.</p>
+<p>It opens in your default browser and prints its address, such as <code>http://127.0.0.1:53817/#token=…</code>. In CI, on a Linux
+machine without a desktop, or with <code>--no-open</code>, it only prints the address: open it yourself. The page keeps the token
+for that browser tab only; another tab, or the page after the token is gone, says it is signed out: open the printed
+address again. Ctrl+C in the terminal stops it.</p>
 <div class="tbl"><table>
 <thead>
 <tr><th>Option</th><th>What it does</th></tr>
@@ -56,6 +57,7 @@ in the terminal stops it.</p>
 <tbody>
 <tr><td><code>--port N</code></td><td>A fixed port instead of a free one, for a bookmark or when a port is taken.</td></tr>
 <tr><td><code>--config forgeqe.yaml</code></td><td>Work on the folder of that file.</td></tr>
+<tr><td><code>--no-open</code></td><td>Print the address without opening the browser.</td></tr>
 </tbody>
 </table></div>
 <h2 id="the-first-time-set-up"><a href="#the-first-time-set-up" class="hash">#</a>The first time: Set up</h2>
@@ -148,6 +150,11 @@ See <a href="/docs/#doc-how_to_use-reports-from-the-agent">Reports from the agen
 <p>Settings takes over the window: one menu on the left, with <strong>Back to ForgeQE</strong> and <strong>Search settings</strong> (by name or
 <code>forgeqe.yaml</code> key), and the sections under General, AI, Testing, Activity and Advanced. Each setting shows its
 <code>forgeqe.yaml</code> key under its help.</p>
+<p><strong>Environments</strong> lists each environment with Edit and Remove; adding or editing one opens a panel with its name,
+apps, values, secrets and <strong>Test data</strong> (the files its tests read, through <code>FORGEQE_DATA_&amp;lt;NAME&gt;</code>). <strong>Start from your
+team's YAML</strong> fills the panel from YAML in any layout: <strong>Paste</strong> it, <strong>Import a file</strong> from your computer (copied into
+the fields), or <strong>Link a project file</strong> (read from that file every run; the panel shows what ForgeQE reads from it,
+and <strong>Copy into fields instead</strong> converts it). Secret values in the YAML are never copied.</p>
 <p>Changes save themselves. A key or password typed in Settings goes to your credential store under its variable's name,
 never into a settings file, and is never shown again. <strong>Files</strong> shows each settings file as text for what the forms do
 not cover. Every option in <code>forgeqe.example.yaml</code> has a field.</p>

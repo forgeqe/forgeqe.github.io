@@ -141,7 +141,7 @@ Run SHOP-12 and SHOP-14 from Jira, two browsers at once
 Write a Playwright test for that run in ../app
 </code></pre></div>
 <p>Or in your browser, with the same agents, a page for each kind of work, and every setting as a form:</p>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe web                           # prints http://127.0.0.1:…/#token=…: open it, then Settings › Set up
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe web                           # opens http://127.0.0.1:…/#token=… in your browser: start at Settings › Set up
 </code></pre></div>
 <p>Without the shell:</p>
 <div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe run &quot;Search hotels in Mumbai on booking.com&quot; --plain
@@ -568,9 +568,10 @@ Summary: Show the deployed build in each environment, and why each deployment fa
 <section class="doc sub" id="doc-how_to_use-the-web-app"><h4>The web app</h4><div class="prose"><p><code>forgeqe web</code> is the shell in your browser: a chat on Home with the plan, each agent's steps and handoffs, the live
 activity, and the results (tests, reports, diffs) as they happen; pages for recording, regression packs, API tests,
 quality, data, runs, reports and schedules; and every setting as a form, with keys kept in your credential store. It
-listens on <code>127.0.0.1</code> only and needs the token in the address it prints.</p>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe web                  # a free port; open the address it prints
+listens on <code>127.0.0.1</code> only and needs the token in the address it opens and prints.</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe web                  # a free port, opened in your browser
 forgeqe web --port 4711      # a fixed port
+forgeqe web --no-open        # only print the address
 </code></pre></div>
 <p>The first page is Settings › Set up: the project folder (an existing clone, or a new folder), ForgeQE in it (the same
 as <code>forgeqe init</code>), what this computer needs, and a model. See <a href="/docs/web-app/">docs/WEB_APP.md</a> for every page.</p>
@@ -1287,6 +1288,34 @@ uat:
 </code></pre></div>
 <p>ForgeQE's agent also sees the environment as written (secrets replaced), so a request can name anything in it (&quot;log in
 as the <code>admin_user</code> of UAT&quot;).</p>
+<p><strong>Link, import or paste the team's file.</strong> An environment can be read from a YAML file the team keeps elsewhere in the
+repository, as it is now each run (<code>file:</code>, with this project's <code>description</code> and <code>data</code> added), or converted once
+into ForgeQE's layout:</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>environments:
+  qa:
+    file: config/qa-portal.yaml     # linked: read every run, any layout; a file of several picks qa from it
+</code></pre></div>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe env import config/uat.yaml                 # shows it in ForgeQE's layout
+forgeqe env import config/uat.yaml --write         # adds it (--name NAME, --replace to overwrite one already there)
+forgeqe env link qa config/qa-portal.yaml          # links it
+</code></pre></div>
+<p>In the shell, <code>/env import config/uat.yaml</code> shows the conversion and <code>/env import config/uat.yaml --write</code> adds it. In
+the web app, Settings › Environments › Add or Edit has <strong>Paste</strong>, <strong>Import a file</strong> and <strong>Link a project file</strong>. A
+secret value written in the file is never copied: it is listed so you can move it to an environment variable.</p>
+<p><strong>Test data per environment.</strong> The same test often needs other rows in each environment: QA's customers are not UAT's.
+List the files under <code>data:</code> (CSV, JSON, YAML, Excel, XML, SQL or text, inside the project and not in a hidden folder);
+the tests ForgeQE runs read each one's absolute path from <code>FORGEQE_DATA_&lt;NAME&gt;</code>, and the agents are told to read it
+from there, never from a fixed path.</p>
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>yaml</span><button class="copy-code" type="button">Copy</button></div><pre><code>environments:
+  qa:
+    data:
+      customers: test-data/qa/customers.csv     # FORGEQE_DATA_CUSTOMERS
+      orders: test-data/qa/orders.json          # FORGEQE_DATA_ORDERS
+  uat:
+    data:
+      customers: test-data/uat/customers.csv
+</code></pre></div>
+<p><code>forgeqe apps</code> and <code>/env</code> list each environment's data files, and mark one that is not there yet.</p>
 <p>Pick the environment with <code>--env uat</code> on any command (<code>forgeqe start</code>, <code>run</code>, <code>suite</code>, <code>monitor</code>, <code>mcp</code>, …) or
 <code>FORGEQE_ENV=uat</code>; otherwise <code>default</code> is used. In the shell, <code>/env</code> lists them and <code>/env uat</code> switches; asked in plain
 language (&quot;from now on, use UAT&quot;), ForgeQE's agent switches with <code>use_environment</code>, and any single request can name an
@@ -1302,7 +1331,7 @@ environment (&quot;run the checkout tests in UAT&quot;): each test tool takes an
 <tr><td>API tests</td><td>Call <code>api_app</code>'s URL</td></tr>
 <tr><td>Desktop agent</td><td>Starts the environment's desktop apps; types only its <code>secrets</code></td></tr>
 <tr><td>Scribe, the healer, the reviewer</td><td>Write tests that read <code>FORGEQE_APP_&lt;APP&gt;_URL</code> (or the repository's own settings), never a fixed environment URL; the reviewer flags one</td></tr>
-<tr><td>Tests ForgeQE runs, pack pipelines</td><td><code>FORGEQE_ACTIVE_ENV</code>, <code>FORGEQE_APP_&lt;APP&gt;_URL</code> / <code>_PATH</code> / <code>_ID</code>, <code>FORGEQE_VAR_&lt;NAME&gt;</code> (pipelines written by <code>forgeqe pack pipeline init</code> take them as the <code>env_vars</code> input)</td></tr>
+<tr><td>Tests ForgeQE runs, pack pipelines</td><td><code>FORGEQE_ACTIVE_ENV</code>, <code>FORGEQE_APP_&lt;APP&gt;_URL</code> / <code>_PATH</code> / <code>_ID</code>, <code>FORGEQE_VAR_&lt;NAME&gt;</code>, <code>FORGEQE_DATA_&lt;NAME&gt;</code> (pipelines written by <code>forgeqe pack pipeline init</code> take them as the <code>env_vars</code> input)</td></tr>
 <tr><td>Reports</td><td>Every run's report names the test environment</td></tr>
 </tbody>
 </table></div>
