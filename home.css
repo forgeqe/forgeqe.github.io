@@ -167,7 +167,8 @@ h1.display { font-size: clamp(36px, 4.2vw, 58px); }
 .nav__links a[aria-current="page"] { color: var(--text); }
 .nav__links a[aria-current="page"]::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--blue-2); box-shadow: 0 0 8px var(--blue); }
 .nav__end { justify-self: end; display: flex; align-items: center; gap: 8px; }
-.nav__cta { min-height: 36px; padding: 0 16px; font-size: 14px; }
+.nav__cta { min-height: 36px; padding: 0 16px 0 12px; font-size: 14px; }
+.nav__cta .ic--btn { width: 18px; height: 18px; margin-right: 8px; }
 @media (max-width: 420px) { .nav__cta { display: none; } }
 .nav__menu { display: none; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--panel-2); cursor: pointer; }
 .nav__menu svg { width: 20px; height: 20px; margin: auto; fill: none; stroke: currentColor; stroke-width: 1.6; }
