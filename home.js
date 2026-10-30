@@ -126,13 +126,6 @@
     else done("Select it")
   }))
 
-  // npm or pip.
-  const installCmd = document.getElementById("install-cmd")
-  document.querySelectorAll("[data-pm]").forEach((tab, _, all) => tab.addEventListener("click", () => {
-    all.forEach((t) => t.setAttribute("aria-pressed", String(t === tab)))
-    installCmd.dataset.cmd = tab.dataset.pm
-    installCmd.querySelector(".cmd__text").textContent = tab.dataset.pm
-  }))
 
   // The header turns to glass once the page scrolls, hides while scrolling down and returns on the way up.
   const bar = document.querySelector(".nav")

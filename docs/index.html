@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>User guide · ForgeQE docs</title>
-<meta name="description" content="How to use ForgeQE: install, configure, and every feature in detail, with what it needs and how to ask for it.">
+<meta name="description" content="How to use ForgeQE: set it up, configure it, and every feature in detail, with what it needs and how to ask for it.">
 <meta name="theme-color" content="#080a10">
 <link rel="canonical" href="https://forgeqe.qualityai.co.uk/docs/">
 <link rel="icon" type="image/png" href="/img/favicon.png?v=e98d2a5654">
@@ -17,13 +17,13 @@
 <header class="nav" id="navigation">
   <div class="nav__bar">
     <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
-    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li><li><a href="/contact/"><img class="pix pix--nav" src="/img/icons/stories.svg?v=e91e4906ea" alt="" width="40" height="40">Contact us</a></li></ul></nav>
     <div class="nav__end">
       <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
       <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
     </div>
   </div>
-  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li><li><a href="/contact/"><img class="pix pix--nav" src="/img/icons/stories.svg?v=e91e4906ea" alt="" width="40" height="40">Contact us</a></li></ul></div>
 </header>
 <div class="container docs-layout">
   <nav class="docs-side" aria-label="Docs">
@@ -38,9 +38,9 @@
   <main id="main" class="docs-main guide">
     <p class="crumbs"><a href="/docs/">Docs</a><span>/</span>User guide</p>
     <h1 class="display"><span>The ForgeQE user guide.</span> <em>Every capability, and how to ask for it.</em></h1>
-    <p class="guide-lead">Install ForgeQE, learn the shell, and find every capability with what it needs, how to ask for it, and its limits, in one document.</p>
+    <p class="guide-lead">Set ForgeQE up, learn the shell, and find every capability with what it needs, how to ask for it, and its limits, in one document.</p>
     <button class="search-hero search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search the docs</span><kbd>/</kbd></button>
-    <ul class="start"><li><a class="start__card" href="#get-started"><img class="pix pix--start" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><b>Get started</b><span>Install ForgeQE, set up a model, and run your first goal.</span></a></li><li><a class="start__card" href="#using"><img class="pix pix--start" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><b>Using ForgeQE</b><span>The shell, how to ask, and what each run leaves behind.</span></a></li><li><a class="start__card" href="#area-browser"><img class="pix pix--start" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><b>Every capability</b><span>Each feature: what it does, how to ask for it, what it needs.</span></a></li><li><a class="start__card" href="#reference"><img class="pix pix--start" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><b>Reference</b><span>MCP, tuning, logs, environment variables, and every command.</span></a></li></ul>
+    <ul class="start"><li><a class="start__card" href="#get-started"><img class="pix pix--start" src="/img/icons/download.svg?v=45cb7ef776" alt="" width="40" height="40"><b>Get started</b><span>Get ForgeQE, set up a model, and run your first goal.</span></a></li><li><a class="start__card" href="#using"><img class="pix pix--start" src="/img/icons/orchestrator.svg?v=9be42a1420" alt="" width="40" height="40"><b>Using ForgeQE</b><span>The shell, how to ask, and what each run leaves behind.</span></a></li><li><a class="start__card" href="#area-browser"><img class="pix pix--start" src="/img/icons/browser-agent.svg?v=9262f17952" alt="" width="40" height="40"><b>Every capability</b><span>Each feature: what it does, how to ask for it, what it needs.</span></a></li><li><a class="start__card" href="#reference"><img class="pix pix--start" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40"><b>Reference</b><span>MCP, tuning, logs, environment variables, and every command.</span></a></li></ul>
     <div class="guide-body">
 
 
@@ -95,7 +95,7 @@ forgeqe docs --copy ./docs   # copy the guide, the architecture page, the refere
 <tr><th>Requirement</th><th>Notes</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>npm (Node.js 18+) or pip (Python 3.9+)</strong></td><td>To install <code>@capagents/forgeqe</code> or <code>forgeqe-cli</code>; either one gives the same <code>forgeqe</code> command</td></tr>
+
 <tr><td><strong>A terminal</strong></td><td>macOS Terminal, iTerm2, VS Code or Cursor's terminal, Windows Terminal</td></tr>
 <tr><td><strong>A model</strong></td><td>A profile in <code>llms.json</code> with a working key, or Microsoft Entra ID sign-in for Azure (Azure OpenAI, OpenAI, an OpenAI-compatible gateway, or Ollama), or a GitHub Copilot seat (see <a href="/docs/#doc-how_to_use-github-copilot-seats-as-the-model">GitHub Copilot seats as the model</a>)</td></tr>
 <tr><td><strong>Internet access on first use</strong></td><td>ForgeQE downloads Bun, the agent runtime, uv, Python, and the engine into <code>~/.forgeqe</code> once</td></tr>
@@ -124,8 +124,7 @@ forgeqe docs --copy ./docs   # copy the guide, the architecture page, the refere
 </section>
 <section class="doc" id="doc-how_to_use-quick-start">
 <h3>Quick start</h3>
-<div class="prose"><div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>npm install -g @capagents/forgeqe     # or: pip install forgeqe-cli
-forgeqe init                          # forgeqe.yaml, llms.json, and .forgeqe/ (prompts, skills, knowledge) in this folder
+<div class="prose"><div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe init                          # forgeqe.yaml, llms.json, and .forgeqe/ (prompts, skills, knowledge) in this folder
 export WP_AZURE_API_KEY=...            # the key your llms.json profile names
 forgeqe models                        # check the profiles
 forgeqe start                         # the shell
@@ -152,64 +151,7 @@ forgeqe suite cases.yaml --parallel 3        # what pipelines call
 <hr />
 </div>
 </section>
-<section class="doc" id="doc-how_to_use-1-install">
-<h3>Install</h3>
-<div class="prose"><div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>npm install -g @capagents/forgeqe
-# or
-pip install forgeqe-cli
-forgeqe --help
-</code></pre></div>
-<p>That is the only install step on Windows, macOS and Linux. npm installs Bun with ForgeQE (through your npm registry, so a company mirror works); with pip, or when npm skipped it, the first run downloads Bun into <code>~/.forgeqe/tools</code> (unless a Bun 1.3+ is already installed), and <code>forgeqe setup</code> downloads the agent runtime and uv, which fetches Python. Nothing is added to PATH or shell profiles; deleting <code>~/.forgeqe</code> removes it all.</p>
-<p>Set up the ForgeQE engine once (the first live run does it automatically if you skip this):</p>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe setup
-</code></pre></div>
-<p>It creates <code>~/.forgeqe/engine/.venv</code>, installs the engine's Python libraries, and prints the Python, the engine version, the browser it found, and the agent runtime. Google Chrome is used when installed; otherwise Chromium is installed. <code>forgeqe setup --force</code> rebuilds the environment.</p>
-</div>
-<section class="doc sub" id="doc-how_to_use-updating"><h4>Updating</h4><div class="prose"><div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe update            # every forgeqe on PATH to the latest release
-forgeqe update --check    # show what would change and the commands it would run
-forgeqe update 0.2.7      # a given version
-forgeqe --version
-</code></pre></div>
-<p><code>forgeqe update</code> finds each <code>forgeqe</code> on PATH (a bun, npm or pip install; often more than one) and updates each with the tool that installed it, skipping that tool's cached copy of the version list. Right after a release, npm and PyPI accept the upload several minutes before installers can fetch it, and <code>bun add</code> or <code>npm install</code> in that window says <code>No version matching</code>; <code>forgeqe update</code> waits for the registry instead (up to 20 minutes, <code>--wait MIN</code> to change). The first <code>forgeqe</code> on PATH is the one your shell runs; open a new terminal (or run <code>hash -r</code>) after updating.</p>
-<p>From a checkout instead of the registries:</p>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>cd ForgeQE
-bun install
-bun src/index.ts --help
-</code></pre></div>
-</div></section>
-<section class="doc sub" id="doc-how_to_use-company-networks"><h4>Company networks</h4><div class="prose"><p>On a company laptop, ForgeQE sets itself up for the network without anyone changing settings:</p>
-<div class="tbl"><table>
-<thead>
-<tr><th>What the network does</th><th>What ForgeQE does</th></tr>
-</thead>
-<tbody>
-<tr><td>Inspects HTTPS (Zscaler, Netskope, a firewall), with the company's own certificate</td><td>Uses the certificates this computer trusts: Windows' Trusted Root store, or the macOS System keychain. ForgeQE, the agent runtime, Playwright and Copilot's runtime get them through <code>NODE_EXTRA_CA_CERTS</code> (a copy in <code>~/.forgeqe/cache/system-ca.pem</code>, refreshed weekly); the Python engines check with the system through truststore; uv with <code>UV_SYSTEM_CERTS</code>. Certificates are still verified.</td></tr>
-<tr><td>Sends traffic through a proxy set in Windows</td><td>Reads Windows' proxy setting (or the one proxy its automatic configuration script names) and passes it on as <code>HTTPS_PROXY</code>. ForgeQE's own servers on <code>127.0.0.1</code> always bypass it.</td></tr>
-<tr><td>Blocks downloads from GitHub or the Playwright CDN</td><td>npm brings Bun through your registry; Microsoft Edge is used when Google Chrome is not installed, so no Chromium is downloaded; mirrors can stand in for the rest (below).</td></tr>
-</tbody>
-</table></div>
-<p>To see where the network stops ForgeQE, run:</p>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe doctor
-</code></pre></div>
-<p>It shows the proxy and certificates in use, checks each address ForgeQE needs (GitHub downloads, Python packages, the npm registry, your models, Azure DevOps or Jira), and for anything blocked prints what to ask IT for, ready to forward.</p>
-<p><strong>For IT: mirrors and settings.</strong> Set these as environment variables (for example by Group Policy):</p>
-<div class="tbl"><table>
-<thead>
-<tr><th>Variable</th><th>What it does</th></tr>
-</thead>
-<tbody>
-<tr><td><code>FORGEQE_GITHUB_MIRROR</code></td><td>A mirror of GitHub release downloads (<code>https://artifacts.example.com/github</code>, laid out as <code>&lt;owner&gt;/&lt;repo&gt;/releases/download/&lt;tag&gt;/&lt;file&gt;</code>): Bun, uv, the agent runtime, Python builds and Copilot's runtime come from it. Checksums are still checked.</td></tr>
-<tr><td><code>UV_DEFAULT_INDEX</code> (or <code>PIP_INDEX_URL</code>)</td><td>A mirror of PyPI for the engine's Python packages.</td></tr>
-<tr><td><code>PLAYWRIGHT_DOWNLOAD_HOST</code></td><td>A mirror for Chromium, needed only without Chrome or Edge.</td></tr>
-<tr><td><code>HTTPS_PROXY</code>, <code>NO_PROXY</code></td><td>A proxy other than Windows' setting. A proxy that needs a sign-in takes <code>http://user:password@host:port</code>.</td></tr>
-<tr><td><code>NODE_EXTRA_CA_CERTS</code></td><td>Your own certificate file instead of the system's roots.</td></tr>
-<tr><td><code>FORGEQE_SYSTEM_CERTS=off</code></td><td>Leaves certificates to each tool's built-in list.</td></tr>
-<tr><td><code>FORGEQE_HOME</code></td><td>Where ForgeQE keeps its tools (default <code>~/.forgeqe</code>), for machines where programs may run only from certain folders.</td></tr>
-</tbody>
-</table></div>
-<p>What still needs IT: a proxy that signs in with your Windows account only (NTLM or Kerberos), and policies that block programs in the user folder (set <code>FORGEQE_HOME</code> to an allowed folder). On macOS, the company's certificate must be in the System keychain, where device management puts it.</p>
-</div></section>
-</section>
+<section class="doc" id="doc-how_to_use-1-install"><h3>Get ForgeQE</h3><div class="prose"><p>ForgeQE is set up with your team by Capgemini: we bring it to your project, connect your models and tools, and run the first proven tests with you. <span class="xref">Contact us</span> to get started.</p></div></section>
 <section class="doc" id="doc-how_to_use-2-scaffold-config">
 <h3>Scaffold config</h3>
 <div class="prose"><div class="code"><div class="code-bar"><i></i><i></i><i></i><span>bash</span><button class="copy-code" type="button">Copy</button></div><pre><code>bun src/index.ts init
@@ -305,7 +247,7 @@ bun src/index.ts init --global --profile azure-gpt4o
 <tr><td>The model is refused, or not found</td><td>The seat's plan or your organization's Copilot policies do not allow that model: pick one the sign-in listed, or ask a Copilot admin to enable it.</td></tr>
 <tr><td><code>GitHub Copilot runs through the ForgeQE engine, which is not set up</code> (or <code>could not be set up (…)</code>)</td><td>Run <code>forgeqe setup</code>; the reason in brackets says what failed.</td></tr>
 <tr><td>Copilot is slow, or a run waits on it (&quot;Starting the browser…&quot;, &quot;working out the first step…&quot;)</td><td><code>~/.forgeqe/logs/copilot-gateway.log</code> has a line for each Copilot request: when it started, Copilot's session, when each turn ended, and how long it took. It never holds prompts, replies or tokens. A turn that ends without Copilot saying it is idle (a known Copilot SDK issue) is answered 5 seconds later instead of after the 5-minute limit, and a session the run no longer needs (Stop, an error) is stopped.</td></tr>
-<tr><td><code>CERTIFICATE_VERIFY_FAILED</code> while downloading Copilot's runtime</td><td>Your network inspects HTTPS. Update ForgeQE and run <code>forgeqe setup</code>, then sign in again: it uses the certificates your computer trusts (see <a href="/docs/#doc-how_to_use-company-networks">Company networks</a>). If it still fails, run <code>forgeqe doctor</code> and send its output to IT.</td></tr>
+<tr><td><code>CERTIFICATE_VERIFY_FAILED</code> while downloading Copilot's runtime</td><td>Your network inspects HTTPS. Update ForgeQE and run <code>forgeqe setup</code>, then sign in again: it uses the certificates your computer trusts (see <a href="/docs/">Company networks</a>). If it still fails, run <code>forgeqe doctor</code> and send its output to IT.</td></tr>
 </tbody>
 </table></div>
 </div></section>
@@ -3186,7 +3128,7 @@ forgeqe run &quot;The ForgeQE workflow is failing, fix it&quot;
 <p>What it does:</p>
 <ol>
 <li>Works out the platform from the git remote (github.com, or dev.azure.com / visualstudio.com) and reads the repo's existing CI, so it can add a job to it or write a new file.</li>
-<li>Writes the pipeline so it installs Bun and uv, runs <code>npm install -g @capagents/forgeqe</code> and <code>forgeqe setup</code>, then <code>forgeqe suite &lt;source...&gt; --no-code --plain --out &lt;dir&gt;</code>, and publishes <code>junit.xml</code> and the report folder. On GitHub the suite adds a results table to the job summary.</li>
+<li>Writes the pipeline so it installs Bun and uv, runs and <code>forgeqe setup</code>, then <code>forgeqe suite &lt;source...&gt; --no-code --plain --out &lt;dir&gt;</code>, and publishes <code>junit.xml</code> and the report folder. On GitHub the suite adds a results table to the job summary.</li>
 <li>Validates it (actionlint when installed, otherwise by parsing the YAML) and commits it.</li>
 <li>Pushes to a new branch named <code>forgeqe/ci-&lt;topic&gt;</code> with ForgeQE's <code>push_branch</code> tool. That tool refuses the default branch, <code>main</code>, and <code>master</code>, and never forces; <code>git push</code> itself is blocked for the agent. Merging stays with you.</li>
 <li>Stores the keys the pipeline needs (the model's key from <code>llms.json</code>, and <code>ADO_PAT</code>, <code>JIRA_EMAIL</code> and <code>JIRA_API_TOKEN</code>, or <code>XRAY_CLIENT_ID</code> and <code>XRAY_CLIENT_SECRET</code>) with ForgeQE's <code>set_ci_secret</code> tool. The agent only names the variable; ForgeQE passes the value from its own environment to <code>gh secret set</code> (on stdin) or <code>az pipelines variable</code> (through the environment), and never shows it. A variable that is not set in ForgeQE's environment is reported, not guessed.</li>
@@ -3823,7 +3765,7 @@ forgeqe report setup                                # a report after every Playw
 <p><code>forgeqe report setup</code> sets up the framework the repository uses:</p>
 <ul>
 <li><strong>Playwright</strong>: it copies a reporter to <code>.forgeqe/playwright-reporter.mjs</code> (commit it) and prints the line to add to <code>playwright.config</code>: <code>reporter: [[&quot;list&quot;], [&quot;./.forgeqe/playwright-reporter.mjs&quot;]]</code>. Every run then ends with a report, from <code>npx playwright test</code>, the VS Code Playwright extension, or CI. With <code>screenshot: &quot;only-on-failure&quot;</code> and <code>trace: &quot;retain-on-failure&quot;</code>, each failure shows its screenshot, the full error and stack, and the trace.</li>
-<li><strong>pytest</strong>: install <code>forgeqe-cli</code> in the environment that runs the tests (<code>pip install forgeqe-cli</code>). Its plugin loads by itself, from the terminal, VS Code's test explorer, or CI, in a folder with <code>forgeqe.yaml</code> or <code>.forgeqe/</code> (elsewhere with <code>pytest --forgeqe-report</code>). A test that passes when pytest-rerunfailures runs it again is reported as flaky.</li>
+<li><strong>pytest</strong>: install ForgeQE in the environment that runs the tests. Its plugin loads by itself, from the terminal, VS Code's test explorer, or CI, in a folder with <code>forgeqe.yaml</code> or <code>.forgeqe/</code> (elsewhere with <code>pytest --forgeqe-report</code>). A test that passes when pytest-rerunfailures runs it again is reported as flaky.</li>
 </ul>
 <p><code>FORGEQE_REPORT=0</code> turns the reporters off for a run (ForgeQE's own <code>run_tests</code> does this, as it writes its own report). The reporters call <code>forgeqe</code> on PATH, or <code>FORGEQE_BIN</code>; without it they keep the results file and print the command that builds the report. Screenshots and traces are copied into the report only from the working folder, never from a hidden folder or a file named like a key.</p>
 </div>
@@ -4617,7 +4559,7 @@ the list again. For a client that ignores it, <code>forgeqe mcp --all-tools</cod
 <footer class="foot">
   <div class="container foot__row">
     <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
-    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/contact/">Contact us</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
   </div>
   <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
 </footer>

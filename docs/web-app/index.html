@@ -17,13 +17,13 @@
 <header class="nav" id="navigation">
   <div class="nav__bar">
     <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg?v=53f223637d" alt="" width="92" height="21"></span></a>
-    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></nav>
+    <nav aria-label="Main"><ul class="nav__links"><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li><li><a href="/contact/"><img class="pix pix--nav" src="/img/icons/stories.svg?v=e91e4906ea" alt="" width="40" height="40">Contact us</a></li></ul></nav>
     <div class="nav__end">
       <button class="search-open" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="/img/icons.svg?v=478c8284b0#i-scan-search"></use></svg><span>Search</span><kbd>/</kbd></button>
       <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
     </div>
   </div>
-  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li></ul></div>
+  <div class="menu" id="menu" hidden><ul><li><a href="/"><img class="pix pix--nav" src="/img/icons/context-engine.svg?v=b815540d6b" alt="" width="40" height="40">Product</a></li><li><a href="/docs/" aria-current="page"><img class="pix pix--nav" src="/img/icons/wikis.svg?v=c44b998773" alt="" width="40" height="40">Docs</a></li><li><a href="/security/"><img class="pix pix--nav" src="/img/icons/shield.svg?v=6c452e87c9" alt="" width="40" height="40">Security</a></li><li><a href="/architecture-map/"><img class="pix pix--nav" src="/img/icons/architecture.svg?v=d15508781f" alt="" width="40" height="40">Architecture</a></li><li><a href="/contact/"><img class="pix pix--nav" src="/img/icons/stories.svg?v=e91e4906ea" alt="" width="40" height="40">Contact us</a></li></ul></div>
 </header>
 <div class="container docs-layout">
   <nav class="docs-side" aria-label="Docs">
@@ -43,8 +43,7 @@
 runs, reports, API tests, quality, data, regression packs and schedules, and every setting as a form. It runs on your
 computer only and works on one project folder at a time, as the CLI works in the folder it is started in.</p>
 <h2 id="starting-it"><a href="#starting-it" class="hash">#</a>Starting it</h2>
-<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>sh</span><button class="copy-code" type="button">Copy</button></div><pre><code>npm install -g @capagents/forgeqe     # once
-forgeqe web                           # in a project folder, or anywhere
+<div class="code"><div class="code-bar"><i></i><i></i><i></i><span>sh</span><button class="copy-code" type="button">Copy</button></div><pre><code>forgeqe web                           # in a project folder, or anywhere
 </code></pre></div>
 <p>It opens in your default browser and prints its address, such as <code>http://127.0.0.1:53817/#token=…</code>. In CI, on a Linux
 machine without a desktop, or with <code>--no-open</code>, it only prints the address: open it yourself. When it does not open the
@@ -73,8 +72,17 @@ try ForgeQE in. ForgeQE does not clone repositories: clone with git first, then 
 <code>.forgeqe/reports/</code> is added to <code>.gitignore</code>.</li>
 <li><strong>This computer.</strong> What ForgeQE runs with (the browser engine and the agent runtime), with <strong>Install what's
 missing</strong>, which runs <code>forgeqe setup</code> and shows its output.</li>
-<li><strong>A model.</strong> At least one model with its key or sign-in, under <strong>Models</strong>.</li>
+<li><strong>A model.</strong> At least one model with its key or sign-in, under <strong>Models</strong>. For a GitHub Copilot seat, sign in here
+or in Models (below).</li>
 </ol>
+<p><strong>Signing in to GitHub Copilot</strong> (Set up, and Settings › Models › Sign-ins) does what <code>forgeqe auth login copilot</code>
+does. <strong>Sign in with GitHub</strong> runs GitHub's own Copilot CLI sign-in (downloaded the first time): the page shows
+GitHub's link with <strong>Open GitHub</strong> and the one-time code with <strong>Copy</strong>, and waits while you approve on GitHub; the
+sign-in stays in the system's credential store, and ForgeQE handles no token. <strong>Use a token</strong> is for a machine without
+a browser: a fine-grained <code>github_pat_</code> token with the Copilot Requests permission, typed into a password field and kept
+in the credential store; no response shows it back, and a classic <code>ghp_</code> token is refused. Either way ForgeQE then
+lists your seat's models, you pick one, and the Copilot profile in <code>llms.json</code> becomes the default. The card says who
+is signed in and how, with <strong>Sign out</strong>.</p>
 <p>Next time, <code>forgeqe web</code> opens the folder it is started in when ForgeQE is set up there, else the last project opened
 (it keeps the last ten).</p>
 <p><strong>For a team.</strong> One person sets ForgeQE up in the shared test repository and commits what it made: <code>forgeqe.yaml</code>, the
@@ -83,9 +91,14 @@ the repository, runs <code>forgeqe web</code> in it, and adds their own keys in 
 files: each person's are in their own credential store.</p>
 <h2 id="the-layout"><a href="#the-layout" class="hash">#</a>The layout</h2>
 <ul>
-<li><strong>The sidebar, on the left.</strong> New chat; <strong>Work</strong>: Home, Record, Regression, API tests, Quality, Data, Runs, Reports,
-Jobs; <strong>Agents</strong>: Knowledge, Memory, Guardrails, Skills, Prompts, What's ready; the recent chats with All chats; Help
-(the docs, the same pages as forgeqe.github.io/docs/ with the architecture map, served by ForgeQE itself, so they work
+<li><strong>The sidebar, on the left.</strong> New chat (opens Home, where a chat starts; earlier chats are in Runs); <strong>Agents</strong>: a
+page for each of ForgeQE's agents (Orchestrator, Browser, Exploration, Planning, Coding, Search, Healing, API, API
+planning, Review, PR review, Root-cause, Refine, Evaluation, Model-rating, and the Research and Helper agents the
+others call), in categories that fold on their own: Lead, Browser, Test code, API, Review and diagnosis, Support;
+<strong>Context</strong> (what the agents know and follow): Knowledge, Memory, Guardrails, Skills, Prompts; <strong>Test</strong>: Record,
+Regression, API tests, Quality, Data; <strong>Results</strong>: Runs, Reports, Jobs. Each group folds from its title (Agents
+starts folded), and the group of the page you are on stays open; and at the bottom What's ready, Help (the docs, the
+same pages as forgeqe.github.io/docs/ with the architecture map, served by ForgeQE itself, so they work
 offline) and Settings. It closes to a narrow rail of its icons (each named when you point at it), with the small logo
 on top, to give the page the width; on a phone it is a drawer.</li>
 <li><strong>The workspace panel, on the right.</strong> The project, its repository and branch, and the test environment; the context
@@ -98,6 +111,19 @@ narrow rail of its sections' icons is: one opens the panel at that section.</li>
 <h2 id="home-and-a-chat"><a href="#home-and-a-chat" class="hash">#</a>Home and a chat</h2>
 <p>Home is one box: say what to test, in your words. Under it, suggestions (Run test cases, Explore a journey, Write a
 test, Review requirements) fill the box with an example; they do not send.</p>
+<p><strong>An agent's page</strong> (Agents, in the sidebar) is the same box with the agent's icon, its name and what it does on
+top, suggestions of its own, <strong>Tools it can use</strong> (the first five groups, folded, with <strong>Show all</strong> to its tools page,
+<code>#/agents/&amp;lt;agent&gt;/tools</code>, which lists every group and tool open; its own tools with what its permissions take away, and each tool
+server its session gets: the live browser, the code map, databases, ForgeQE's tools, and for the Orchestrator agent
+every capability and your systems' MCP servers; a group it cannot use here says why), <strong>Connected to</strong> (the test
+repository, databases, test environments and systems it reaches), its instructions (the prompt it starts from,
+changed in Prompts) and its recent runs. A request sent from there goes to the Orchestrator agent with the agent's
+name before it, so it is handed on.</p>
+<p>Every page and agent in the sidebar has one kind of icon, ForgeQE's 3D pixel icons; a page's is never an agent's.
+<strong>Sidebar icons</strong> in Appearance says how they sit on the sidebar's colour: <strong>Auto</strong> measures every icon against it
+and keeps them as they are when each stands out (2:1), or puts them all on tiles in a tint of the sidebar when the
+colour hides any; or a brand chooses one look: Plain, On tiles, Outlined, or One colour (the icons' shapes in the
+sidebar's text colour). The row previews the look and names the icons that fade.</p>
 <p>In the box:</p>
 <ul>
 <li><strong>Tools</strong>: whether this chat writes the test into the repository and shows the browser, and what comes from the
@@ -110,7 +136,7 @@ anything; Undo puts your words back.</li>
 <p>A reply shows the work as it happens:</p>
 <ul>
 <li><strong>The plan</strong> as a chain: what is done (a tick), what is being worked on now, and what is next.</li>
-<li><strong>The agents</strong>: each step under the agent doing it (ForgeQE's agent, the browser agent, Scribe), and each handoff
+<li><strong>The agents</strong>: each step under the agent doing it (the Orchestrator agent, the Browser agent, the Coding agent), and each handoff
 from one to another.</li>
 <li><strong>The latest activity</strong>, live, with the full log a click away.</li>
 <li><strong>The result</strong>: each test with its status, file and the command to run it; reports as links; every file changed with
@@ -120,7 +146,7 @@ request in the chat.</li>
 </ul>
 <p><strong>Stop</strong> ends the work in progress. While the agent works the page follows the latest step; scroll up and it stops
 following, and <strong>Latest activity</strong> takes you back.</p>
-<p><strong>All chats</strong> lists every chat since <code>forgeqe web</code> started, newest first, grouped by day: Working, Needs you, Your turn
+<p><strong>All chats</strong> (<code>#/chats</code>, and each web chat from Runs) lists every chat since <code>forgeqe web</code> started, newest first, grouped by day: Working, Needs you, Your turn
 and Ended as filters, a search, and 50 at a time.</p>
 <h2 id="the-pages"><a href="#the-pages" class="hash">#</a>The pages</h2>
 <div class="tbl"><table>
@@ -210,7 +236,7 @@ calls or posts outside asks first.</li>
 <footer class="foot">
   <div class="container foot__row">
     <a class="foot__brand" href="/"><img src="/img/wordmark-white.webp?v=9b030ad46a" alt="ForgeQE" width="160" height="76"><span>AI writes the code. <em>ForgeQE proves it works.</em></span></a>
-    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
+    <nav aria-label="Footer"><ul><li><a href="/">Product</a></li><li><a href="/docs/">Docs</a></li><li><a href="/security/">Security</a></li><li><a href="/architecture-map/">Architecture</a></li><li><a href="/contact/">Contact us</a></li><li><a href="/sample-report/">Sample report</a></li></ul></nav>
   </div>
   <p class="container foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk · Built from ForgeQE's own docs</p>
 </footer>

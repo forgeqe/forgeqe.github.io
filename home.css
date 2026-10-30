@@ -167,6 +167,8 @@ h1.display { font-size: clamp(36px, 4.2vw, 58px); }
 .nav__links a[aria-current="page"] { color: var(--text); }
 .nav__links a[aria-current="page"]::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--blue-2); box-shadow: 0 0 8px var(--blue); }
 .nav__end { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.nav__cta { min-height: 36px; padding: 0 16px; font-size: 14px; }
+@media (max-width: 420px) { .nav__cta { display: none; } }
 .nav__menu { display: none; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--panel-2); cursor: pointer; }
 .nav__menu svg { width: 20px; height: 20px; margin: auto; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .menu { width: calc(100% - 2 * var(--gutter)); max-width: var(--wrap); margin: 0 auto 12px; padding: 18px 22px; border-radius: 22px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--edge); }
@@ -703,27 +705,25 @@ div.term p:last-child { margin: 0; }
 @media (max-width: 1100px) { .connect { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 640px) { .logos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; } .logos li { aspect-ratio: 1.15; } .logos img { width: 32px; height: 32px; } .logos .word b { font-size: 11.5px; } }
 
-/* Install. */
+/* Get started. */
 .cta {
   position: relative; isolation: isolate; overflow: hidden; padding: clamp(28px, 4vw, 52px); border-radius: 28px;
   background: radial-gradient(60% 80% at 50% 0%, rgb(79 141 245 / .22), transparent 70%), radial-gradient(50% 70% at 100% 100%, rgb(79 141 245 / .14), transparent 70%), linear-gradient(180deg, var(--panel-2), var(--panel));
   box-shadow: inset 0 0 0 1px rgb(121 170 255 / .22), 0 40px 120px -50px rgb(79 141 245 / .5);
 }
-/* Install: the pitch and the commands side by side in one card. */
+/* Get started: the pitch and the steps side by side in one card. */
 .cta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
 .cta .display { margin-top: 16px; font-size: clamp(30px, 3vw, 46px); }
 .cta .lead { margin-top: 16px; }
 .cta .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin-top: 24px; }
 .cta .actions .link { margin-top: 0; }
-.install { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
-.install .cmd { display: flex; width: 100%; max-width: 100%; justify-content: space-between; }
-.install .cmd code { flex: 1; }
-.install, .cta__text { min-width: 0; }
-.install .tabs { justify-self: start; }
-.tabs { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); }
-.tabs button { min-height: 36px; padding: 0 18px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; }
-.tabs button[aria-pressed="true"] { background: var(--text); color: var(--ink); }
-.install .note { margin-top: 2px !important; }
+.cta__text { min-width: 0; }
+/* Get started: three steps beside the pitch. */
+.start-steps { display: grid; gap: 14px; min-width: 0; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.start-steps li { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 16px; row-gap: 4px; align-items: center; padding: 16px 18px; border-radius: 18px; background: color-mix(in srgb, var(--panel) 80%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
+.start-steps .ic--step { grid-row: span 2; width: 40px; height: 40px; }
+.start-steps b { font-weight: 500; font-size: 17px; }
+.start-steps span { color: var(--muted); font-size: 15px; }
 @media (max-width: 900px) { .cta { grid-template-columns: minmax(0, 1fr); } }
 
 /* Footer. */
@@ -761,3 +761,30 @@ div.term p:last-child { margin: 0; }
   .js .gapviz:not(.seen) .gapviz__line--w, .js .gapviz:not(.seen) .gapviz__line--p { stroke-dashoffset: 0; }
   .js .gapviz:not(.seen) .gapviz__gap:not(.gapviz__gap--f), .js .gapviz:not(.seen) .gapviz__dot:not(.gapviz__dot--f), .js .gapviz:not(.seen) .gapviz__chips li { opacity: 1; transform: none; }
 }
+
+/* Contact us. */
+.contact-sec { padding-top: clamp(120px, 14vw, 170px); }
+.contact__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.contact__intro .display { margin-top: 16px; font-size: clamp(34px, 4vw, 56px); }
+.contact__intro .lead { margin-top: 18px; }
+.contact__points { display: grid; gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
+.contact__points li { display: flex; align-items: center; gap: 14px; color: var(--muted); }
+.contact__points b { color: var(--text); font-weight: 500; }
+.contact__points a { color: var(--blue-2); }
+.contact__form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: clamp(22px, 3vw, 36px); border-radius: 28px; background: linear-gradient(180deg, var(--panel-2), var(--panel)); box-shadow: inset 0 0 0 1px rgb(121 170 255 / .22), 0 40px 120px -50px rgb(79 141 245 / .5); }
+.field { display: grid; gap: 8px; min-width: 0; }
+.field--wide, .contact__error, .contact__send { grid-column: 1 / -1; }
+.field label { font-size: 14px; color: var(--muted); }
+.field input, .field select, .field textarea { width: 100%; min-height: 46px; padding: 10px 14px; border: 0; border-radius: 14px; background: var(--ink); color: var(--text); font: inherit; font-size: 16px; box-shadow: inset 0 0 0 1px var(--edge); }
+/* The choice: the site's own field with its own chevron, and its list in the site's dark colours, not the system's. */
+.contact__form { color-scheme: dark; }
+.field select { appearance: none; -webkit-appearance: none; padding-right: 44px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239aa7c2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+.field select option { background: #0f1420; color: #e8edf7; }
+.field textarea { min-height: 140px; resize: vertical; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--blue-2); outline-offset: 2px; }
+.contact__error { margin: 0; color: var(--fail); }
+.contact__send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.contact__send .btn { border: 0; cursor: pointer; font: inherit; }
+.contact__note { color: var(--muted); font-size: 14px; max-width: 46ch; }
+.contact__note a { color: var(--blue-2); }
+@media (max-width: 900px) { .contact__grid, .contact__form { grid-template-columns: minmax(0, 1fr); } }

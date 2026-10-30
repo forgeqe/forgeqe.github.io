@@ -1,0 +1,107 @@
+<!doctype html>
+<!--
+  Contact us: a message to the ForgeQE team, sent from the visitor's own email app (contact.js); the site keeps nothing.
+  The address is website/contact-email or CONTACT_EMAIL, put in by build.sh encoded: never shown on the page.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact us · ForgeQE</title>
+<meta name="description" content="Talk to the ForgeQE team at Capgemini about AI test assurance for your product: we set ForgeQE up with your team.">
+<meta name="theme-color" content="#080a10">
+<link rel="canonical" href="https://forgeqe.qualityai.co.uk/contact/">
+<meta property="og:url" content="https://forgeqe.qualityai.co.uk/contact/">
+<meta property="og:title" content="ForgeQE · AI writes the code. ForgeQE proves it works.">
+<meta property="og:description" content="Run test cases in a real browser, get a verdict and evidence for every step, and turn passing runs into tests in your own framework.">
+<meta property="og:image" content="https://forgeqe.qualityai.co.uk/media/main.webp">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="preload" href="/fonts/ubuntu-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/home.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="navigation">
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="ForgeQE by Capgemini, home"><img src="/img/wordmark-white.webp" alt="" width="160" height="76"><span class="nav__by">by <img src="/img/capgemini-color.svg" alt="" width="92" height="21"></span></a>
+    <nav aria-label="Main">
+      <ul class="nav__links">
+        <li><a href="/"><img class="ic ic--nav" src="/img/icons/context-engine.svg" alt="" width="22" height="22">Product</a></li>
+        <li><a href="/docs/"><img class="ic ic--nav" src="/img/icons/wikis.svg" alt="" width="22" height="22">Docs</a></li>
+        <li><a href="/security/"><img class="ic ic--nav" src="/img/icons/shield.svg" alt="" width="22" height="22">Security</a></li>
+        <li><a href="/architecture-map/"><img class="ic ic--nav" src="/img/icons/architecture.svg" alt="" width="22" height="22">Architecture</a></li>
+      </ul>
+    </nav>
+    <div class="nav__end">
+      <a class="btn nav__cta" href="/contact/" aria-current="page">Contact us</a>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="sr-only">Open the menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <ul>
+      <li><a href="/"><img class="ic ic--nav" src="/img/icons/context-engine.svg" alt="" width="22" height="22">Product</a></li>
+      <li><a href="/docs/"><img class="ic ic--nav" src="/img/icons/wikis.svg" alt="" width="22" height="22">Docs</a></li>
+      <li><a href="/security/"><img class="ic ic--nav" src="/img/icons/shield.svg" alt="" width="22" height="22">Security</a></li>
+      <li><a href="/architecture-map/"><img class="ic ic--nav" src="/img/icons/architecture.svg" alt="" width="22" height="22">Architecture</a></li>
+      <li><a href="/contact/"><img class="ic ic--nav" src="/img/icons/stories.svg" alt="" width="22" height="22">Contact us</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main" class="contact">
+<section class="sec contact-sec" aria-labelledby="contact-title">
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <p class="kicker kicker--dot">Contact us</p>
+      <h1 class="display" id="contact-title"><span>Let's talk about</span> <em>your first proven run.</em></h1>
+      <p class="lead">Tell us about your product and how you test it today. The ForgeQE team at Capgemini sets ForgeQE up with you: in your repository, with your models, test case systems and environments.</p>
+      <ul class="contact__points">
+        <li><img class="ic" src="/img/icons/shield.svg" alt="" width="40" height="40"><span><b>Your data stays yours.</b> See <a href="/security/">security and data flows</a>.</span></li>
+        <li><img class="ic" src="/img/icons/report.svg" alt="" width="40" height="40"><span><b>See the evidence first.</b> Open a <a href="/sample-report/">sample report</a>.</span></li>
+      </ul>
+    </div>
+    <form class="contact__form" id="contact-form" data-to="bW9jLmluaW1lZ3BhY0BuYWhrLmIuZGV2YWo=" novalidate>
+      <div class="field"><label for="c-name">Your name</label><input id="c-name" name="name" autocomplete="name" required maxlength="120"></div>
+      <div class="field"><label for="c-email">Work email</label><input id="c-email" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+      <div class="field"><label for="c-company">Company</label><input id="c-company" name="company" autocomplete="organization" maxlength="160"></div>
+      <div class="field"><label for="c-topic">What would you like?</label>
+        <select id="c-topic" name="topic">
+          <option>A demo</option>
+          <option>Setting ForgeQE up with my team</option>
+          <option>Pricing and licences</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="field field--wide"><label for="c-message">Message</label><textarea id="c-message" name="message" rows="6" maxlength="4000" placeholder="Your product, the tools you test with, and what you would like ForgeQE to do."></textarea></div>
+      <p class="contact__error" id="contact-error" role="alert" hidden></p>
+      <div class="contact__send">
+        <button class="btn btn--big" type="submit">Send</button>
+        <span class="contact__note">Opens your email app with your message ready to send to the ForgeQE team. This site keeps nothing you type.</span>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div>
+      <img class="foot__mark" src="/img/wordmark-white.webp" alt="ForgeQE" width="160" height="76">
+      <p>AI writes the code. <em>ForgeQE proves it works.</em></p>
+      <p class="foot__by">by <img src="/img/capgemini-color.svg" alt="Capgemini" width="92" height="21"></p>
+    </div>
+    <nav aria-label="Footer"><b>Product</b><ul><li><a href="/#understands">Understands your product</a></li><li><a href="/#every-way">Tests every way</a></li><li><a href="/#assures">Assures its own AI</a></li><li><a href="/#evidence">Evidence</a></li></ul></nav>
+    <nav aria-label="Docs"><b>Docs</b><ul><li><a href="/docs/">User guide</a></li><li><a href="/docs/#get-started">Get started</a></li><li><a href="/architecture-map/">Architecture map</a></li></ul></nav>
+    <nav aria-label="Trust"><b>Trust</b><ul><li><a href="/security/">Security and data flows</a></li><li><a href="/sample-report/">Sample report</a></li><li><a href="/contact/">Contact us</a></li></ul></nav>
+  </div>
+  <p class="wrap foot__legal">© 2026 Capgemini · forgeqe.qualityai.co.uk</p>
+</footer>
+
+<script src="/home.js"></script>
+<script src="/contact/contact.js"></script>
+</body>
+</html>
